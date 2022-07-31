@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LealPassword.Settings;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,8 +13,6 @@ namespace LealPassword.View
 {
     internal sealed partial class MainView : Form
     {
-        private Region GetRegion() => Program.GenerateRoundRegion(Width, Height, 20);
-
         internal MainView()
         {
             FormBorderStyle = FormBorderStyle.None;
@@ -23,7 +22,13 @@ namespace LealPassword.View
             Region = GetRegion();
         }
 
+        #region Internal Forms
         private void MainView_Resize(object sender, EventArgs e) => Region = GetRegion();
+
+        private Region GetRegion() => Program.GenerateRoundRegion(Width, Height, DefinitionsConstants.ELIPSE_CURVE);
+
+        private void MouseDownControl(object sender, MouseEventArgs e) => Program.ControlMouseDown(Handle, e);
+        #endregion
 
         #region Override
         protected override void WndProc(ref Message m)
@@ -35,10 +40,11 @@ namespace LealPassword.View
                 var pos = new Point(m.LParam.ToInt32());
                 pos = PointToClient(pos);
 
-                if (pos.Y < 32)
+                if (pos.Y < DefinitionsConstants.SELECTABLE_AREA)
                     m.Result = (IntPtr)2;
 
-                if (pos.X >= ClientSize.Width - 16 && pos.Y >= ClientSize.Height - 16)
+                if (pos.X >= ClientSize.Width - DefinitionsConstants.SIZE_GRIP && 
+                    pos.Y >= ClientSize.Height - DefinitionsConstants.SIZE_GRIP)
                     m.Result = (IntPtr)17;
             }
         }
