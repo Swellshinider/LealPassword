@@ -1,6 +1,6 @@
 ﻿namespace LealPassword.View
 {
-    internal sealed partial class MainView
+    internal sealed partial class AccountView
     {
         /// <summary>
         /// Required designer variable.

@@ -11,9 +11,9 @@ using System.Windows.Forms;
 
 namespace LealPassword.View
 {
-    internal sealed partial class MainView : Form
+    internal sealed partial class AccountView : Form
     {
-        internal MainView()
+        internal AccountView()
         {
             FormBorderStyle = FormBorderStyle.None;
             DoubleBuffered = true;
