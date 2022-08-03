@@ -30,13 +30,13 @@
         {
             this.SuspendLayout();
             // 
-            // MainView
+            // AccountView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1264, 681);
-            this.Name = "MainView";
+            this.Name = "AccountView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LealPassword";
             this.Resize += new System.EventHandler(this.MainView_Resize);
