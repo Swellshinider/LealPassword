@@ -23,11 +23,14 @@ namespace LealPassword.View
         }
 
         #region Internal Forms
-        private void MainView_Resize(object sender, EventArgs e) => Region = GetRegion();
+        private void MainView_Resize(object sender, EventArgs e) 
+            => Region = GetRegion();
 
-        private Region GetRegion() => Program.GenerateRoundRegion(Width, Height, DefinitionsConstants.ELIPSE_CURVE);
+        private Region GetRegion() 
+            => Program.GenerateRoundRegion(Width, Height, DefinitionsConstants.ELIPSE_CURVE);
 
-        private void MouseDownControl(object sender, MouseEventArgs e) => Program.ControlMouseDown(Handle, e);
+        private void MouseDownControl(object sender, MouseEventArgs e) 
+            => Program.ControlMouseDown(Handle, e);
         #endregion
 
         #region Override
