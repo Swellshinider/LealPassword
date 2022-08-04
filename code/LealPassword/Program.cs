@@ -1,3 +1,4 @@
+using LealPassword.DataBase.AutoMapper;
 using LealPassword.Settings;
 using LealPassword.View;
 using System.Runtime.InteropServices;
@@ -19,8 +20,11 @@ namespace LealPassword
         private static extern bool ReleaseCapture();
 
         [STAThread]
-        internal static void Main()
+        internal static void Main(string[] argv)
         {
+            if (argv[0].ToLower() == "-adm") ShowConsole();
+            else HideConsole();
+            AutoMapperConfig.RegisterMappings();
             ApplicationConfiguration.Initialize();
             Application.Run(new AccountView());
         }
