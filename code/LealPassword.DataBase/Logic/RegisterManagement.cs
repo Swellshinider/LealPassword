@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace LealPassword.DataBase.Logic
 {
-    internal sealed class RegisterManagement : Interface.IRegisterManagement
+    public sealed class RegisterManagement : Interface.IRegisterManagement
     {
         private readonly ResourceAccess.Interface.IRegisterManagement _resource;
 
-        internal RegisterManagement(string filePath, string masterPassword)
+        public RegisterManagement(string filePath, string masterPassword)
         {
             _resource = new ResourceAccess.RegisterManagement(filePath, masterPassword);
         }
