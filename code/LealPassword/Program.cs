@@ -1,4 +1,5 @@
 using LealPassword.DataBase.AutoMapper;
+using LealPassword.Diagnostics;
 using LealPassword.Settings;
 using LealPassword.View;
 using System.Runtime.InteropServices;
@@ -19,14 +20,22 @@ namespace LealPassword
         [DllImport("user32.dll")]
         private static extern bool ReleaseCapture();
 
+        internal static readonly DiagnosticList _diagnosticsList = DiagnosticList.Instance;
+
         [STAThread]
         internal static void Main(string[] argv)
         {
-            if (argv[0].ToLower() == "-adm") ShowConsole();
-            else HideConsole();
+            _diagnosticsList.DiagnosticGenerated += DiagnosticsList_DiagnosticGenerated;
+            HideConsole();
+            if ((argv.Length >= 1 && argv[0].ToLower() == "-adm") || DefinitionsConstants.DEBUG == true)
+            {
+                ShowConsole();
+                _diagnosticsList.Debug("ADM mode activate");
+            }
             AutoMapperConfig.RegisterMappings();
             ApplicationConfiguration.Initialize();
-            Application.Run(new AccountView());
+            _diagnosticsList.Debug("App configuration started");
+            Application.Run(new LoginView(_diagnosticsList));
         }
 
         internal static void ControlMouseDown(IntPtr handle, MouseEventArgs e)
@@ -43,6 +52,7 @@ namespace LealPassword
             var xValue = centerPoint.X - (control.Width / 2);
             var yValue = centerPoint.Y - (control.Height / 2);
             control.Location = new Point(xValue, yValue);
+            _diagnosticsList.Debug($"Control: {control.Name} centralized");
         }
 
         internal static Region GenerateRoundRegion(int width, int height, int curve)
@@ -51,5 +61,12 @@ namespace LealPassword
         internal static void HideConsole() => ShowWindow(GetConsoleWindow(), DefinitionsConstants.SW_HIDE);
 
         internal static void ShowConsole() => ShowWindow(GetConsoleWindow(), DefinitionsConstants.SW_SHOW);
+
+        private static void DiagnosticsList_DiagnosticGenerated(Diagnostic diagnostic)
+        {
+            Console.ForegroundColor = _diagnosticsList.GetColor(diagnostic.Type);
+            Console.WriteLine(diagnostic);
+            Console.ResetColor();
+        }
     }
 }

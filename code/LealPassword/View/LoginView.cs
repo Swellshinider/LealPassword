@@ -1,4 +1,5 @@
-﻿using LealPassword.Settings;
+﻿using LealPassword.Diagnostics;
+using LealPassword.Settings;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,10 +12,13 @@ using System.Windows.Forms;
 
 namespace LealPassword.View
 {
-    internal sealed partial class AccountView : Form
+    internal sealed partial class LoginView : Form
     {
-        internal AccountView()
+        private readonly DiagnosticList _diagnostic;
+       
+        internal LoginView(DiagnosticList diagnostic)
         {
+            _diagnostic = diagnostic;
             FormBorderStyle = FormBorderStyle.None;
             DoubleBuffered = true;
             SetStyle(ControlStyles.ResizeRedraw, true);
