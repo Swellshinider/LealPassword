@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LealPassword.DataBase.Logic;
 using LealPassword.DataBase.Model;
+using System.Collections.Generic;
 
 namespace LealPassword.DataBase.Controller
 {

@@ -1,4 +1,7 @@
-﻿namespace LealPassword.DataBase
+﻿using System;
+using System.Collections.Generic;
+
+namespace LealPassword.DataBase
 {
     internal static class IdGenerator
     {

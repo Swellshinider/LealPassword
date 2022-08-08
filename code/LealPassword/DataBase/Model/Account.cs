@@ -1,4 +1,6 @@
-﻿namespace LealPassword.DataBase.Model
+﻿using System.Collections.Generic;
+
+namespace LealPassword.DataBase.Model
 {
     internal sealed class Account
     {

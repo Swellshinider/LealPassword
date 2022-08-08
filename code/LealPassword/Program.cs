@@ -2,7 +2,10 @@ using LealPassword.DataBase.AutoMapper;
 using LealPassword.Diagnostics;
 using LealPassword.Settings;
 using LealPassword.View;
+using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace LealPassword
 {
@@ -48,12 +51,26 @@ namespace LealPassword
 
         internal static void CentralizeControl(Control control, Control controlReference)
         {
+            HorizontalCentralize(control, controlReference);
+            VerticalCentralize(control, controlReference);
+        }
+
+        internal static void HorizontalCentralize(Control control, Control controlReference)
+        {
             var centerPoint = new Point(controlReference.Width / 2, controlReference.Height / 2);
             var xValue = centerPoint.X - (control.Width / 2);
-            var yValue = centerPoint.Y - (control.Height / 2);
-            control.Location = new Point(xValue, yValue);
-            _diagnosticsList.Debug($"Control: {control.Name} centralized");
+            control.Location = new Point(xValue, control.Location.Y);
         }
+
+        internal static void VerticalCentralize(Control control, Control controlReference)
+        {
+            var centerPoint = new Point(controlReference.Width / 2, controlReference.Height / 2);
+            var yValue = centerPoint.Y - (control.Height / 2);
+            control.Location = new Point(control.Location.X, yValue);
+        }
+
+        internal static Region GenerateRoundRegion(int width, int height)
+            => GenerateRoundRegion(width, height, DefinitionsConstants.ELIPSE_CURVE);
 
         internal static Region GenerateRoundRegion(int width, int height, int curve)
             => Region.FromHrgn(CreateRoundRectRgn(0, 0, width, height, curve, curve));
@@ -68,5 +85,20 @@ namespace LealPassword
             Console.WriteLine(diagnostic);
             Console.ResetColor();
         }
+
+        internal static void UpdateGripFormRef(ref Message m, Form form) 
+        {
+            if (m.Msg == 0x84)
+            {
+                var pos = new Point(m.LParam.ToInt32());
+                pos = form.PointToClient(pos);
+
+                if (pos.X >= form.ClientSize.Width - DefinitionsConstants.SIZE_GRIP &&
+                    pos.Y >= form.ClientSize.Height - DefinitionsConstants.SIZE_GRIP)
+                    m.Result = (IntPtr)17;
+            }
+        }
+
+        internal static void Exit() => Application.Exit();
     }
 }
