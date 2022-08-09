@@ -58,18 +58,18 @@ namespace LealPassword.UI
             btnClose.Click += BtnClose_Click;
             panelTopSide.Controls.Add(btnClose);
             btnClose.Region = Program.GenerateRoundRegion(btnClose.Width, btnClose.Height);
+            panelRightContainer.BringToFront();
             _diagnostic.Debug("Basic layout loaded");
-
             InitializeLoginUI();
         }
 
         private void InitializeLoginUI()
         {
             panelRightContainer.Controls.Clear();
-            var loginUI = new LoginUI();
+            var loginUI = new LoginUI(panelRightContainer, _diagnostic);
             loginUI.OnCreatingAccount += LoginUI_OnCreatingAccount;
             loginUI.MouseDown += ControlMouseDown;
-            panelRightContainer.Controls.Add(loginUI);
+            _diagnostic.Debug("Login UI loaded");
         }
 
         private void LoginUI_OnCreatingAccount()
