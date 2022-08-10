@@ -1,15 +1,8 @@
-﻿using Bunifu.Framework.UI;
-using LealPassword.Definitions;
+﻿using LealPassword.Definitions;
 using LealPassword.Diagnostics;
 using LealPassword.Themes;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LealPassword.UI.LoginCreateSub
@@ -17,10 +10,13 @@ namespace LealPassword.UI.LoginCreateSub
     internal sealed partial class LoginUI : UserControl
     {
         private readonly DiagnosticList _diagnostic;
-        private bool _remember = false;
+        private readonly bool _remember;
 
         internal delegate void CreatingAccountUI();
         internal event CreatingAccountUI OnCreatingAccount;
+
+        internal delegate void LogginToAccountUI(string user, string pass);
+        internal event LogginToAccountUI OnLogginToAccount;
 
         internal LoginUI(Control parent, DiagnosticList diagnostic)
         {
@@ -30,11 +26,15 @@ namespace LealPassword.UI.LoginCreateSub
             BackColor = ThemeController.SuperLiteGray;
             InitializeComponent();
             GenerateObjects();
+            _remember = !string.IsNullOrEmpty(PRController.LastUser) &&
+                !string.IsNullOrWhiteSpace(PRController.LastUser);
+            textBoxUser.Text = PRController.LastUser;
         }
 
         internal void GenerateObjects()
         {
             _diagnostic.Debug("Generating login objects");
+            #region Labels
             var lblIcon = new Label
             {
                 Width = 64,
@@ -66,19 +66,20 @@ namespace LealPassword.UI.LoginCreateSub
                 Font = new Font("Consolas", 12, FontStyle.Italic),
             };
             Controls.Add(lblNiceMessage);
+            #endregion
 
-            textBoxEmail.Text = "";
-            textBoxEmail.Height = 50;
-            textBoxEmail.HintText = "Email";
-            textBoxEmail.Width = (int)(Width * 0.65f);
-            textBoxEmail.ForeColor = ThemeController.LiteGray;
-            textBoxEmail.BackColor = ThemeController.IceWhite;
-            textBoxEmail.HintForeColor = textBoxEmail.ForeColor;
-            textBoxEmail.LineIdleColor = textBoxEmail.BackColor;
-            textBoxEmail.LineFocusedColor = textBoxEmail.BackColor;
-            textBoxEmail.LineMouseHoverColor = textBoxEmail.BackColor;
-            textBoxEmail.Font = new Font("Arial", 14, FontStyle.Regular);
-            textBoxEmail.Region = Program.GenerateRoundRegion(textBoxEmail.Width, textBoxEmail.Height, 15);
+            #region TextBoxs
+            textBoxUser.Height = 50;
+            textBoxUser.HintText = "Usuário";
+            textBoxUser.Width = (int)(Width * 0.65f);
+            textBoxUser.ForeColor = ThemeController.LiteGray;
+            textBoxUser.BackColor = ThemeController.IceWhite;
+            textBoxUser.HintForeColor = textBoxUser.ForeColor;
+            textBoxUser.LineIdleColor = textBoxUser.BackColor;
+            textBoxUser.LineFocusedColor = textBoxUser.BackColor;
+            textBoxUser.LineMouseHoverColor = textBoxUser.BackColor;
+            textBoxUser.Font = new Font("Arial", 14, FontStyle.Regular);
+            textBoxUser.Region = Program.GenerateRoundRegion(textBoxUser.Width, textBoxUser.Height, 15);
 
             textBoxPass.Text = "";
             textBoxPass.Height = 50;
@@ -93,7 +94,7 @@ namespace LealPassword.UI.LoginCreateSub
             textBoxPass.LineFocusedColor = textBoxPass.BackColor;
             textBoxPass.LineMouseHoverColor = textBoxPass.BackColor;
             textBoxPass.Font = new Font("Arial", 14, FontStyle.Regular);
-            textBoxPass.Region = Program.GenerateRoundRegion(textBoxEmail.Width, textBoxEmail.Height, 15);
+            textBoxPass.Region = Program.GenerateRoundRegion(textBoxUser.Width, textBoxUser.Height, 15);
 
             var checkBoxRemember = new CheckBox()
             {
@@ -107,6 +108,7 @@ namespace LealPassword.UI.LoginCreateSub
             };
             checkBoxRemember.Click += CheckBoxShowHidePassword_Click;
             Controls.Add(checkBoxRemember);
+            #endregion
 
             var buttonLogin = new Button()
             {
@@ -117,7 +119,7 @@ namespace LealPassword.UI.LoginCreateSub
                 ForeColor = ThemeController.White,
                 BackColor = ThemeController.BlueMain,
                 Font = new Font("Arial", 12, FontStyle.Regular),
-                Region = Program.GenerateRoundRegion(textBoxEmail.Width, textBoxEmail.Height, 15),
+                Region = Program.GenerateRoundRegion(textBoxUser.Width, textBoxUser.Height, 15),
             };
             buttonLogin.Click += ButtonLogin_Click;
             buttonLogin.FlatAppearance.MouseOverBackColor = ThemeController.SligBlue;
@@ -142,7 +144,7 @@ namespace LealPassword.UI.LoginCreateSub
             SetDynamicHeight(lblIcon, 50);
             SetDynamicHeight(lblTitle, 125);
             SetDynamicHeight(lblNiceMessage, 160);
-            SetDynamicHeight(textBoxEmail, 250);
+            SetDynamicHeight(textBoxUser, 250);
             SetDynamicHeight(textBoxPass, 325);
             SetDynamicHeight(checkBoxRemember, 380);
             checkBoxRemember.Location = new Point(checkBoxRemember.Location.X + 
@@ -153,21 +155,56 @@ namespace LealPassword.UI.LoginCreateSub
             _diagnostic.Debug("login objects generated");
         }
 
-        private void ButtonLogin_Click(object sender, EventArgs e)
+        #region Private methods
+        private CheckBox ExtractBox()
         {
-            _diagnostic.Debug("Button loggin clicked");
+            foreach(var ctrl in Controls)
+                if (ctrl is CheckBox box) return box;
+
+            return null;
         }
 
-        private void CheckBoxShowHidePassword_Click(object sender, EventArgs e)
-            => _remember = !_remember;
+        private bool IsLoginValid(string user, string pass)
+        {
+            if (string.IsNullOrWhiteSpace(user) || string.IsNullOrEmpty(user)) return false;
+            if (string.IsNullOrWhiteSpace(pass) || string.IsNullOrEmpty(pass)) return false;
+            
+            // TODO: check in database if login is valid
 
-        private void LblDoesNotHaveAcc_Click(object sender, EventArgs e)
-            => OnCreatingAccount?.Invoke();
+            return true;
+        }
 
         private void SetDynamicHeight(Control control, int dynamicHeight)
         {
             Program.HorizontalCentralize(control, this);
             control.Location = new Point(control.Location.X, control.Location.Y + dynamicHeight);
         }
+        #endregion
+
+        #region Buttons
+        private void ButtonLogin_Click(object sender, EventArgs e)
+        {
+            var user = textBoxUser.Text;
+            var pass = textBoxPass.Text;
+
+            if (!IsLoginValid(user, pass))
+            {
+                MessageBox.Show("Usuário ou senha inválidos.", "Dados inválidos", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
+
+            CheckBoxShowHidePassword_Click(ExtractBox(), e);
+            OnLogginToAccount?.Invoke(user, pass);
+        }
+
+        private void CheckBoxShowHidePassword_Click(object sender, EventArgs e)
+        {
+            var cbox = (CheckBox)sender;
+            PRController.LastUser = cbox.Checked ? textBoxUser.Text : "";
+        }
+
+        private void LblDoesNotHaveAcc_Click(object sender, EventArgs e)
+            => OnCreatingAccount?.Invoke();
+        #endregion
     }
 }

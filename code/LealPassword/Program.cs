@@ -1,4 +1,5 @@
-﻿using LealPassword.Definitions;
+﻿using LealPassword.Database.AutoMapper;
+using LealPassword.Definitions;
 using LealPassword.Diagnostics;
 using LealPassword.UI;
 using System;
@@ -22,23 +23,24 @@ namespace LealPassword
         [DllImport("user32.dll")]
         private static extern bool ReleaseCapture();
 
-        private static readonly DiagnosticList _diagnosticsList = DiagnosticList.Instance;
+        private static readonly DiagnosticList _diagnostics = DiagnosticList.Instance;
 
         [STAThread]
         internal static void Main(string[] argv)
         {
-            _diagnosticsList.DiagnosticGenerated += DiagnosticsList_DiagnosticGenerated;
+            _diagnostics.DiagnosticGenerated += DiagnosticsList_DiagnosticGenerated;
             HideConsole();
             if ((argv.Length >= 1 && argv[0].ToLower() == "-adm") || Constants.DEBUG == true)
             {
                 ShowConsole();
-                _diagnosticsList.Debug("ADM mode activate");
+                _diagnostics.Debug("ADM mode activate");
             }
 
             Application.EnableVisualStyles();
+            AutoMapperConfig.RegisterMapps(_diagnostics);
             Application.SetCompatibleTextRenderingDefault(false);
-            _diagnosticsList.Debug("App configuration started");
-            Application.Run(new LoginCreateAccountUI("LealPassword", _diagnosticsList));
+            _diagnostics.Debug("App configuration started");
+            Application.Run(new LoginCreateAccountUI("LealPassword", _diagnostics));
         }
 
         internal static void ControlMouseDown(IntPtr handle, MouseEventArgs e)
@@ -98,7 +100,7 @@ namespace LealPassword
 
         private static void DiagnosticsList_DiagnosticGenerated(Diagnostic diagnostic)
         {
-            Console.ForegroundColor = _diagnosticsList.GetColor(diagnostic.Type);
+            Console.ForegroundColor = _diagnostics.GetColor(diagnostic.Type);
             Console.WriteLine(diagnostic);
             Console.ResetColor();
         }

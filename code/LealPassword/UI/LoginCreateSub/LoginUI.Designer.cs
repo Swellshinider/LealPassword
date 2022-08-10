@@ -28,29 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBoxEmail = new Bunifu.Framework.UI.BunifuMaterialTextbox();
+            this.textBoxUser = new Bunifu.Framework.UI.BunifuMaterialTextbox();
             this.textBoxPass = new Bunifu.Framework.UI.BunifuMaterialTextbox();
             this.SuspendLayout();
             // 
             // textBoxEmail
             // 
-            this.textBoxEmail.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.textBoxEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
-            this.textBoxEmail.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.textBoxEmail.HintForeColor = System.Drawing.Color.Empty;
-            this.textBoxEmail.HintText = "";
-            this.textBoxEmail.isPassword = false;
-            this.textBoxEmail.LineFocusedColor = System.Drawing.Color.Blue;
-            this.textBoxEmail.LineIdleColor = System.Drawing.Color.Gray;
-            this.textBoxEmail.LineMouseHoverColor = System.Drawing.Color.Blue;
-            this.textBoxEmail.LineThickness = 3;
-            this.textBoxEmail.Location = new System.Drawing.Point(0, 0);
-            this.textBoxEmail.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxEmail.Name = "textBoxEmail";
-            this.textBoxEmail.Size = new System.Drawing.Size(379, 33);
-            this.textBoxEmail.TabIndex = 2;
-            this.textBoxEmail.Text = "bunifuMaterialTextbox1";
-            this.textBoxEmail.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.textBoxUser.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.textBoxUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F);
+            this.textBoxUser.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.textBoxUser.HintForeColor = System.Drawing.Color.Empty;
+            this.textBoxUser.HintText = "";
+            this.textBoxUser.isPassword = false;
+            this.textBoxUser.LineFocusedColor = System.Drawing.Color.Blue;
+            this.textBoxUser.LineIdleColor = System.Drawing.Color.Gray;
+            this.textBoxUser.LineMouseHoverColor = System.Drawing.Color.Blue;
+            this.textBoxUser.LineThickness = 3;
+            this.textBoxUser.Location = new System.Drawing.Point(0, 0);
+            this.textBoxUser.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxUser.Name = "textBoxEmail";
+            this.textBoxUser.Size = new System.Drawing.Size(379, 33);
+            this.textBoxUser.TabIndex = 2;
+            this.textBoxUser.Text = "bunifuMaterialTextbox1";
+            this.textBoxUser.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
             // 
             // textBoxPass
             // 
@@ -77,7 +77,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.textBoxPass);
-            this.Controls.Add(this.textBoxEmail);
+            this.Controls.Add(this.textBoxUser);
             this.Name = "LoginUI";
             this.Size = new System.Drawing.Size(425, 211);
             this.ResumeLayout(false);
@@ -85,7 +85,7 @@
         }
 
         #endregion
-        private Bunifu.Framework.UI.BunifuMaterialTextbox textBoxEmail;
+        private Bunifu.Framework.UI.BunifuMaterialTextbox textBoxUser;
         private Bunifu.Framework.UI.BunifuMaterialTextbox textBoxPass;
     }
 }

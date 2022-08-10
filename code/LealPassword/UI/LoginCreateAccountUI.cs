@@ -67,9 +67,15 @@ namespace LealPassword.UI
         {
             panelRightContainer.Controls.Clear();
             var loginUI = new LoginUI(panelRightContainer, _diagnostic);
+            loginUI.OnLogginToAccount += LoginUI_OnLogginToAccount;
             loginUI.OnCreatingAccount += LoginUI_OnCreatingAccount;
             loginUI.MouseDown += ControlMouseDown;
             _diagnostic.Debug("Login UI loaded");
+        }
+
+        private void LoginUI_OnLogginToAccount(string mail, string pass)
+        {
+            _diagnostic.Debug("Checking account");
         }
 
         private void LoginUI_OnCreatingAccount()
