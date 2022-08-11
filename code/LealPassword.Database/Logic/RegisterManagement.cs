@@ -2,28 +2,28 @@
 using System;
 using System.Collections.Generic;
 
-namespace LealPassword.Database.ResourceLogic
+namespace LealPassword.Database.Logic
 {
     public sealed class RegisterManagement : Interfaces.IRegisterManagement
     {
         private readonly ResourceAccess.Interfaces.IRegisterManagement _resource;
 
-        public RegisterManagement(string filePath, string masterPassword)
+        public RegisterManagement(string directory, string fileName, string masterPassword)
         {
-            _resource = new ResourceAccess.RegisterManagement(filePath, masterPassword);
+            _resource = new ResourceAccess.RegisterManagement(directory, fileName, masterPassword);
         }
 
         public void DeleteRegister(Register register)
             => _resource.DeleteRegister(register);
-
-        public List<Register> GetRegisters()
-            => _resource.GetRegisters();
 
         public void InsertRegister(Register register)
             => _resource.InsertRegister(register);
 
         public void UpdateRegister(Register register)
             => _resource.UpdateRegister(register);
+
+        public List<Register> GetRegisters()
+            => _resource.GetRegisters();
 
         #region Dispose
         private void Dispose(bool disposing)

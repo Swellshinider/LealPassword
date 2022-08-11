@@ -1,18 +1,20 @@
 ﻿using AutoMapper;
 using LealPassword.Database.Model;
-using LealPassword.Database.ResourceLogic;
+using LealPassword.Database.Logic;
 using System.Collections.Generic;
 
 namespace LealPassword.Database.Controllers
 {
     internal class RegisterController
     {
-        private readonly string _filepath;
+        private readonly string _directory;
+        private readonly string _fileName;
         private readonly string _masterpassword;
 
-        internal RegisterController(string filepath, string masterpassword)
+        internal RegisterController(string directory, string fileName, string masterpassword)
         {
-            _filepath = filepath;
+            _directory = directory;
+            _fileName = fileName;
             _masterpassword = masterpassword;
         }
 
@@ -20,7 +22,7 @@ namespace LealPassword.Database.Controllers
         {
             var entity = Mapper.Map<Register, Entity.Register>(register);
 
-            using(var logic = new RegisterManagement(_filepath, _masterpassword))
+            using(var logic = new RegisterManagement(_directory, _fileName, _masterpassword))
             {
                 logic.UpdateRegister(entity);
             }
@@ -30,7 +32,7 @@ namespace LealPassword.Database.Controllers
         {
             var entity = Mapper.Map<Register, Entity.Register>(register);
 
-            using (var logic = new RegisterManagement(_filepath, _masterpassword))
+            using (var logic = new RegisterManagement(_directory, _fileName, _masterpassword))
             {
                 logic.InsertRegister(entity);
             }
@@ -40,7 +42,7 @@ namespace LealPassword.Database.Controllers
         {
             var entity = Mapper.Map<Register, Entity.Register>(register);
 
-            using (var logic = new RegisterManagement(_filepath, _masterpassword))
+            using (var logic = new RegisterManagement(_directory, _fileName, _masterpassword))
             {
                 logic.DeleteRegister(entity);
             }
@@ -48,7 +50,7 @@ namespace LealPassword.Database.Controllers
 
         internal List<Register> GetRegisters()
         {
-            using (var logic = new RegisterManagement(_filepath, _masterpassword))
+            using (var logic = new RegisterManagement(_directory, _fileName, _masterpassword))
             {
                 var entity = logic.GetRegisters();
                 return Mapper.Map<List<Entity.Register>, List<Register>>(entity);

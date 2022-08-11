@@ -1,4 +1,5 @@
-﻿using LealPassword.Definitions;
+﻿using LealPassword.Database.Controllers;
+using LealPassword.Definitions;
 using LealPassword.Diagnostics;
 using LealPassword.Themes;
 using System;
@@ -166,10 +167,32 @@ namespace LealPassword.UI.LoginCreateSub
 
         private bool IsLoginValid(string user, string pass)
         {
-            if (string.IsNullOrWhiteSpace(user) || string.IsNullOrEmpty(user)) return false;
-            if (string.IsNullOrWhiteSpace(pass) || string.IsNullOrEmpty(pass)) return false;
-            
-            // TODO: check in database if login is valid
+            if (string.IsNullOrWhiteSpace(user) || string.IsNullOrEmpty(user) || 
+                string.IsNullOrWhiteSpace(pass) || string.IsNullOrEmpty(pass))
+            {
+                MessageBox.Show("Usuário ou senha inválidos",
+                    "Dados inválidos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+
+            var hashedPass = Security.Security.HashValue(pass);
+            var controller = new AccountController(Constants.DEFAULT_DATABASE_PATH, 
+                Constants.DEFAULT_DATABASE_FILE, Security.Security.HashValue(hashedPass));
+            var SavedAccount = controller.GetAccount();
+
+            if (SavedAccount == null || SavedAccount.Username == null || SavedAccount.Password == null)
+            {
+                MessageBox.Show("Não existe nenhuma conta criada com esses parâmetros",
+                    "Conta inexistente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+
+            if (SavedAccount.Username != user || SavedAccount.Password != hashedPass)
+            {
+                MessageBox.Show("Usuário ou senha inválidos",
+                    "Dados inválidos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
 
             return true;
         }
@@ -187,11 +210,7 @@ namespace LealPassword.UI.LoginCreateSub
             var user = textBoxUser.Text;
             var pass = textBoxPass.Text;
 
-            if (!IsLoginValid(user, pass))
-            {
-                MessageBox.Show("Usuário ou senha inválidos.", "Dados inválidos", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                return;
-            }
+            if (!IsLoginValid(user, pass)) return;
 
             CheckBoxShowHidePassword_Click(ExtractBox(), e);
             OnLogginToAccount?.Invoke(user, pass);

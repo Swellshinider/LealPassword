@@ -1,7 +1,4 @@
-﻿using LealPassword.Database.Entity;
-using LealPassword.Database.ResourceAccess.Builder;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Data.SQLite;
 using System.IO;
 
@@ -9,144 +6,54 @@ namespace LealPassword.Database
 {
     internal sealed class DataBase : IDisposable
     {
-        private const string ACC_TABLE = "TLP_ACCOUNT";
-        private const string REG_TABLE = "TLP_REGISTR";
-        private const string CRD_TABLE = "TLP_CD_CARD";
-
         private readonly SQLiteConnection _connection;
         private readonly string _masterpassword;
 
-        internal DataBase(string source, string masterpassword)
+        internal readonly string ACC_TABLE = "TLP_ACCOUNT";
+        internal readonly string REG_TABLE = "TLP_REGISTR";
+        internal readonly string CRD_TABLE = "TLP_CD_CARD";
+
+        internal DataBase(string directory, string fileName, string masterpassword)
         {
             _masterpassword = masterpassword;
-            _connection = new SQLiteConnection($"Data Source={source}");
+            _connection = new SQLiteConnection($"Data Source={directory}\\{fileName}");
 
-            if (!File.Exists($"./{source}"))
-                SQLiteConnection.CreateFile(source);
+            if (!Directory.Exists(directory))
+                Directory.CreateDirectory(directory);
+
+            if (!File.Exists($"{directory}\\{fileName}"))
+                File.Create($"{directory}\\{fileName}").Close();
+
+            if (_connection.State != System.Data.ConnectionState.Open)
+            {
+                _connection.OpenAsync().Wait();
+            }
 
             CreateBaseTable();
         }
 
-        #region Accounts querys
-
-        #endregion
-
-        #region Register querys
-        internal List<Register> GetRegisters()
-        {
-            Open();
-            SQLiteDataReader reader;
-
-            using (var command = _connection.CreateCommand())
-            {
-                command.CommandText = $@"SELECT ID, NAME, DESC, MAIL, PASS
-                                        FROM {REG_TABLE} ORDER BY ID, NAME, DESC, MAIL, PASS";
-                reader = command.ExecuteReader();
-            }
-            Close();
-
-            return RegisterEntityBuilder.Build(reader);
-        }
-
-        internal void InsertRegister(Register register)
-        {
-            Open();
-            using (var command = _connection.CreateCommand())
-            {
-                command.CommandText = $@"INSERT INTO {REG_TABLE} ('ID', 'NAME', 'DESC', 'MAIL', 'PASS')
-                                         VALUES ('@id', '@name', '@desc', '@mail', '@pass')";
-
-                command.Parameters.AddWithValue("@id", register.Id);
-                command.Parameters.AddWithValue("@name", register.Name);
-                command.Parameters.AddWithValue("@desc", register.Description);
-                command.Parameters.AddWithValue("@mail", register.Email);
-                command.Parameters.AddWithValue("@pass", register.Password);
-                command.ExecuteNonQuery();
-            }
-            Close();
-        }
-
-        internal void UpdateRegister(Register target)
-        {
-            Open();
-            using (var command = _connection.CreateCommand())
-            {
-                command.CommandText = $@"UPTADE {REG_TABLE}
-                                         SET NAME = '@name',
-                                            NAME = '@desc',
-                                            NAME = '@mail',
-                                            NAME = '@pass'
-                                         WHERE ID = '@id'";
-
-                command.Parameters.AddWithValue("@id", target.Id);
-                command.Parameters.AddWithValue("@name", target.Name);
-                command.Parameters.AddWithValue("@desc", target.Description);
-                command.Parameters.AddWithValue("@mail", target.Email);
-                command.Parameters.AddWithValue("@pass", target.Password);
-                command.ExecuteNonQuery();
-            }
-            Close();
-        }
-
-        internal void DeleteRegister(int id)
-        {
-            Open();
-            using (var command = _connection.CreateCommand())
-            {
-                command.CommandText = $@"DELETE FROM {REG_TABLE} WHERE ID = '@id'";
-                command.Parameters.AddWithValue("@id", id);
-                command.ExecuteNonQuery();
-            }
-            Close();
-        }
-        #endregion
-
-        #region Cards querys
-
-        #endregion
-
-        #region Private Methods
-        private void Open()
-        {
-            if (_connection.State != System.Data.ConnectionState.Open)
-            {
-                _connection.OpenAsync().Wait();
-                _connection.SetPassword(_masterpassword);
-            }
-        }
-
-        private void Close()
-        {
-            if (_connection.State != System.Data.ConnectionState.Closed)
-                _connection.Close();
-        }
+        internal SQLiteCommand CreateCommand() => _connection.CreateCommand();
 
         private void CreateBaseTable()
         {
-            Open();
-
             using (var command = _connection.CreateCommand())
             {
-                using (var transaction = command.Transaction)
-                {
-                    var accountTableCmd = $@"CREATE TABLE IF NOT EXISTS {ACC_TABLE} (
+                var accountTableCmd = $@"CREATE TABLE IF NOT EXISTS {ACC_TABLE} (
                                                 'ID'    INTEGER NOT NULL UNIQUE,
-                                                'NAME'  TEXT NOT NULL,
-                                                'KEY'   TEXT NOT NULL,
+                                                'USER'  TEXT NOT NULL,
+                                                'PASS'   TEXT NOT NULL,
                                                 PRIMARY KEY('ID')
                                             )";
-
-                    var registrTableCmd = $@"CREATE TABLE IF NOT EXISTS {REG_TABLE} (
-	                                            'ID'	INTEGER NOT NULL UNIQUE,
+                var registrTableCmd = $@"CREATE TABLE IF NOT EXISTS {REG_TABLE} (
+	                                            'ID'	INTEGER NOT NULL,
 	                                            'NAME'	TEXT NOT NULL,
 	                                            'DESC'	TEXT NOT NULL,
 	                                            'MAIL'	TEXT NOT NULL,
 	                                            'PASS'	TEXT NOT NULL,
 	                                            PRIMARY KEY('ID')
                                             )";
-
-                    var cardsTableCmd = $@"CREATE TABLE IF NOT EXISTS {CRD_TABLE} (
-	                                            'ID'	INTEGER NOT NULL UNIQUE,
+                var cardsTableCmd = $@"CREATE TABLE IF NOT EXISTS {CRD_TABLE} (
+	                                            'ID'	INTEGER NOT NULL,
 	                                            'CARD_NAME'	TEXT NOT NULL,
 	                                            'OWNR_NAME'	TEXT NOT NULL,
 	                                            'NUMBER'	TEXT NOT NULL,
@@ -155,29 +62,26 @@ namespace LealPassword.Database
 	                                            PRIMARY KEY('ID')
                                             )";
 
-                    command.CommandText = accountTableCmd;
-                    command.ExecuteNonQueryAsync().Wait();
-                    command.Reset();
+                command.CommandText = accountTableCmd;
+                command.ExecuteNonQueryAsync().Wait();
+                command.Reset();
 
-                    command.CommandText = registrTableCmd;
-                    command.ExecuteNonQueryAsync().Wait();
-                    command.Reset();
+                command.CommandText = registrTableCmd;
+                command.ExecuteNonQueryAsync().Wait();
+                command.Reset();
 
-                    command.CommandText = cardsTableCmd;
-                    command.ExecuteNonQueryAsync().Wait();
-                    transaction.Commit();
-                }
+                command.CommandText = cardsTableCmd;
+                command.ExecuteNonQueryAsync().Wait();
             }
-
-            Close();
         }
-        #endregion
 
         #region Dispose
         private void Dispose(bool disposing)
         {
             if (disposing)
             {
+                if (_connection.State != System.Data.ConnectionState.Closed)
+                    _connection.Close();
                 _connection.Dispose();
             }
         }

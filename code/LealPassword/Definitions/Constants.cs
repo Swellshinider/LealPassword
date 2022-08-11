@@ -18,6 +18,10 @@ namespace LealPassword.Definitions
             "O insucesso é apenas uma oportunidade para recomeçar com mais inteligência.",
             "Só se pode alcançar um grande êxito quando nos mantemos fiéis a nós mesmos."
         };
+        internal static string DEFAULT_DATABASE_PATH 
+            => $"{Environment.GetLogicalDrives()[0]}Users\\Public\\LealPassword";
+        internal static string DEFAULT_DATABASE_FILE
+            => $"LealPassword.sqlite3";
 
         internal static readonly bool DEBUG = true;
 

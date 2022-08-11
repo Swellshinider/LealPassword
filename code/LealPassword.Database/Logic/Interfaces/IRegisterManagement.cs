@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LealPassword.Database.ResourceLogic.Interfaces
+namespace LealPassword.Database.Logic.Interfaces
 {
     internal interface IRegisterManagement : IDisposable
     {
