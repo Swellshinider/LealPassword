@@ -16,7 +16,7 @@ namespace LealPassword.UI.LoginCreateSub
         internal delegate void CreatingAccountUI();
         internal event CreatingAccountUI OnCreatingAccount;
 
-        internal delegate void LogginToAccountUI(string user, string pass);
+        internal delegate void LogginToAccountUI();
         internal event LogginToAccountUI OnLogginToAccount;
 
         internal LoginUI(Control parent, DiagnosticList diagnostic)
@@ -213,7 +213,7 @@ namespace LealPassword.UI.LoginCreateSub
             if (!IsLoginValid(user, pass)) return;
 
             CheckBoxShowHidePassword_Click(ExtractBox(), e);
-            OnLogginToAccount?.Invoke(user, pass);
+            OnLogginToAccount?.Invoke();
         }
 
         private void CheckBoxShowHidePassword_Click(object sender, EventArgs e)

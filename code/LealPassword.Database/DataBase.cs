@@ -42,7 +42,7 @@ namespace LealPassword.Database
                                                 'ID'    INTEGER NOT NULL UNIQUE,
                                                 'USER'  TEXT NOT NULL,
                                                 'PASS'   TEXT NOT NULL,
-                                                PRIMARY KEY('ID')
+                                                PRIMARY KEY('ID' AUTOINCREMENT)
                                             )";
                 var registrTableCmd = $@"CREATE TABLE IF NOT EXISTS {REG_TABLE} (
 	                                            'ID'	INTEGER NOT NULL,

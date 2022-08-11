@@ -73,24 +73,22 @@ namespace LealPassword.UI
             _diagnostic.Debug("Login UI loaded");
         }
 
-        private void LoginUI_OnLogginToAccount(string mail, string pass)
+        private void LoginUI_OnLogginToAccount()
         {
-            _diagnostic.Debug("Checking account");
+            
         }
 
         private void LoginUI_OnCreatingAccount()
         {
             panelRightContainer.Controls.Clear();
-            var createAccountUI = new CreateUI();
+            var createAccountUI = new CreateUI(panelRightContainer, _diagnostic);
             createAccountUI.OnAccountCreated += CreateAccountUI_OnAccountCreated;
             createAccountUI.MouseDown += ControlMouseDown;
             panelRightContainer.Controls.Add(createAccountUI);
         }
 
         private void CreateAccountUI_OnAccountCreated()
-        {
-            throw new NotImplementedException();
-        }
+            => InitializeLoginUI();
 
         private void ControlMouseDown(object sender, MouseEventArgs e)
             => Program.ControlMouseDown(Handle, e);
