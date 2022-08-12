@@ -59,9 +59,17 @@ namespace LealPassword.Database.Controllers
                     accounts.Add(Mapper.Map(acc));
             }
 
+            var _regController = new RegisterController(_directory, _fileName, _masterpassword);
+            var regList = _regController.GetRegisters();
+
             foreach (var acc in accounts)
+            {
                 if (acc.Username == user)
+                {
+                    acc.Registers.AddRange(regList);
                     return acc;
+                }
+            }
 
             return null;
         }

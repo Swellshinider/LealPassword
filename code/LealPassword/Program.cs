@@ -38,7 +38,7 @@ namespace LealPassword
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             _diagnostics.Debug("App configuration started");
-            Application.Run(new LoginCreateAccountUI("LealPassword", _diagnostics));
+            Application.Run(new LoginCreateAccountUI(_diagnostics));
         }
 
         internal static void ControlMouseDown(IntPtr handle, MouseEventArgs e)
@@ -72,6 +72,20 @@ namespace LealPassword
         internal static void HideConsole() => ShowWindow(GetConsoleWindow(), Constants.SW_HIDE);
 
         internal static void ShowConsole() => ShowWindow(GetConsoleWindow(), Constants.SW_SHOW);
+
+        internal static void Switch(Form current, Form target)
+        {
+            current.Hide();
+            current.Enabled = false;
+            current.Visible = false;
+            current.ShowInTaskbar = false;
+            
+            target.Show();
+            target.Enabled = true;
+            target.Visible = true;
+            target.ShowInTaskbar = true;
+            target.Closed += (s, e) => current.Close();
+        }
 
         internal static void UpdateGripFormRef(ref Message m, Form form)
         {

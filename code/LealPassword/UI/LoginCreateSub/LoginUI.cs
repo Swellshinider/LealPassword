@@ -1,4 +1,5 @@
 ﻿using LealPassword.Database.Controllers;
+using LealPassword.Database.Model;
 using LealPassword.Definitions;
 using LealPassword.Diagnostics;
 using LealPassword.Themes;
@@ -16,20 +17,20 @@ namespace LealPassword.UI.LoginCreateSub
         internal delegate void CreatingAccountUI();
         internal event CreatingAccountUI OnCreatingAccount;
 
-        internal delegate void LogginToAccountUI();
+        internal delegate void LogginToAccountUI(Account account, string masterpass);
         internal event LogginToAccountUI OnLogginToAccount;
 
         internal LoginUI(Control parent, DiagnosticList diagnostic)
         {
+            InitializeComponent(); 
             parent.Controls.Add(this);
             _diagnostic = diagnostic;
             Dock = DockStyle.Fill;
             BackColor = ThemeController.SuperLiteGray;
-            InitializeComponent();
-            GenerateObjects();
             _remember = !string.IsNullOrEmpty(PRController.LastUser) &&
                 !string.IsNullOrWhiteSpace(PRController.LastUser);
             textBoxUser.Text = PRController.LastUser;
+            GenerateObjects();
         }
 
         internal void GenerateObjects()
@@ -69,7 +70,7 @@ namespace LealPassword.UI.LoginCreateSub
             Controls.Add(lblNiceMessage);
             #endregion
 
-            #region TextBoxs
+            #region TextBoxUser
             textBoxUser.Height = 50;
             textBoxUser.HintText = "Usuário";
             textBoxUser.Width = (int)(Width * 0.65f);
@@ -81,7 +82,9 @@ namespace LealPassword.UI.LoginCreateSub
             textBoxUser.LineMouseHoverColor = textBoxUser.BackColor;
             textBoxUser.Font = new Font("Arial", 14, FontStyle.Regular);
             textBoxUser.Region = Program.GenerateRoundRegion(textBoxUser.Width, textBoxUser.Height, 15);
+            #endregion
 
+            #region TextBoxPass
             textBoxPass.Text = "";
             textBoxPass.Height = 50;
             textBoxPass.isPassword = true;
@@ -96,6 +99,7 @@ namespace LealPassword.UI.LoginCreateSub
             textBoxPass.LineMouseHoverColor = textBoxPass.BackColor;
             textBoxPass.Font = new Font("Arial", 14, FontStyle.Regular);
             textBoxPass.Region = Program.GenerateRoundRegion(textBoxUser.Width, textBoxUser.Height, 15);
+            #endregion
 
             var checkBoxRemember = new CheckBox()
             {
@@ -109,8 +113,7 @@ namespace LealPassword.UI.LoginCreateSub
             };
             checkBoxRemember.Click += CheckBoxShowHidePassword_Click;
             Controls.Add(checkBoxRemember);
-            #endregion
-
+           
             var buttonLogin = new Button()
             {
                 Height = 50,
@@ -165,8 +168,11 @@ namespace LealPassword.UI.LoginCreateSub
             return null;
         }
 
-        private bool IsLoginValid(string user, string pass)
+        private bool IsLoginValid(string user, string pass, out Account account)
         {
+            account = null;
+            pass = "Papibaquigrafo1!"; // HACK: Exclude this
+
             if (string.IsNullOrWhiteSpace(user) || string.IsNullOrEmpty(user) || 
                 string.IsNullOrWhiteSpace(pass) || string.IsNullOrEmpty(pass))
             {
@@ -178,16 +184,16 @@ namespace LealPassword.UI.LoginCreateSub
             var hashedPass = Security.Security.HashValue(pass);
             var controller = new AccountController(Constants.DEFAULT_DATABASE_PATH, 
                 Constants.DEFAULT_DATABASE_FILE, Security.Security.HashValue(hashedPass));
-            var SavedAccount = controller.GetAccount(user);
+            account = controller.GetAccount(user);
 
-            if (SavedAccount == null || SavedAccount.Username == null || SavedAccount.Password == null)
+            if (account == null || account.Username == null || account.Password == null)
             {
                 MessageBox.Show("Não existe nenhuma conta criada com esses parâmetros",
                     "Conta inexistente", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
 
-            if (SavedAccount.Username != user || SavedAccount.Password != hashedPass)
+            if (account.Username != user || account.Password != hashedPass)
             {
                 MessageBox.Show("Usuário ou senha inválidos",
                     "Dados inválidos", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -210,10 +216,10 @@ namespace LealPassword.UI.LoginCreateSub
             var user = textBoxUser.Text;
             var pass = textBoxPass.Text;
 
-            if (!IsLoginValid(user, pass)) return;
+            if (!IsLoginValid(user, pass, out var account)) return;
 
             CheckBoxShowHidePassword_Click(ExtractBox(), e);
-            OnLogginToAccount?.Invoke();
+            OnLogginToAccount?.Invoke(account, pass);
         }
 
         private void CheckBoxShowHidePassword_Click(object sender, EventArgs e)

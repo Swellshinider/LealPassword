@@ -13,6 +13,11 @@ namespace LealPassword.Themes
         public static Color LiteGray => Color.FromArgb(182, 182, 184);
         public static Color SuperLiteGray => Color.FromArgb(249, 251, 251);
 
+        public static Color MainUILeftPanelTopColor = Color.FromArgb(34, 50, 100);
+        public static Color MainUIRightPanelBottomColor = Color.FromArgb(113, 153, 194);
+        public static Color SelectableColor => Color.FromArgb(33, 54, 100);
+
+
         public static Color White => Color.White;
         public static Color Black => Color.Black;
 

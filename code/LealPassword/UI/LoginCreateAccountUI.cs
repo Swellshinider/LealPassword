@@ -1,6 +1,8 @@
-﻿using LealPassword.Definitions;
+﻿using LealPassword.Database.Model;
+using LealPassword.Definitions;
 using LealPassword.Themes;
 using LealPassword.UI.LoginCreateSub;
+using LealPassword.UI.MainScreen;
 using System;
 using System.Windows.Forms;
 
@@ -11,11 +13,11 @@ namespace LealPassword.UI
         private Panel panelLeftContainer;
         private Panel panelRightContainer;
 
-        internal LoginCreateAccountUI(string title, Diagnostics.DiagnosticList diagnostic)
-            : base(title, diagnostic)
+        internal LoginCreateAccountUI(Diagnostics.DiagnosticList diagnostic)
+            : base(diagnostic)
         {
-            Width = Constants.LoginCreateAccountSize.Width;
-            Height = Constants.LoginCreateAccountSize.Height;
+            Width = Constants.BaseUISize.Width;
+            Height = Constants.BaseUISize.Height;
             GenerateObjects();
         }
 
@@ -73,9 +75,13 @@ namespace LealPassword.UI
             _diagnostic.Debug("Login UI loaded");
         }
 
-        private void LoginUI_OnLogginToAccount()
+        private void LoginUI_OnLogginToAccount(Account account, string masterpass)
         {
             _diagnostic.Debug("Attempt login");
+            var mainUI = new MainUI(_diagnostic, account, masterpass);
+            _diagnostic.Debug("mainUI loaded!");
+            Program.Switch(this, mainUI);
+            _diagnostic.Debug("mainUI showup");
         }
 
         private void LoginUI_OnCreatingAccount()

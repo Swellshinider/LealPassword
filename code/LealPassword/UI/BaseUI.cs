@@ -8,19 +8,19 @@ namespace LealPassword.UI
     {
         protected readonly DiagnosticList _diagnostic;
 
-        internal BaseUI(string title, DiagnosticList diagnostic)
+        internal BaseUI(DiagnosticList diagnostic)
         {
             _diagnostic = diagnostic;
             Resize += BaseUI_Resize;
             StartPosition = FormStartPosition.CenterScreen;
-            BaseDefinition(title);
+            BaseDefinition();
             InitializeComponent();
         }
 
-        private void BaseDefinition(string title)
+        private void BaseDefinition()
         {
             _diagnostic.Debug("Initialize base definition");
-            Text = title;
+            Text = "LealPassword";
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
             SetStyle(ControlStyles.ResizeRedraw, true);

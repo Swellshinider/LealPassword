@@ -37,7 +37,7 @@ namespace LealPassword.Definitions
         internal static readonly int ELIPSE_CURVE = 25;
         internal static readonly int SIZE_GRIP = 16; 
         
-        internal static readonly Size LoginCreateAccountSize = new Size(1280, 780);
+        internal static readonly Size BaseUISize = new Size(1280, 780);
 
         internal static string RandomNiceMessage
             => NiceMessages[new Random().Next(0, NiceMessages.Length - 1)];

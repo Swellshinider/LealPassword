@@ -5,12 +5,8 @@ using LealPassword.Diagnostics;
 using LealPassword.Themes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LealPassword.UI.LoginCreateSub
@@ -132,9 +128,10 @@ namespace LealPassword.UI.LoginCreateSub
                 Dock = DockStyle.Bottom,
                 ForeColor = ThemeController.LiteGray,
                 TextAlign = ContentAlignment.TopCenter,
-                Text = "LealPassword | Copyright © 2022 - Todos os direito reservados - Eduardo R. Leal",
+                Text = "Já tem uma conta? Clique aqui para entrar!",
                 Font = new Font("Arial", 11, FontStyle.Italic),
             };
+            lblcopyright.Click += (s, e) => OnAccountCreated?.Invoke();
             Controls.Add(lblcopyright);
             #endregion
 
@@ -151,6 +148,12 @@ namespace LealPassword.UI.LoginCreateSub
 
         private void ButtonCreate_Click(object sender, EventArgs e)
         {
+            var dialog = MessageBox.Show("Você só pode ter uma conta por computador nessa versão, " +
+                "ao criar uma nova, todas as outras contas e registros serão excluídas\n\n" +
+                "Tem certeza disso?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+
+            if (!dialog.Equals(DialogResult.Yes)) return;
+
             var user = textBoxUser.Text;
             var pass = textBoxPass.Text;
             var pass2 = textBoxPass2.Text;
