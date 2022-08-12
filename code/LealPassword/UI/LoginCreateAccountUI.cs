@@ -75,7 +75,7 @@ namespace LealPassword.UI
 
         private void LoginUI_OnLogginToAccount()
         {
-            
+            _diagnostic.Debug("Attempt login");
         }
 
         private void LoginUI_OnCreatingAccount()

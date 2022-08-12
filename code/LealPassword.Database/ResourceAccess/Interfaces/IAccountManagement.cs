@@ -1,5 +1,6 @@
 ﻿using LealPassword.Database.Entity;
 using System;
+using System.Collections.Generic;
 
 namespace LealPassword.Database.ResourceAccess.Interfaces
 {
@@ -8,6 +9,6 @@ namespace LealPassword.Database.ResourceAccess.Interfaces
         void InsertAccount(Account account);
         void UpdateAccount(Account account);
         void DeleteAccount(Account account);
-        Account GetAccount();
+        List<Account> GetAccount();
     }
 }

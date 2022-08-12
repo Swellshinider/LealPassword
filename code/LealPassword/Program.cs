@@ -1,5 +1,4 @@
-﻿using LealPassword.Database.AutoMapper;
-using LealPassword.Definitions;
+﻿using LealPassword.Definitions;
 using LealPassword.Diagnostics;
 using LealPassword.UI;
 using System;
@@ -37,7 +36,6 @@ namespace LealPassword
             }
 
             Application.EnableVisualStyles();
-            AutoMapperConfig.RegisterMapps(_diagnostics);
             Application.SetCompatibleTextRenderingDefault(false);
             _diagnostics.Debug("App configuration started");
             Application.Run(new LoginCreateAccountUI("LealPassword", _diagnostics));

@@ -1,5 +1,6 @@
 ﻿using LealPassword.Database.Entity;
 using System;
+using System.Collections.Generic;
 
 namespace LealPassword.Database.Logic
 {
@@ -21,7 +22,7 @@ namespace LealPassword.Database.Logic
         public void UpdateAccount(Account account)
             => _resource.UpdateAccount(account);
 
-        public Account GetAccount()
+        public List<Account> GetAccount()
             => _resource.GetAccount();
 
         #region Dispose

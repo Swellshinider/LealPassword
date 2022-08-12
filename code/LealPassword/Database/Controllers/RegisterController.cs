@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using LealPassword.Database.Model;
+﻿using LealPassword.Database.Model;
 using LealPassword.Database.Logic;
 using System.Collections.Generic;
 
@@ -20,7 +19,7 @@ namespace LealPassword.Database.Controllers
 
         internal void UpdateRegister(Register register)
         {
-            var entity = Mapper.Map<Register, Entity.Register>(register);
+            var entity = Mapper.Map(register);
 
             using(var logic = new RegisterManagement(_directory, _fileName, _masterpassword))
             {
@@ -30,7 +29,7 @@ namespace LealPassword.Database.Controllers
 
         internal void InsertRegister(Register register)
         {
-            var entity = Mapper.Map<Register, Entity.Register>(register);
+            var entity = Mapper.Map(register);
 
             using (var logic = new RegisterManagement(_directory, _fileName, _masterpassword))
             {
@@ -40,7 +39,7 @@ namespace LealPassword.Database.Controllers
 
         internal void DeleteRegister(Register register)
         {
-            var entity = Mapper.Map<Register, Entity.Register>(register);
+            var entity = Mapper.Map(register);
 
             using (var logic = new RegisterManagement(_directory, _fileName, _masterpassword))
             {
@@ -53,7 +52,7 @@ namespace LealPassword.Database.Controllers
             using (var logic = new RegisterManagement(_directory, _fileName, _masterpassword))
             {
                 var entity = logic.GetRegisters();
-                return Mapper.Map<List<Entity.Register>, List<Register>>(entity);
+                return Mapper.Map(entity);
             }
         }
     }

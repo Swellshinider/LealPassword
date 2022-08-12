@@ -1,6 +1,7 @@
 ﻿using LealPassword.Database.Entity;
 using LealPassword.Database.ResourceAccess.Builder;
 using System;
+using System.Collections.Generic;
 using System.Data.SQLite;
 
 namespace LealPassword.Database.ResourceAccess
@@ -21,9 +22,8 @@ namespace LealPassword.Database.ResourceAccess
             using (var command = _dataBase.CreateCommand())
             {
                 command.CommandText = $@"DELETE FROM {_tableName} WHERE 
-                                            USER = '@user'";
+                                            USER = '{account.Username}'";
 
-                command.Parameters.AddWithValue("@user", account.Username);
                 command.ExecuteNonQuery();
             }
         }
@@ -37,12 +37,10 @@ namespace LealPassword.Database.ResourceAccess
                                             'PASS'
                                             )
                                          VALUES ( 
-                                            '@user', 
-                                            '@pass'
+                                            '{account.Username}',
+                                            '{account.Password}'
                                             )";
 
-                command.Parameters.AddWithValue("@user", account.Username);
-                command.Parameters.AddWithValue("@pass", account.Password);
                 command.ExecuteNonQuery();
             }
         }
@@ -53,18 +51,16 @@ namespace LealPassword.Database.ResourceAccess
             {
                 command.CommandText = $@"UPTADE {_tableName}
                                          SET 
-                                            USER = '@user',
-                                            PASS = '@pass'
-                                         WHERE USER = '@user'
+                                            USER = '{account.Username}',
+                                            PASS = '{account.Password}'
+                                         WHERE USER = '{account.Username}'
                 ";
 
-                command.Parameters.AddWithValue("@user", account.Username);
-                command.Parameters.AddWithValue("@pass", account.Password);
                 command.ExecuteNonQuery();
             }
         }
 
-        public Account GetAccount()
+        public List<Account> GetAccount()
         {
             SQLiteDataReader reader;
 

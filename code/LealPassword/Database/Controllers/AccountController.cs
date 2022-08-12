@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using LealPassword.Database.Logic;
+﻿using LealPassword.Database.Logic;
 using LealPassword.Database.Model;
+using System.Collections.Generic;
 
 namespace LealPassword.Database.Controllers
 {
@@ -19,7 +19,7 @@ namespace LealPassword.Database.Controllers
 
         internal void UpdateAccount(Account account)
         {
-            var entity = Mapper.Map<Account, Entity.Account>(account);
+            var entity = Mapper.Map(account);
 
             using (var logic = new AccountManagement(_directory, _fileName, _masterpassword))
             {
@@ -29,7 +29,7 @@ namespace LealPassword.Database.Controllers
 
         internal void InsertAccount(Account account)
         {
-            var entity = Mapper.Map<Account, Entity.Account>(account);
+            var entity = Mapper.Map(account);
 
             using (var logic = new AccountManagement(_directory, _fileName, _masterpassword))
             {
@@ -39,7 +39,7 @@ namespace LealPassword.Database.Controllers
 
         internal void DeleteAccount(Account account)
         {
-            var entity = Mapper.Map<Account, Entity.Account>(account);
+            var entity = Mapper.Map(account);
 
             using (var logic = new AccountManagement(_directory, _fileName, _masterpassword))
             {
@@ -47,13 +47,23 @@ namespace LealPassword.Database.Controllers
             }
         }
 
-        internal Account GetAccount()
+        internal Account GetAccount(string user)
         {
+            var accounts = new List<Account>();
+
             using (var logic = new AccountManagement(_directory, _fileName, _masterpassword))
             {
                 var entity = logic.GetAccount();
-                return Mapper.Map<Entity.Account, Account>(entity);
+
+                foreach (var acc in entity)
+                    accounts.Add(Mapper.Map(acc));
             }
+
+            foreach (var acc in accounts)
+                if (acc.Username == user)
+                    return acc;
+
+            return null;
         }
     }
 }
