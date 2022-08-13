@@ -82,12 +82,12 @@ namespace LealPassword.UI.LoginCreateSub
             textBoxUser.LineMouseHoverColor = textBoxUser.BackColor;
             textBoxUser.Font = new Font("Arial", 14, FontStyle.Regular);
             textBoxUser.Region = Program.GenerateRoundRegion(textBoxUser.Width, textBoxUser.Height, 15);
+            textBoxUser.KeyDown += TextBoxKeyDown;
             #endregion
 
             #region TextBoxPass
             textBoxPass.Text = "";
             textBoxPass.Height = 50;
-            textBoxPass.isPassword = true;
             textBoxPass.HintText = "Senha";
             textBoxPass.Width = (int)(Width * 0.65f);
             textBoxPass.BorderStyle = BorderStyle.None;
@@ -99,6 +99,7 @@ namespace LealPassword.UI.LoginCreateSub
             textBoxPass.LineMouseHoverColor = textBoxPass.BackColor;
             textBoxPass.Font = new Font("Arial", 14, FontStyle.Regular);
             textBoxPass.Region = Program.GenerateRoundRegion(textBoxUser.Width, textBoxUser.Height, 15);
+            textBoxPass.KeyDown += TextBoxKeyDown;
             #endregion
 
             var checkBoxRemember = new CheckBox()
@@ -201,6 +202,12 @@ namespace LealPassword.UI.LoginCreateSub
             }
 
             return true;
+        }
+
+        private void TextBoxKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter) return;
+            ButtonLogin_Click(sender, e);
         }
 
         private void SetDynamicHeight(Control control, int dynamicHeight)

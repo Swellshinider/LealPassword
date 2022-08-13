@@ -2,7 +2,6 @@
 using LealPassword.Definitions;
 using LealPassword.Themes;
 using LealPassword.UI.LoginCreateSub;
-using LealPassword.UI.MainScreen;
 using System;
 using System.Windows.Forms;
 
@@ -16,6 +15,7 @@ namespace LealPassword.UI
         internal LoginCreateAccountUI(Diagnostics.DiagnosticList diagnostic)
             : base(diagnostic)
         {
+            Text = "LealPassword";
             Width = Constants.BaseUISize.Width;
             Height = Constants.BaseUISize.Height;
             GenerateObjects();

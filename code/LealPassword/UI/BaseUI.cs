@@ -1,5 +1,6 @@
 ﻿using LealPassword.Diagnostics;
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace LealPassword.UI
@@ -7,6 +8,8 @@ namespace LealPassword.UI
     internal abstract partial class BaseUI : Form
     {
         protected readonly DiagnosticList _diagnostic;
+
+        internal BaseUI() { }
 
         internal BaseUI(DiagnosticList diagnostic)
         {
@@ -20,7 +23,6 @@ namespace LealPassword.UI
         private void BaseDefinition()
         {
             _diagnostic.Debug("Initialize base definition");
-            Text = "LealPassword";
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
             SetStyle(ControlStyles.ResizeRedraw, true);

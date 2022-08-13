@@ -66,6 +66,7 @@ namespace LealPassword.UI.LoginCreateSub
             textBoxUser.LineMouseHoverColor = textBoxUser.BackColor;
             textBoxUser.Font = new Font("Arial", 14, FontStyle.Regular);
             textBoxUser.Region = Program.GenerateRoundRegion(textBoxUser.Width, textBoxUser.Height, 15);
+            textBoxUser.KeyDown += TextBoxKeyDown;
             #endregion
 
             #region PassTextBox
@@ -83,6 +84,7 @@ namespace LealPassword.UI.LoginCreateSub
             textBoxPass.LineMouseHoverColor = textBoxPass.BackColor;
             textBoxPass.Font = new Font("Arial", 14, FontStyle.Regular);
             textBoxPass.Region = Program.GenerateRoundRegion(textBoxUser.Width, textBoxUser.Height, 15);
+            textBoxPass.KeyDown += TextBoxKeyDown;
             #endregion
 
             #region PassTextBox2
@@ -100,6 +102,7 @@ namespace LealPassword.UI.LoginCreateSub
             textBoxPass2.LineMouseHoverColor = textBoxPass.BackColor;
             textBoxPass2.Font = new Font("Arial", 14, FontStyle.Regular);
             textBoxPass2.Region = Program.GenerateRoundRegion(textBoxUser.Width, textBoxUser.Height, 15);
+            textBoxPass2.KeyDown += TextBoxKeyDown;
             #endregion
 
             #region ButtonCreate
@@ -144,6 +147,12 @@ namespace LealPassword.UI.LoginCreateSub
             SetDynamicHeight(buttonCreate, 395);
             #endregion
             _diagnostic.Debug("createUI objects generated");
+        }
+
+        private void TextBoxKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter) return;
+            ButtonCreate_Click(sender, e);
         }
 
         private void ButtonCreate_Click(object sender, EventArgs e)

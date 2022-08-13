@@ -29,6 +29,7 @@ namespace LealPassword.Database
         {
             Id = register.Id,
             Name = register.Name,
+            Tag = register.Tag,
             Password = register.Password,
             Description = register.Description,
             Email = register.Email,
@@ -78,6 +79,7 @@ namespace LealPassword.Database
         {
             Id = register.Id,
             Name = register.Name,
+            Tag = register.Tag,
             Password = register.Password,
             Description = register.Description,
             Email = register.Email,
