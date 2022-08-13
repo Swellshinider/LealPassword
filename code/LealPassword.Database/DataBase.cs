@@ -47,6 +47,7 @@ namespace LealPassword.Database
                 var registrTableCmd = $@"CREATE TABLE IF NOT EXISTS {REG_TABLE} (
 	                                            'ID'	INTEGER NOT NULL,
 	                                            'NAME'	TEXT NOT NULL,
+                                                'TAG'   TEXT NOT NULL,
 	                                            'DESC'	TEXT NOT NULL,
 	                                            'MAIL'	TEXT NOT NULL,
 	                                            'PASS'	TEXT NOT NULL,

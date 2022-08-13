@@ -37,23 +37,20 @@ namespace LealPassword.Database.ResourceAccess
                 command.CommandText = $@"INSERT INTO {_tableName} (
                                             'ID', 
                                             'NAME', 
+                                            'TAG',
                                             'DESC', 
                                             'MAIL', 
                                             'PASS'
                                             )
                                          VALUES (
-                                            '@id', 
-                                            '@name', 
-                                            '@desc', 
-                                            '@mail', 
-                                            '@pass'
+                                            '{register.Id}', 
+                                            '{register.Name}', 
+                                            '{register.Tag}', 
+                                            '{register.Description}', 
+                                            '{register.Email}',
+                                            '{register.Password}
                                             )";
 
-                command.Parameters.AddWithValue("@id", register.Id);
-                command.Parameters.AddWithValue("@name", register.Name);
-                command.Parameters.AddWithValue("@desc", register.Description);
-                command.Parameters.AddWithValue("@mail", register.Email);
-                command.Parameters.AddWithValue("@pass", register.Password);
                 command.ExecuteNonQuery();
             }
         }
@@ -63,17 +60,13 @@ namespace LealPassword.Database.ResourceAccess
             using (var command = _dataBase.CreateCommand())
             {
                 command.CommandText = $@"UPTADE {_tableName}
-                                         SET NAME = '@name',
-                                            NAME = '@desc',
-                                            NAME = '@mail',
-                                            NAME = '@pass'
-                                         WHERE ID = '@id'";
+                                         SET NAME = '{register.Name}',
+                                            TAG = '{register.Tag}',
+                                            DESC = '{register.Description}',
+                                            MAIL = '{register.Email}',
+                                            PASS = '{register.Password}'
+                                         WHERE ID = '{register.Id}'";
 
-                command.Parameters.AddWithValue("@id", register.Id);
-                command.Parameters.AddWithValue("@name", register.Name);
-                command.Parameters.AddWithValue("@desc", register.Description);
-                command.Parameters.AddWithValue("@mail", register.Email);
-                command.Parameters.AddWithValue("@pass", register.Password);
                 command.ExecuteNonQuery();
             }
         }
@@ -86,6 +79,7 @@ namespace LealPassword.Database.ResourceAccess
             {
                 command.CommandText = $@"SELECT ID, 
                                                 NAME, 
+                                                TAG,
                                                 DESC, 
                                                 MAIL, 
                                                 PASS
@@ -93,6 +87,7 @@ namespace LealPassword.Database.ResourceAccess
                                         ORDER BY 
                                                 ID, 
                                                 NAME, 
+                                                TAG,
                                                 DESC, 
                                                 MAIL, 
                                                 PASS";
