@@ -26,7 +26,6 @@ namespace LealPassword.UI
 
         internal MainUI(DiagnosticList diagnostic, Account account, string masterpass)
         {
-            InitializeComponent();
             Text = "LealPassword";
             _diagnostic = diagnostic;
             _account = account;
@@ -191,7 +190,7 @@ namespace LealPassword.UI
             #endregion
 
             #region Side Buttons
-            var buttonGeneral = new SidePanel("Geral");
+            var buttonGeneral = new SidePanel("Geral", PRController.Images.General127px);
             _sideControls.Add(buttonGeneral);
             
             var labelTag = new Label()
@@ -199,7 +198,7 @@ namespace LealPassword.UI
                 Height = 40,
                 AutoSize = false,
                 Dock = DockStyle.Top,
-                Text = "            Categorias",
+                Text = "        Menu",
                 BackColor = Color.Transparent,
                 TextAlign = ContentAlignment.MiddleLeft,
                 ForeColor = ThemeController.SuperLiteGray,
@@ -207,8 +206,12 @@ namespace LealPassword.UI
             };
             _sideControls.Add(labelTag);
 
-            var buttonCards = new SidePanel("Cartões");
-            _sideControls.Add(buttonCards);
+            var buttonConfig = new SidePanel("Configurações", PRController.Images.Config127px_Black)
+            {
+                Dock = DockStyle.Bottom,
+                Textcolor = ThemeController.Black
+            };
+            _sideControls.Add(buttonConfig);
             #endregion
 
             #region Search box
@@ -240,18 +243,13 @@ namespace LealPassword.UI
             }
 
             _diagnostic.Debug("Objects generated");
-            searchBox.Width = (int)(panelTop.Width * 0.5f);
-            searchBox.Height = 50;
-            searchBox.TextAlign = HorizontalAlignment.Left;
-            Program.CentralizeControl(searchBox, panelTop);
-            searchBox.Region = Program.GenerateRoundRegion(searchBox.Width, searchBox.Height, 20);
             LoadRegisters();
         }
 
         private void LoadRegisters()
         {
             _diagnostic.Debug("Loading registers");
-
+            // TODO: load registers
             _diagnostic.Debug("registers loaded");
         }
 

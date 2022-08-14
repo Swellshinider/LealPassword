@@ -11,7 +11,10 @@ namespace LealPassword.UI.Extension
 
         internal SidePanel(string title, Image image = null)
         {
-            IconMarginLeft = 25;
+            if (image != null) Iconimage = image;
+
+            IconZoom = 64;
+            IconMarginLeft = 32;
             Dock = DockStyle.Top; 
             Text = $"{_spaces}{title}";
             BackColor = Color.Transparent;
@@ -23,9 +26,7 @@ namespace LealPassword.UI.Extension
             Textcolor = ThemeController.SuperLiteGray;
             OnHoverTextColor = ThemeController.SuperLiteGray;
             Activecolor = ThemeController.ButtonSelectableColor;
-            TextFont = new Font("Arial", 11, FontStyle.Regular);
-
-            if (image != null) Iconimage = image;
+            TextFont = new Font("Arial", 12, FontStyle.Regular);
         }
     }
 }
