@@ -3,6 +3,7 @@ using LealPassword.Definitions;
 using LealPassword.Themes;
 using LealPassword.UI.LoginCreateSub;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace LealPassword.UI
@@ -51,8 +52,11 @@ namespace LealPassword.UI
             {
                 Text = "",
                 Width = 32,
+                Cursor = Cursors.Hand,
                 Dock = DockStyle.Right,
                 FlatStyle = FlatStyle.Flat,
+                Image = PRController.Images.Close16px,
+                ImageAlign = ContentAlignment.MiddleCenter,
             };
             btnClose.FlatAppearance.BorderSize = 0;
             btnClose.FlatAppearance.MouseOverBackColor = ThemeController.MouseOverCloseButton;

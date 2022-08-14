@@ -1,4 +1,5 @@
-﻿using LealPassword.Database.Model;
+﻿using Bunifu.Framework.UI;
+using LealPassword.Database.Model;
 using LealPassword.Definitions;
 using LealPassword.Diagnostics;
 using LealPassword.Themes;
@@ -18,17 +19,20 @@ namespace LealPassword.UI
         private readonly Account _account;
         private readonly string _masterpass;
         private readonly DiagnosticList _diagnostic;
-        private readonly List<Label> _buttonLabels;
+        private readonly List<Control> _sideControls;
+        private readonly List<SidePanel> _sideButtons;
 
         private bool isRegisterList = true;
 
         internal MainUI(DiagnosticList diagnostic, Account account, string masterpass)
         {
+            InitializeComponent();
             Text = "LealPassword";
             _diagnostic = diagnostic;
             _account = account;
-            _masterpass = masterpass; 
-            _buttonLabels = new List<Label>();
+            _masterpass = masterpass;
+            _sideControls = new List<Control>();
+            _sideButtons = new List<SidePanel>();
             Width = Constants.BaseUISize.Width;
             Height = Constants.BaseUISize.Height;
             BackColor = ThemeController.SuperLiteGray;
@@ -81,9 +85,12 @@ namespace LealPassword.UI
             var btnClose = new Button()
             {
                 Text = "",
-                Dock = DockStyle.Right,
                 Width = 32,
+                Cursor = Cursors.Hand,
+                Dock = DockStyle.Right,
                 FlatStyle = FlatStyle.Flat,
+                Image = PRController.Images.Close16px,
+                ImageAlign = ContentAlignment.MiddleCenter,
             };
             btnClose.MaximumSize = new Size(btnClose.Width, btnClose.Width);
             btnClose.FlatAppearance.BorderSize = 0;
@@ -129,7 +136,7 @@ namespace LealPassword.UI
                 Text = "Gerenciador de senhas",
                 TextAlign = ContentAlignment.TopLeft,
                 ForeColor = ThemeController.SuperLiteGray,
-                Font = new Font("Arial", 11, FontStyle.Italic),
+                Font = new Font("Times new Roman", 12, FontStyle.Italic),
             };
             descPrgram.MouseDown += ControlMouseDown;
             panelLogo.Controls.Add(descPrgram);
@@ -166,6 +173,7 @@ namespace LealPassword.UI
                 Height = 50,
                 Width = 125,
                 Text = "Novo",
+                Cursor = Cursors.Hand,
                 FlatStyle = FlatStyle.Flat,
                 ForeColor = ThemeController.White,
                 BackColor = ThemeController.BlueMain,
@@ -183,23 +191,28 @@ namespace LealPassword.UI
             #endregion
 
             #region Side Buttons
-            var buttonGeneral = new Label()
+            var buttonGeneral = new SidePanel("Geral");
+            _sideControls.Add(buttonGeneral);
+            
+            var labelTag = new Label()
             {
-                Text = "Geral",
-                Height = 50,
+                Height = 40,
                 AutoSize = false,
                 Dock = DockStyle.Top,
-                TextAlign = ContentAlignment.MiddleCenter,
-                BackColor = ThemeController.ButtonSelectableColor,
+                Text = "            Categorias",
+                BackColor = Color.Transparent,
+                TextAlign = ContentAlignment.MiddleLeft,
                 ForeColor = ThemeController.SuperLiteGray,
                 Font = new Font("Arial", 11, FontStyle.Regular),
             };
-            _buttonLabels.Add(buttonGeneral);
-            panelLeft.Controls.Add(buttonGeneral);
+            _sideControls.Add(labelTag);
+
+            var buttonCards = new SidePanel("Cartões");
+            _sideControls.Add(buttonCards);
             #endregion
 
             #region Search box
-            var searchBox = new Bunifu.Framework.UI.BunifuMaterialTextbox()
+            var searchBox = new BunifuMaterialTextbox()
             {
                 Text = "",
                 Height = 50,
@@ -220,8 +233,18 @@ namespace LealPassword.UI
             Program.CentralizeControl(searchBox, panelTop);
             #endregion
 
-            foreach (var btn in _buttonLabels) btn.BringToFront();
+            foreach(var btns in _sideControls)
+            {
+                panelLeft.Controls.Add(btns);
+                btns.BringToFront();
+            }
+
             _diagnostic.Debug("Objects generated");
+            searchBox.Width = (int)(panelTop.Width * 0.5f);
+            searchBox.Height = 50;
+            searchBox.TextAlign = HorizontalAlignment.Left;
+            Program.CentralizeControl(searchBox, panelTop);
+            searchBox.Region = Program.GenerateRoundRegion(searchBox.Width, searchBox.Height, 20);
             LoadRegisters();
         }
 
