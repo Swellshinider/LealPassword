@@ -4,6 +4,7 @@ using LealPassword.Definitions;
 using LealPassword.Diagnostics;
 using LealPassword.Themes;
 using LealPassword.UI.Extension;
+using LealPassword.UI.MainPartsSub;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -21,12 +22,18 @@ namespace LealPassword.UI
         private readonly DiagnosticList _diagnostic;
         private readonly List<Control> _sideControls;
         private readonly List<SidePanel> _sideButtons;
+        private readonly Panel _container;
 
         private bool isRegisterList = true;
 
         internal MainUI(DiagnosticList diagnostic, Account account, string masterpass)
         {
             Text = "LealPassword";
+            _container = new Panel() 
+            {
+                Dock = DockStyle.Fill,
+                BackColor = ThemeController.SuperLiteGray,
+            };
             _diagnostic = diagnostic;
             _account = account;
             _masterpass = masterpass;
@@ -54,13 +61,7 @@ namespace LealPassword.UI
         {
             _diagnostic.Debug("Generating objects from MainUI");
             #region Container 
-            var container = new Panel()
-            {
-                Name = "container",
-                Dock = DockStyle.Fill,
-                BackColor = ThemeController.SuperLiteGray,
-            };
-            Controls.Add(container);
+            Controls.Add(_container);
             #endregion
 
             #region Panel Top Side
@@ -190,12 +191,9 @@ namespace LealPassword.UI
             #endregion
 
             #region Side Buttons
-            var buttonGeneral = new SidePanel("Geral", PRController.Images.General127px);
-            _sideControls.Add(buttonGeneral);
-            
             var labelTag = new Label()
             {
-                Height = 40,
+                Height = 50,
                 AutoSize = false,
                 Dock = DockStyle.Top,
                 Text = "        Menu",
@@ -205,6 +203,16 @@ namespace LealPassword.UI
                 Font = new Font("Arial", 11, FontStyle.Regular),
             };
             _sideControls.Add(labelTag);
+
+            var buttonGeneral = new SidePanel("Geral", PRController.Images.General127px);
+            _sideControls.Add(buttonGeneral);
+
+            var buttonRegisters = new SidePanel("Registros", PRController.Images.Registers127px);
+            buttonRegisters.Click += ButtonRegisters_Click;
+            _sideControls.Add(buttonRegisters);
+
+            var buttonCards = new SidePanel("Cartões", PRController.Images.Cards127px);
+            _sideControls.Add(buttonCards);
 
             var buttonConfig = new SidePanel("Configurações", PRController.Images.Config127px_Black)
             {
@@ -243,21 +251,13 @@ namespace LealPassword.UI
             }
 
             _diagnostic.Debug("Objects generated");
-            LoadRegisters();
-        }
-
-        private void LoadRegisters()
-        {
-            _diagnostic.Debug("Loading registers");
-            // TODO: load registers
-            _diagnostic.Debug("registers loaded");
         }
 
         private void SearchBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode != Keys.Enter) return;
 
-            var text = ((Bunifu.Framework.UI.BunifuMaterialTextbox)sender).Text;
+            var text = ((BunifuMaterialTextbox)sender).Text;
 
             if (isRegisterList)
             {
@@ -268,21 +268,23 @@ namespace LealPassword.UI
             // TODO: search cards
         }
 
+        #region Side Buttons
+        private void ButtonRegisters_Click(object sender, EventArgs e)
+        {
+            _diagnostic.Debug("Register button click");
+            isRegisterList = true;
+            var regUI = new RegistersViewUI(_account.Registers, _container);
+            regUI.GenerateObjects();
+            _diagnostic.Debug("Registers loaded!!");
+        }
+
         private void AddNewRegisterButton_Click(object sender, EventArgs e)
         {
             // TODO: insert new register
         }
+        #endregion
 
         #region Form methods
-        private Panel GetContainer()
-        {
-            foreach(var ctrl in Controls)
-                if (ctrl is Panel pnl && pnl.Name == "container")
-                    return pnl;
-
-            return null;
-        }
-
         private void BtnClose_Click(object sender, EventArgs e)
             => Program.Exit();
 

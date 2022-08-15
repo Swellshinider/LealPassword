@@ -20,8 +20,8 @@ namespace LealPassword.UI.Extension
             BackColor = Color.Transparent;
             Normalcolor = Color.Transparent;
             ButtonText = $"{_spaces}{title}";
-            OnHovercolor = ThemeController.SligBlue;
             TextAlign = ContentAlignment.MiddleLeft;
+            OnHovercolor = ThemeController.SligBlue;
             ForeColor = ThemeController.SuperLiteGray;
             Textcolor = ThemeController.SuperLiteGray;
             OnHoverTextColor = ThemeController.SuperLiteGray;
