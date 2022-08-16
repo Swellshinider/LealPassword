@@ -22,10 +22,8 @@ namespace LealPassword.Database.ResourceAccess
             using (var command = _dataBase.CreateCommand())
             {
                 command.CommandText = $@"DELETE FROM {_tableName} 
-                                        WHERE 
-                                            ID = '@id'";
+                                        WHERE ID = '{register.Id}'";
 
-                command.Parameters.AddWithValue("@id", register.Id);
                 command.ExecuteNonQuery();
             }
         }
@@ -35,7 +33,6 @@ namespace LealPassword.Database.ResourceAccess
             using (var command = _dataBase.CreateCommand())
             {
                 command.CommandText = $@"INSERT INTO {_tableName} (
-                                            'ID', 
                                             'NAME', 
                                             'TAG',
                                             'DESC', 
@@ -43,12 +40,11 @@ namespace LealPassword.Database.ResourceAccess
                                             'PASS'
                                             )
                                          VALUES (
-                                            '{register.Id}', 
                                             '{register.Name}', 
                                             '{register.Tag}', 
                                             '{register.Description}', 
                                             '{register.Email}',
-                                            '{register.Password}
+                                            '{register.Password}'
                                             )";
 
                 command.ExecuteNonQuery();

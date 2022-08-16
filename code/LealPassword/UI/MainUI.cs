@@ -1,4 +1,5 @@
 ﻿using Bunifu.Framework.UI;
+using LealPassword.Database.Controllers;
 using LealPassword.Database.Model;
 using LealPassword.Definitions;
 using LealPassword.Diagnostics;
@@ -17,7 +18,8 @@ namespace LealPassword.UI
 {
     internal sealed partial class MainUI : Form
     {
-        private readonly Account _account;
+        private Account _account;
+
         private readonly string _masterpass;
         private readonly DiagnosticList _diagnostic;
         private readonly List<Control> _sideControls;
@@ -280,9 +282,30 @@ namespace LealPassword.UI
 
         private void AddNewRegisterButton_Click(object sender, EventArgs e)
         {
-            // TODO: insert new register
+            _diagnostic.Debug("Add register button click");
+            var newRegUI = new RegistersAddViewUI(_account.Registers, _container);
+            newRegUI.GenerateObjects();
+            newRegUI.OnAddedRegisters += NewRegUI_OnAddedRegisters;
+            _diagnostic.Debug("Form openned");
         }
         #endregion
+
+        private void NewRegUI_OnAddedRegisters(Register register)
+        {
+            #region Adding new register
+            var registerController = new RegisterController(Constants.DEFAULT_DATABASE_PATH, 
+                Constants.DEFAULT_DATABASE_FILE, _account.Password);
+            registerController.InsertRegister(register);
+            _diagnostic.Debug($"New register('{register.Name}') inserted");
+
+            var accountController = new AccountController(Constants.DEFAULT_DATABASE_PATH,
+                Constants.DEFAULT_DATABASE_FILE, _account.Password);
+            _account = accountController.GetAccount(_account.Username);
+            _diagnostic.Debug("New account pushed");
+
+
+            #endregion
+        }
 
         #region Form methods
         private void BtnClose_Click(object sender, EventArgs e)

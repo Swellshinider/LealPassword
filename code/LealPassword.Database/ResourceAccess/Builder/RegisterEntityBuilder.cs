@@ -14,13 +14,14 @@ namespace LealPassword.Database.ResourceAccess.Builder
 
             while (reader.Read())
             {
-                regs.Add(new Register()
+                regs.Add(new Register
                 {
-                    Id = (int)reader["ID"],
+                    Id = int.Parse(reader["ID"].ToString()),
+                    Tag = (string)reader["TAG"],
                     Name = (string)reader["NAME"],
                     Description = (string)reader["DESC"],
                     Email = (string)reader["MAIL"],
-                    Password = (string)reader["PASS"],
+                    Password = (string)reader["PASS"]
                 });
             }
 
