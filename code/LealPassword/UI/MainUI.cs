@@ -26,6 +26,8 @@ namespace LealPassword.UI
         private readonly List<SidePanel> _sideButtons;
         private readonly Panel _container;
 
+        private Button AddNewButton;
+
         private bool isRegisterList = true;
 
         internal MainUI(DiagnosticList diagnostic, Account account, string masterpass)
@@ -62,12 +64,10 @@ namespace LealPassword.UI
         private void GenerateObjects()
         {
             _diagnostic.Debug("Generating objects from MainUI");
-            #region Container 
             Controls.Add(_container);
-            #endregion
 
             #region Panel Top Side
-            var topSeparator = new Bunifu.Framework.UI.BunifuSeparator()
+            var topSeparator = new BunifuSeparator()
             {
                 Height = 1,
                 Dock = DockStyle.Top,
@@ -105,8 +105,7 @@ namespace LealPassword.UI
             #endregion
 
             #region Panel Left Side
-            var panelLeft = new GradientPanel(ThemeController.BlueMain,
-                ThemeController.IceWhite)
+            var panelLeft = new GradientPanel(ThemeController.BlueMain, ThemeController.IceWhite)
             {
                 Dock = DockStyle.Left,
                 Width = (int)(Width * 0.25f),
@@ -114,7 +113,7 @@ namespace LealPassword.UI
             panelLeft.MouseDown += ControlMouseDown;
             Controls.Add(panelLeft);
 
-            var leftSeparator = new Bunifu.Framework.UI.BunifuSeparator()
+            var leftSeparator = new BunifuSeparator()
             {
                 Height = 1,
                 Dock = DockStyle.Top,
@@ -170,7 +169,7 @@ namespace LealPassword.UI
             #endregion
 
             #region Top Add Button
-            var addNewRegisterButton = new Button()
+            AddNewButton = new Button()
             {
                 Height = 50,
                 Width = 125,
@@ -181,15 +180,15 @@ namespace LealPassword.UI
                 BackColor = ThemeController.BlueMain,
                 Font = new Font("Arial", 12, FontStyle.Regular),
             };
-            addNewRegisterButton.Click += AddNewRegisterButton_Click;
-            panelTop.Controls.Add(addNewRegisterButton);
-            addNewRegisterButton.FlatAppearance.MouseOverBackColor = ThemeController.SligBlue;
-            addNewRegisterButton.FlatAppearance.MouseDownBackColor = ThemeController.LiteBlue;
-            Program.CentralizeControl(addNewRegisterButton, panelTop);
-            addNewRegisterButton.Location = new Point(addNewRegisterButton.Location.X - 
-                (panelTop.Width / 2) + (addNewRegisterButton.Width / 2) + 25,
-                addNewRegisterButton.Location.Y);
-            addNewRegisterButton.Region = Program.GenerateRoundRegion(addNewRegisterButton.Width, addNewRegisterButton.Height, 15);
+            AddNewButton.Click += AddNewButton_Click;
+            panelTop.Controls.Add(AddNewButton);
+            AddNewButton.FlatAppearance.MouseOverBackColor = ThemeController.SligBlue;
+            AddNewButton.FlatAppearance.MouseDownBackColor = ThemeController.LiteBlue;
+            Program.CentralizeControl(AddNewButton, panelTop);
+            AddNewButton.Location = new Point(AddNewButton.Location.X - 
+                (panelTop.Width / 2) + (AddNewButton.Width / 2) + 25,
+                AddNewButton.Location.Y);
+            AddNewButton.Region = Program.GenerateRoundRegion(AddNewButton.Width, AddNewButton.Height, 15);
             #endregion
 
             #region Side Buttons
@@ -277,10 +276,11 @@ namespace LealPassword.UI
             isRegisterList = true;
             var regUI = new RegistersViewUI(_account.Registers, _container);
             regUI.GenerateObjects();
+
             _diagnostic.Debug("Registers loaded!!");
         }
 
-        private void AddNewRegisterButton_Click(object sender, EventArgs e)
+        private void AddNewButton_Click(object sender, EventArgs e)
         {
             _diagnostic.Debug("Add register button click");
             var newRegUI = new RegistersAddViewUI(_account.Registers, _container);
@@ -303,7 +303,7 @@ namespace LealPassword.UI
             _account = accountController.GetAccount(_account.Username);
             _diagnostic.Debug("New account pushed");
 
-
+            ButtonRegisters_Click(null, EventArgs.Empty);
             #endregion
         }
 
