@@ -18,17 +18,14 @@ namespace LealPassword.UI
 {
     internal sealed partial class MainUI : Form
     {
-        private Account _account;
-
         private readonly string _masterpass;
         private readonly DiagnosticList _diagnostic;
         private readonly List<Control> _sideControls;
         private readonly List<SidePanel> _sideButtons;
         private readonly Panel _container;
 
-        private Button AddNewButton;
-
-        private bool isRegisterList = true;
+        private Account _account;
+        private Button _addNewButton;
 
         internal MainUI(DiagnosticList diagnostic, Account account, string masterpass)
         {
@@ -84,6 +81,24 @@ namespace LealPassword.UI
             panelTop.MouseDown += ControlMouseDown;
             Controls.Add(panelTop);
 
+            var btnMinimize = new Button()
+            {
+                Text = "",
+                Width = 32,
+                Cursor = Cursors.Hand,
+                Dock = DockStyle.Right,
+                FlatStyle = FlatStyle.Flat,
+                Image = PRController.Images.Minimize16px,
+                ImageAlign = ContentAlignment.MiddleCenter,
+            };
+            btnMinimize.MaximumSize = new Size(btnMinimize.Width, btnMinimize.Width);
+            btnMinimize.FlatAppearance.BorderSize = 0;
+            btnMinimize.FlatAppearance.MouseOverBackColor = ThemeController.SligBlue;
+            btnMinimize.FlatAppearance.MouseDownBackColor = ThemeController.BlueMain;
+            btnMinimize.Click += BtnMinimize_Click;
+            panelTop.Controls.Add(btnMinimize);
+            Program.CentralizeControl(btnMinimize, panelTop);
+
             var btnClose = new Button()
             {
                 Text = "",
@@ -101,7 +116,6 @@ namespace LealPassword.UI
             btnClose.Click += BtnClose_Click;
             panelTop.Controls.Add(btnClose);
             Program.CentralizeControl(btnClose, panelTop);
-            btnClose.Region = Program.GenerateRoundRegion(btnClose.Width, btnClose.Height);
             #endregion
 
             #region Panel Left Side
@@ -169,7 +183,7 @@ namespace LealPassword.UI
             #endregion
 
             #region Top Add Button
-            AddNewButton = new Button()
+            _addNewButton = new Button()
             {
                 Height = 50,
                 Width = 125,
@@ -180,15 +194,15 @@ namespace LealPassword.UI
                 BackColor = ThemeController.BlueMain,
                 Font = new Font("Arial", 12, FontStyle.Regular),
             };
-            AddNewButton.Click += AddNewButton_Click;
-            panelTop.Controls.Add(AddNewButton);
-            AddNewButton.FlatAppearance.MouseOverBackColor = ThemeController.SligBlue;
-            AddNewButton.FlatAppearance.MouseDownBackColor = ThemeController.LiteBlue;
-            Program.CentralizeControl(AddNewButton, panelTop);
-            AddNewButton.Location = new Point(AddNewButton.Location.X - 
-                (panelTop.Width / 2) + (AddNewButton.Width / 2) + 25,
-                AddNewButton.Location.Y);
-            AddNewButton.Region = Program.GenerateRoundRegion(AddNewButton.Width, AddNewButton.Height, 15);
+            _addNewButton.Click += AddNewButton_Click;
+            panelTop.Controls.Add(_addNewButton);
+            _addNewButton.FlatAppearance.MouseOverBackColor = ThemeController.SligBlue;
+            _addNewButton.FlatAppearance.MouseDownBackColor = ThemeController.LiteBlue;
+            Program.CentralizeControl(_addNewButton, panelTop);
+            _addNewButton.Location = new Point(_addNewButton.Location.X - 
+                (panelTop.Width / 2) + (_addNewButton.Width / 2) + 25,
+                _addNewButton.Location.Y);
+            _addNewButton.Region = Program.GenerateRoundRegion(_addNewButton.Width, _addNewButton.Height, 15);
             #endregion
 
             #region Side Buttons
@@ -254,26 +268,19 @@ namespace LealPassword.UI
             _diagnostic.Debug("Objects generated");
         }
 
+        
+
         private void SearchBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode != Keys.Enter) return;
 
             var text = ((BunifuMaterialTextbox)sender).Text;
 
-            if (isRegisterList)
-            {
-                // TODO: search register
-                return;
-            }
-
-            // TODO: search cards
         }
 
-        #region Side Buttons
         private void ButtonRegisters_Click(object sender, EventArgs e)
         {
             _diagnostic.Debug("Register button click");
-            isRegisterList = true;
             var regUI = new RegistersViewUI(_account.Registers, _container);
             regUI.GenerateObjects();
 
@@ -288,14 +295,12 @@ namespace LealPassword.UI
             newRegUI.OnAddedRegisters += NewRegUI_OnAddedRegisters;
             _diagnostic.Debug("Form openned");
         }
-        #endregion
 
         private void NewRegUI_OnAddedRegisters(Register register)
         {
-            #region Adding new register
-            var registerController = new RegisterController(Constants.DEFAULT_DATABASE_PATH, 
+            var regController = new RegisterController(Constants.DEFAULT_DATABASE_PATH, 
                 Constants.DEFAULT_DATABASE_FILE, _account.Password);
-            registerController.InsertRegister(register);
+            regController.InsertRegister(register);
             _diagnostic.Debug($"New register('{register.Name}') inserted");
 
             var accountController = new AccountController(Constants.DEFAULT_DATABASE_PATH,
@@ -304,10 +309,12 @@ namespace LealPassword.UI
             _diagnostic.Debug("New account pushed");
 
             ButtonRegisters_Click(null, EventArgs.Empty);
-            #endregion
         }
 
         #region Form methods
+        private void BtnMinimize_Click(object sender, EventArgs e)
+            => WindowState = FormWindowState.Minimized;
+
         private void BtnClose_Click(object sender, EventArgs e)
             => Program.Exit();
 

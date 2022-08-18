@@ -93,9 +93,9 @@ namespace LealPassword.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap gear_127px {
+        internal static System.Drawing.Bitmap gear_black_127px {
             get {
-                object obj = ResourceManager.GetObject("gear_127px", resourceCulture);
+                object obj = ResourceManager.GetObject("gear_black_127px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +103,9 @@ namespace LealPassword.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap gear_black_127px {
+        internal static System.Drawing.Bitmap minimize_16px {
             get {
-                object obj = ResourceManager.GetObject("gear_black_127px", resourceCulture);
+                object obj = ResourceManager.GetObject("minimize_16px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

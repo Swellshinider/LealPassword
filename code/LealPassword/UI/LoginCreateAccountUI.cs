@@ -63,7 +63,6 @@ namespace LealPassword.UI
             btnClose.FlatAppearance.MouseDownBackColor = ThemeController.MouseDownCloseButton;
             btnClose.Click += BtnClose_Click;
             panelTopSide.Controls.Add(btnClose);
-            btnClose.Region = Program.GenerateRoundRegion(btnClose.Width, btnClose.Height);
             panelRightContainer.BringToFront();
             _diagnostic.Debug("Basic layout loaded");
             InitializeLoginUI();

@@ -1,5 +1,6 @@
 ﻿using LealPassword.Database.Model;
 using LealPassword.Themes;
+using LealPassword.UI.Extension;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -46,16 +47,7 @@ namespace LealPassword.UI.MainPartsSub
             }
 
             foreach (var reg in _registers)
-            {
-                Controls.Add(new Label()
-                {
-                    Text = reg.Name,
-                    Dock = DockStyle.Top,
-                    Height = 100,
-                    ForeColor = ThemeController.Black,
-                    BorderStyle = BorderStyle.FixedSingle,
-                });
-            }
+                Controls.Add(new RegisterPanel(reg.Name, reg.Password.Length));
 
             Controls.Add(new Panel()
             {
