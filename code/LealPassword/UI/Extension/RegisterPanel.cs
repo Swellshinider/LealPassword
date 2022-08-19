@@ -1,4 +1,5 @@
-﻿using LealPassword.Themes;
+﻿using LealPassword.Database.Model;
+using LealPassword.Themes;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
@@ -10,10 +11,10 @@ namespace LealPassword.UI.Extension
         internal delegate void ClickedMe(RegisterPanel registerPanel);
         internal event ClickedMe OnClickMe;
 
-        internal delegate void EditMe();
+        internal delegate void EditMe(Register register);
         internal event EditMe OnEditMe;
 
-        internal delegate void SeeMe();
+        internal delegate void SeeMe(Register register);
         internal event SeeMe OnSeeMe;
 
         private readonly Panel _leftPanel;
@@ -21,7 +22,7 @@ namespace LealPassword.UI.Extension
         private readonly Label _lblName;
         private readonly Label _lblPassword;
 
-        internal RegisterPanel(string name, int passwordLength)
+        internal RegisterPanel(Register register)
         {
             Height = 100;
             Dock = DockStyle.Top;
@@ -32,16 +33,14 @@ namespace LealPassword.UI.Extension
                 Width = 100,
                 Dock = DockStyle.Left
             };
-            _leftPanel.Click += RegisterPanel_Click;
             _rightPanel = new Panel()
             {
                 Width = 200,
                 Dock = DockStyle.Right,
             };
-            _rightPanel.Click += RegisterPanel_Click;
             _lblName = new Label()
             {
-                Text = name,
+                Text = register.Name,
                 Height = 50,
                 AutoSize = false,
                 Dock = DockStyle.Top,
@@ -49,31 +48,17 @@ namespace LealPassword.UI.Extension
                 TextAlign = ContentAlignment.BottomLeft,
                 Font = new Font("Arial", 18, FontStyle.Regular),
             };
-            _lblName.Click += RegisterPanel_Click;
             _lblPassword = new Label()
             {
                 AutoSize = false,
                 Dock = DockStyle.Top,
                 TextAlign = ContentAlignment.TopLeft,
                 ForeColor = ThemeController.LiteGray,
-                Text = GetPasswordValue(passwordLength),
+                Text = GetPasswordValue(register.Password.Length),
                 Font = new Font("Verdana", 14,  FontStyle.Italic),
             };
-            _lblPassword.Click += RegisterPanel_Click;
 
-            var lblEdit = new Label()
-            {
-                Text = "Editar",
-                AutoSize = false,
-                Dock = DockStyle.Left,
-                Cursor = Cursors.Hand,
-                Width = _rightPanel.Width / 2,
-                ForeColor = ThemeController.LiteGray,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Arial", 11, FontStyle.Underline),
-            };
-            lblEdit.Click += (s, e) => OnEditMe?.Invoke();
-            var lblSee = new Label()
+            var lblSee = new Label
             {
                 Text = "Ver",
                 AutoSize = false,
@@ -84,16 +69,33 @@ namespace LealPassword.UI.Extension
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font("Arial", 11, FontStyle.Underline),
             };
-            lblSee.Click += (s, e) => OnSeeMe?.Invoke();
-            _rightPanel.Controls.Add(lblEdit);
+            var lblEdit = new Label
+            {
+                Text = "Editar",
+                AutoSize = false,
+                Dock = DockStyle.Left,
+                Cursor = Cursors.Hand,
+                Width = _rightPanel.Width / 2,
+                ForeColor = ThemeController.LiteGray,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Arial", 11, FontStyle.Underline),
+            };
             _rightPanel.Controls.Add(lblSee);
+            _rightPanel.Controls.Add(lblEdit);
+            lblSee.Click += (s, e) => OnSeeMe?.Invoke(register);
+            lblEdit.Click += (s, e) => OnEditMe?.Invoke(register);
 
             Controls.Add(_lblPassword);
             Controls.Add(_lblName);
             Controls.Add(_leftPanel);
             Controls.Add(_rightPanel);
-            HideOptions();
+
             Click += RegisterPanel_Click;
+            _lblName.Click += RegisterPanel_Click;
+            _leftPanel.Click += RegisterPanel_Click;
+            _rightPanel.Click += RegisterPanel_Click;
+            _lblPassword.Click += RegisterPanel_Click;
+            HideOptions();
         }
 
         internal void HideOptions(bool hide = true)

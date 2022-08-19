@@ -49,10 +49,23 @@ namespace LealPassword.UI.MainPartsSub
 
             foreach (var reg in _registers)
             {
-                var regPanel = new RegisterPanel(reg.Name, reg.Password.Length);
+                var regPanel = new RegisterPanel(reg);
+                regPanel.OnEditMe += RegPanel_OnEditMe;
+                regPanel.OnSeeMe += RegPanel_OnSeeMe;
                 regPanel.OnClickMe += RegPanel_OnClickMe;
                 Controls.Add(regPanel);
             }
+        }
+
+        #region Register panel
+        private void RegPanel_OnSeeMe(Register register)
+        {
+            // TODO
+        }
+
+        private void RegPanel_OnEditMe(Register register)
+        {
+            // TODO
         }
 
         private void RegPanel_OnClickMe(RegisterPanel registerPanel)
@@ -63,5 +76,6 @@ namespace LealPassword.UI.MainPartsSub
 
             registerPanel.HideOptions(false);
         }
+        #endregion
     }
 }

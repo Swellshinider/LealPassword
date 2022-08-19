@@ -289,11 +289,24 @@ namespace LealPassword.UI
 
         private void AddNewButton_Click(object sender, EventArgs e)
         {
-            _diagnostic.Debug("Add register button click");
+            _diagnostic.Debug("Add button click");
+            var chooseUI = new ChooseRegistersCardsUI(_container);
+            chooseUI.OnChooseCards += ChooseUI_OnChooseCards;
+            chooseUI.OnChooseRegister += ChooseUI_OnChooseRegister;
+            chooseUI.GenerateObjects();
+        }
+
+        private void ChooseUI_OnChooseRegister()
+        {
+            _diagnostic.Debug("Button add registers click");
             var newRegUI = new RegistersAddViewUI(_account.Registers, _container);
             newRegUI.GenerateObjects();
             newRegUI.OnAddedRegisters += NewRegUI_OnAddedRegisters;
-            _diagnostic.Debug("Form openned");
+        }
+
+        private void ChooseUI_OnChooseCards()
+        {
+            _diagnostic.Debug("Button add cards click");
         }
 
         private void NewRegUI_OnAddedRegisters(Register register)
