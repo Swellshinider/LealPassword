@@ -20,6 +20,7 @@ namespace LealPassword.UI.MainPartsSub
         internal RegistersViewUI(List<Register> registers, Control parent)
         {
             InitializeComponent();
+            AutoScroll = true;
             Dock = DockStyle.Fill;
             _registers = registers;
             parent.Controls.Clear();
@@ -47,13 +48,20 @@ namespace LealPassword.UI.MainPartsSub
             }
 
             foreach (var reg in _registers)
-                Controls.Add(new RegisterPanel(reg.Name, reg.Password.Length));
-
-            Controls.Add(new Panel()
             {
-                Dock = DockStyle.Top,
-                BorderStyle = BorderStyle.FixedSingle,
-            });
+                var regPanel = new RegisterPanel(reg.Name, reg.Password.Length);
+                regPanel.OnClickMe += RegPanel_OnClickMe;
+                Controls.Add(regPanel);
+            }
+        }
+
+        private void RegPanel_OnClickMe(RegisterPanel registerPanel)
+        {
+            foreach(var reg in Controls)
+                if (reg is RegisterPanel regPanel)
+                    regPanel.HideOptions();
+
+            registerPanel.HideOptions(false);
         }
     }
 }
