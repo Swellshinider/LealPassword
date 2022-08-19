@@ -81,7 +81,7 @@ namespace LealPassword.UI
         private void LoginUI_OnLogginToAccount(Account account, string masterpass)
         {
             _diagnostic.Debug("Attempt login");
-            var mainUI = new MainUI(_diagnostic, account, masterpass);
+            var mainUI = new MainUI(_diagnostic, account);
             _diagnostic.Debug("mainUI loaded!");
             Program.Switch(this, mainUI);
             _diagnostic.Debug("mainUI showup");

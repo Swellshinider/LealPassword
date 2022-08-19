@@ -9,25 +9,20 @@ using LealPassword.UI.MainPartsSub;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LealPassword.UI
 {
     internal sealed partial class MainUI : Form
     {
-        private readonly string _masterpass;
+        private readonly Panel _container;
         private readonly DiagnosticList _diagnostic;
         private readonly List<Control> _sideControls;
-        private readonly List<SidePanel> _sideButtons;
-        private readonly Panel _container;
 
         private Account _account;
         private Button _addNewButton;
 
-        internal MainUI(DiagnosticList diagnostic, Account account, string masterpass)
+        internal MainUI(DiagnosticList diagnostic, Account account)
         {
             Text = "LealPassword";
             _container = new Panel() 
@@ -37,25 +32,16 @@ namespace LealPassword.UI
             };
             _diagnostic = diagnostic;
             _account = account;
-            _masterpass = masterpass;
             _sideControls = new List<Control>();
-            _sideButtons = new List<SidePanel>();
             Width = Constants.BaseUISize.Width;
             Height = Constants.BaseUISize.Height;
             BackColor = ThemeController.SuperLiteGray;
             Resize += MainUI_Resize;
-            BaseDefinition();
-            GenerateObjects();
-        }
-
-        private void BaseDefinition()
-        {
-            _diagnostic.Debug("Initialize base definition");
-            StartPosition = FormStartPosition.CenterScreen;
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
             SetStyle(ControlStyles.ResizeRedraw, true);
-            _diagnostic.Debug("Base definition loaded");
+            StartPosition = FormStartPosition.CenterScreen;
+            GenerateObjects();
         }
 
         private void GenerateObjects()
@@ -268,14 +254,11 @@ namespace LealPassword.UI
             _diagnostic.Debug("Objects generated");
         }
 
-        
-
         private void SearchBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode != Keys.Enter) return;
 
             var text = ((BunifuMaterialTextbox)sender).Text;
-
         }
 
         private void ButtonRegisters_Click(object sender, EventArgs e)
@@ -283,10 +266,10 @@ namespace LealPassword.UI
             _diagnostic.Debug("Register button click");
             var regUI = new RegistersViewUI(_account.Registers, _container);
             regUI.GenerateObjects();
-
             _diagnostic.Debug("Registers loaded!!");
         }
 
+        #region Button add new 
         private void AddNewButton_Click(object sender, EventArgs e)
         {
             _diagnostic.Debug("Add button click");
@@ -307,11 +290,12 @@ namespace LealPassword.UI
         private void ChooseUI_OnChooseCards()
         {
             _diagnostic.Debug("Button add cards click");
+            // TODO
         }
 
         private void NewRegUI_OnAddedRegisters(Register register)
         {
-            var regController = new RegisterController(Constants.DEFAULT_DATABASE_PATH, 
+            var regController = new RegisterController(Constants.DEFAULT_DATABASE_PATH,
                 Constants.DEFAULT_DATABASE_FILE, _account.Password);
             regController.InsertRegister(register);
             _diagnostic.Debug($"New register('{register.Name}') inserted");
@@ -323,6 +307,7 @@ namespace LealPassword.UI
 
             ButtonRegisters_Click(null, EventArgs.Empty);
         }
+        #endregion
 
         #region Form methods
         private void BtnMinimize_Click(object sender, EventArgs e)
