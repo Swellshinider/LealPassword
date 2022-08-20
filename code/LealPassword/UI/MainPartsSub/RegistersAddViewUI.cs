@@ -1,6 +1,7 @@
 ﻿using Bunifu.Framework.UI;
 using LealPassword.Database.Model;
 using LealPassword.Themes;
+using LealPassword.UI.Popup;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -21,20 +22,21 @@ namespace LealPassword.UI.MainPartsSub
         private BunifuMaterialTextbox _txtBoxName;
         private BunifuMaterialTextbox _txtBoxPassword;
         private BunifuMaterialTextbox _txtBoxDescription;
+        private Label _labelName;
 
         private Button _buttonNewTag;
 
         internal RegistersAddViewUI(List<Register> registers, Control parent)
         {
-            _registers = registers;
             Dock = DockStyle.Fill;
+            _registers = registers;
             parent.Controls.Clear();
             parent.Controls.Add(this);
         }
 
         internal void GenerateObjects()
         {
-            var lblName = new Label()
+            _labelName = new Label()
             {
                 Height = 50,
                 Width = 250,
@@ -52,8 +54,11 @@ namespace LealPassword.UI.MainPartsSub
             };
 
             foreach (var item in _registers)
-                _comboBoxTag.Items.Add(item.Tag);
-
+            {
+                if (!_comboBoxTag.Items.Contains(item.Tag))
+                    _comboBoxTag.Items.Add(item.Tag);
+            }
+             
             _buttonNewTag = new Button()
             {
                 Width = 95,
@@ -91,7 +96,7 @@ namespace LealPassword.UI.MainPartsSub
             buttonLogin.FlatAppearance.MouseOverBackColor = ThemeController.SligBlue;
             buttonLogin.FlatAppearance.MouseDownBackColor = ThemeController.LiteBlue;
             
-            Controls.Add(lblName);
+            Controls.Add(_labelName);
             Controls.Add(_txtBoxName);
             Controls.Add(_txtBoxCat);
             Controls.Add(_comboBoxTag);
@@ -120,8 +125,8 @@ namespace LealPassword.UI.MainPartsSub
             }
 
             #region Layout adjust
-            Program.CentralizeControl(lblName, this);
-            lblName.Location = new Point(lblName.Location.X, lblName.Location.Y - 285);
+            Program.CentralizeControl(_labelName, this);
+            _labelName.Location = new Point(_labelName.Location.X, _labelName.Location.Y - 285);
             Program.CentralizeControl(_txtBoxName, this);
             _txtBoxName.Location = new Point(_txtBoxName.Location.X, _txtBoxName.Location.Y - 210);
             Program.CentralizeControl(_txtBoxCat, this);
@@ -143,12 +148,56 @@ namespace LealPassword.UI.MainPartsSub
             Program.CentralizeControl(buttonLogin, this);
             buttonLogin.Location = new Point(buttonLogin.Location.X, buttonLogin.Location.Y + 150);
             #endregion
+
+            #region Icons
+            var lblIcon = new Label()
+            {
+                Width = 96,
+                Height = 96,
+                AutoSize = false,
+                BorderStyle = BorderStyle.FixedSingle,
+            };
+            Program.HorizontalCentralize(lblIcon, this);
+            lblIcon.Location = new Point(32, _txtBoxName.Location.Y);
+            Controls.Add(lblIcon);
+
+            var buttonIcon = new Button
+            {
+                Width = 96,
+                Height = 30,
+                Text = "Ícone",
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font("Verdana", 11, FontStyle.Regular),
+            };
+            Program.HorizontalCentralize(buttonIcon, this);
+            buttonIcon.Location = new Point(32, lblIcon.Location.Y + lblIcon.Width + 5);
+            buttonIcon.Click += ButtonIcon_Click;
+            Controls.Add(buttonIcon);
+            #endregion
         }
 
         private void ButtonGeneratePass_Click(object sender, EventArgs e)
         {
             var passGenerated = Security.Security.GeneratePassword("221221234341221");
             _txtBoxPassword.Text = passGenerated;
+        }
+
+        private void ButtonIcon_Click(object sender, EventArgs e)
+        {
+            var iconsPopup = new IconChooserPopup(this);
+            iconsPopup.Show();
+            HideValues(true);
+        }
+
+        private void HideValues(bool hide)
+        {
+            _txtBoxCat.Visible = !hide;
+            _txtBoxMail.Visible = !hide;
+            _txtBoxName.Visible = !hide;
+            _buttonNewTag.Visible = !hide;
+            _comboBoxTag.Visible = !hide;
+            _txtBoxPassword.Visible = !hide;
+            _txtBoxDescription.Visible = !hide;
         }
 
         private void ButtonNewTag_Click(object sender, EventArgs e)
