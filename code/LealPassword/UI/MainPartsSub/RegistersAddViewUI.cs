@@ -23,8 +23,12 @@ namespace LealPassword.UI.MainPartsSub
         private BunifuMaterialTextbox _txtBoxPassword;
         private BunifuMaterialTextbox _txtBoxDescription;
         private Label _labelName;
+        private Label _labelIcon;
+        private Image _imageIcon;
 
+        private Button _buttonLogin;
         private Button _buttonNewTag;
+        private Button _buttonGeneratePass;
 
         internal RegistersAddViewUI(List<Register> registers, Control parent)
         {
@@ -71,7 +75,7 @@ namespace LealPassword.UI.MainPartsSub
 
             _txtBoxMail = new BunifuMaterialTextbox() { HintText = "Email*" };
             _txtBoxPassword = new BunifuMaterialTextbox() { HintText = "Senha*" };
-            var buttonGeneratePass = new Button()
+            _buttonGeneratePass = new Button()
             {
                 Width = 95,
                 Height = 30,
@@ -79,10 +83,10 @@ namespace LealPassword.UI.MainPartsSub
                 FlatStyle = FlatStyle.Flat,
                 Font = new Font("Verdana", 11, FontStyle.Regular)
             };
-            buttonGeneratePass.Click += ButtonGeneratePass_Click;
+            _buttonGeneratePass.Click += ButtonGeneratePass_Click;
             _txtBoxDescription = new BunifuMaterialTextbox() { HintText = "Descrição" };
 
-            var buttonLogin = new Button()
+            _buttonLogin = new Button()
             {
                 Height = 40,
                 Width = 500,
@@ -92,9 +96,9 @@ namespace LealPassword.UI.MainPartsSub
                 BackColor = ThemeController.BlueMain,
                 Font = new Font("Arial", 12, FontStyle.Regular),
             };
-            buttonLogin.Click += ButtonLogin_Click;
-            buttonLogin.FlatAppearance.MouseOverBackColor = ThemeController.SligBlue;
-            buttonLogin.FlatAppearance.MouseDownBackColor = ThemeController.LiteBlue;
+            _buttonLogin.Click += ButtonLogin_Click;
+            _buttonLogin.FlatAppearance.MouseOverBackColor = ThemeController.SligBlue;
+            _buttonLogin.FlatAppearance.MouseDownBackColor = ThemeController.LiteBlue;
             
             Controls.Add(_labelName);
             Controls.Add(_txtBoxName);
@@ -103,9 +107,9 @@ namespace LealPassword.UI.MainPartsSub
             Controls.Add(_buttonNewTag);
             Controls.Add(_txtBoxMail);
             Controls.Add(_txtBoxPassword);
-            Controls.Add(buttonGeneratePass);
+            Controls.Add(_buttonGeneratePass);
             Controls.Add(_txtBoxDescription); 
-            Controls.Add(buttonLogin);
+            Controls.Add(_buttonLogin);
 
             foreach (var ctrls in Controls)
             {
@@ -140,26 +144,26 @@ namespace LealPassword.UI.MainPartsSub
             _txtBoxMail.Location = new Point(_txtBoxMail.Location.X, _txtBoxMail.Location.Y - 70);
             Program.CentralizeControl(_txtBoxPassword, this);
             _txtBoxPassword.Location = new Point(_txtBoxPassword.Location.X, _txtBoxPassword.Location.Y - 15);
-            Program.CentralizeControl(buttonGeneratePass, this);
-            buttonGeneratePass.Location = new Point(buttonGeneratePass.Location.X - (buttonGeneratePass.Width / 2)
-                + (_txtBoxCat.Width / 2), buttonGeneratePass.Location.Y + 30);
+            Program.CentralizeControl(_buttonGeneratePass, this);
+            _buttonGeneratePass.Location = new Point(_buttonGeneratePass.Location.X - (_buttonGeneratePass.Width / 2)
+                + (_txtBoxCat.Width / 2), _buttonGeneratePass.Location.Y + 30);
             Program.CentralizeControl(_txtBoxDescription, this);
             _txtBoxDescription.Location = new Point(_txtBoxDescription.Location.X, _txtBoxDescription.Location.Y + 75);
-            Program.CentralizeControl(buttonLogin, this);
-            buttonLogin.Location = new Point(buttonLogin.Location.X, buttonLogin.Location.Y + 150);
+            Program.CentralizeControl(_buttonLogin, this);
+            _buttonLogin.Location = new Point(_buttonLogin.Location.X, _buttonLogin.Location.Y + 150);
             #endregion
 
             #region Icons
-            var lblIcon = new Label()
+            _labelIcon = new Label()
             {
                 Width = 96,
                 Height = 96,
                 AutoSize = false,
                 BorderStyle = BorderStyle.FixedSingle,
             };
-            Program.HorizontalCentralize(lblIcon, this);
-            lblIcon.Location = new Point(32, _txtBoxName.Location.Y);
-            Controls.Add(lblIcon);
+            Program.HorizontalCentralize(_labelIcon, this);
+            _labelIcon.Location = new Point(32, _txtBoxName.Location.Y);
+            Controls.Add(_labelIcon);
 
             var buttonIcon = new Button
             {
@@ -170,7 +174,7 @@ namespace LealPassword.UI.MainPartsSub
                 Font = new Font("Verdana", 11, FontStyle.Regular),
             };
             Program.HorizontalCentralize(buttonIcon, this);
-            buttonIcon.Location = new Point(32, lblIcon.Location.Y + lblIcon.Width + 5);
+            buttonIcon.Location = new Point(32, _labelIcon.Location.Y + _labelIcon.Width + 5);
             buttonIcon.Click += ButtonIcon_Click;
             Controls.Add(buttonIcon);
             #endregion
@@ -185,8 +189,18 @@ namespace LealPassword.UI.MainPartsSub
         private void ButtonIcon_Click(object sender, EventArgs e)
         {
             var iconsPopup = new IconChooserPopup(this);
+            iconsPopup.OnIconChosen += IconsPopup_OnIconChosen;
             iconsPopup.Show();
             HideValues(true);
+        }
+
+        private void IconsPopup_OnIconChosen(Image image, IconChooserPopup popup)
+        {
+            _imageIcon = image;
+            _labelIcon.Image = image;
+            _labelIcon.ImageAlign = ContentAlignment.MiddleCenter;
+            popup.Dispose();
+            HideValues(false);
         }
 
         private void HideValues(bool hide)
@@ -194,10 +208,12 @@ namespace LealPassword.UI.MainPartsSub
             _txtBoxCat.Visible = !hide;
             _txtBoxMail.Visible = !hide;
             _txtBoxName.Visible = !hide;
-            _buttonNewTag.Visible = !hide;
+            _buttonLogin.Visible = !hide;
             _comboBoxTag.Visible = !hide;
+            _buttonNewTag.Visible = !hide;
             _txtBoxPassword.Visible = !hide;
             _txtBoxDescription.Visible = !hide;
+            _buttonGeneratePass.Visible = !hide;
         }
 
         private void ButtonNewTag_Click(object sender, EventArgs e)
@@ -212,8 +228,10 @@ namespace LealPassword.UI.MainPartsSub
         private void ButtonLogin_Click(object sender, EventArgs e)
         {
             var regName = _txtBoxName.Text;
-            var tagName = _comboBoxTag.Visible ? _comboBoxTag.Text : _txtBoxCat.Text;
             var milName = _txtBoxMail.Text;
+            var tagName = _comboBoxTag.Visible
+                ? _comboBoxTag.Text
+                : _txtBoxCat.Text;
             var passwrd = _txtBoxPassword.Text;
             var descrpt = _txtBoxDescription.Text;
 
@@ -230,8 +248,8 @@ namespace LealPassword.UI.MainPartsSub
 
             OnAddedRegisters?.Invoke(new Register()
             {
-                Name = regName,
                 Tag = tagName,
+                Name = regName,
                 Email = milName,
                 Password = passwrd,
                 Description = descrpt,

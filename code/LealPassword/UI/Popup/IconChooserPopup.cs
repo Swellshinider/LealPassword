@@ -1,19 +1,15 @@
 ﻿using LealPassword.Definitions;
 using LealPassword.Themes;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LealPassword.UI.Popup
 {
     internal sealed partial class IconChooserPopup : Form
     {
+        internal delegate void IconChosen(Image image, IconChooserPopup popup);
+        internal event IconChosen OnIconChosen;
+
         internal IconChooserPopup(Control parent)
         {
             TopLevel = false;
@@ -47,8 +43,7 @@ namespace LealPassword.UI.Popup
                 var image = images[i];
                 line = i % 8 == 0 ? line + 1 : line;
 
-                if (counter > 7)
-                    counter = 0;
+                if (counter > 7) counter = 0;
 
                 var x = counter * 64;
                 var y = (line - 1) * 64;
@@ -60,13 +55,15 @@ namespace LealPassword.UI.Popup
                     Text = "",
                     Width = 64,
                     Height = 64,
-                    Image = image,
+                    BackgroundImage = image,
+                    BackgroundImageLayout = ImageLayout.Center,
                     Location = new Point(x, y),
                     FlatStyle = FlatStyle.Flat,
                     MinimumSize = new Size(64, 64),
                     ImageAlign = ContentAlignment.MiddleCenter,
                 };
                 buttons.FlatAppearance.BorderSize = 0;
+                buttons.Click += (s, e) => OnIconChosen?.Invoke(image, this);
                 panelContainers.Controls.Add(buttons);
             }
         }
