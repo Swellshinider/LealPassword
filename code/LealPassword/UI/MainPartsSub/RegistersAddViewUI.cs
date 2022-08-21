@@ -17,6 +17,8 @@ namespace LealPassword.UI.MainPartsSub
         internal delegate void RegistersAdded(Register register);
         internal event RegistersAdded OnAddedRegisters;
 
+        internal IconChooserPopup Popup;
+
         private ComboBox _comboBoxTag;
         private BunifuMaterialTextbox _txtBoxCat;
         private BunifuMaterialTextbox _txtBoxMail;
@@ -189,23 +191,27 @@ namespace LealPassword.UI.MainPartsSub
 
         private void ButtonIcon_Click(object sender, EventArgs e)
         {
-            var iconsPopup = new IconChooserPopup(this);
-            iconsPopup.OnIconChosen += IconsPopup_OnIconChosen;
-            iconsPopup.Show();
+            if (Popup != null)
+                Popup.Dispose();
+
+            Popup = new IconChooserPopup(this);
+            Popup.OnIconChosen += IconsPopup_OnIconChosen;
+            Popup.Show();
             HideValues(true);
         }
 
-        private void IconsPopup_OnIconChosen(string imageKey, IconChooserPopup popup)
+        private void IconsPopup_OnIconChosen(string imageKey)
         {
             _imageKey = imageKey;
             _labelIcon.Image = PRController.dictIdImages[imageKey];
             _labelIcon.ImageAlign = ContentAlignment.MiddleCenter;
-            popup.Dispose();
+            Popup.Dispose();
             HideValues(false);
         }
 
         private void HideValues(bool hide)
         {
+            _labelName.Visible = !hide;
             _txtBoxCat.Visible = !hide;
             _txtBoxMail.Visible = !hide;
             _txtBoxName.Visible = !hide;
@@ -215,6 +221,12 @@ namespace LealPassword.UI.MainPartsSub
             _txtBoxPassword.Visible = !hide;
             _txtBoxDescription.Visible = !hide;
             _buttonGeneratePass.Visible = !hide;
+
+            if (!hide)
+            {
+                _comboBoxTag.Visible = _buttonNewTag.Text == "Nova";
+                _txtBoxCat.Visible = _buttonNewTag.Text == "Existente";
+            }
         }
 
         private void ButtonNewTag_Click(object sender, EventArgs e)

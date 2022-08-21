@@ -11,9 +11,9 @@ namespace LealPassword.Database.ResourceAccess
         private readonly string _tableName;
         private readonly DataBase _dataBase;
 
-        internal RegisterManagement(string directory, string fileName, string masterPassword)
+        internal RegisterManagement(string directory, string fileName)
         {
-            _dataBase = new DataBase(directory, fileName, masterPassword);
+            _dataBase = new DataBase(directory, fileName);
             _tableName = _dataBase.REG_TABLE;
         }
 

@@ -7,15 +7,13 @@ namespace LealPassword.Database
     internal sealed class DataBase : IDisposable
     {
         private readonly SQLiteConnection _connection;
-        private readonly string _masterpassword;
 
         internal readonly string ACC_TABLE = "TLP_ACCOUNT";
         internal readonly string REG_TABLE = "TLP_REGISTR";
         internal readonly string CRD_TABLE = "TLP_CD_CARD";
 
-        internal DataBase(string directory, string fileName, string masterpassword)
+        internal DataBase(string directory, string fileName)
         {
-            _masterpassword = masterpassword;
             _connection = new SQLiteConnection($"Data Source={directory}\\{fileName}");
 
             if (!Directory.Exists(directory))

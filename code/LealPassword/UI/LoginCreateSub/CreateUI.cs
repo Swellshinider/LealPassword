@@ -207,7 +207,7 @@ namespace LealPassword.UI.LoginCreateSub
 
             var hashedPass = Security.Security.HashValue(pass);
             var accountControler = new AccountController(Constants.DEFAULT_DATABASE_PATH,
-                Constants.DEFAULT_DATABASE_FILE, Security.Security.HashValue(hashedPass));
+                Constants.DEFAULT_DATABASE_FILE);
 
             accountControler.ClearAccounts();
             accountControler.InsertAccount(new Account()
@@ -219,7 +219,7 @@ namespace LealPassword.UI.LoginCreateSub
             });
 
             var registerController = new RegisterController(Constants.DEFAULT_DATABASE_PATH,
-                Constants.DEFAULT_DATABASE_FILE, Security.Security.HashValue(hashedPass));
+                Constants.DEFAULT_DATABASE_FILE);
             registerController.ClearRegisters();
 
             OnAccountCreated?.Invoke();

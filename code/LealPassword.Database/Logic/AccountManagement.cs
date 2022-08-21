@@ -8,9 +8,9 @@ namespace LealPassword.Database.Logic
     {
         private readonly ResourceAccess.Interfaces.IAccountManagement _resource;
 
-        public AccountManagement(string directory, string fileName, string masterPassword)
+        public AccountManagement(string directory, string fileName)
         {
-            _resource = new ResourceAccess.AccountManagement(directory, fileName, masterPassword);
+            _resource = new ResourceAccess.AccountManagement(directory, fileName);
         }
 
         public void ClearAccounts()

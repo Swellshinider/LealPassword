@@ -21,6 +21,7 @@ namespace LealPassword.Database.ResourceAccess.Builder
                     Name = (string)reader["NAME"],
                     Description = (string)reader["DESC"],
                     Email = (string)reader["MAIL"],
+                    ImageKey = (string)reader["ICON"] ?? "",
                     Password = (string)reader["PASS"]
                 });
             }

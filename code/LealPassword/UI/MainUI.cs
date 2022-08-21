@@ -295,13 +295,11 @@ namespace LealPassword.UI
 
         private void NewRegUI_OnAddedRegisters(Register register)
         {
-            var regController = new RegisterController(Constants.DEFAULT_DATABASE_PATH,
-                Constants.DEFAULT_DATABASE_FILE, _account.Password);
+            var regController = new RegisterController(Constants.DEFAULT_DATABASE_PATH, Constants.DEFAULT_DATABASE_FILE);
             regController.InsertRegister(register);
             _diagnostic.Debug($"New register('{register.Name}') inserted");
 
-            var accountController = new AccountController(Constants.DEFAULT_DATABASE_PATH,
-                Constants.DEFAULT_DATABASE_FILE, _account.Password);
+            var accountController = new AccountController(Constants.DEFAULT_DATABASE_PATH, Constants.DEFAULT_DATABASE_FILE);
             _account = accountController.GetAccount(_account.Username);
             _diagnostic.Debug("New account pushed");
 

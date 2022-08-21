@@ -184,7 +184,7 @@ namespace LealPassword.UI.LoginCreateSub
 
             var hashedPass = Security.Security.HashValue(pass);
             var controller = new AccountController(Constants.DEFAULT_DATABASE_PATH, 
-                Constants.DEFAULT_DATABASE_FILE, Security.Security.HashValue(hashedPass));
+                Constants.DEFAULT_DATABASE_FILE);
             account = controller.GetAccount(user);
 
             if (account == null || account.Username == null || account.Password == null)

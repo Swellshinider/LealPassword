@@ -8,9 +8,9 @@ namespace LealPassword.Database.Logic
     {
         private readonly ResourceAccess.Interfaces.IRegisterManagement _resource;
 
-        public RegisterManagement(string directory, string fileName, string masterPassword)
+        public RegisterManagement(string directory, string fileName)
         {
-            _resource = new ResourceAccess.RegisterManagement(directory, fileName, masterPassword);
+            _resource = new ResourceAccess.RegisterManagement(directory, fileName);
         }
 
         public void ClearRegisters()
