@@ -1,5 +1,6 @@
 ﻿using Bunifu.Framework.UI;
 using LealPassword.Database.Model;
+using LealPassword.Definitions;
 using LealPassword.Themes;
 using LealPassword.UI.Popup;
 using System;
@@ -24,7 +25,7 @@ namespace LealPassword.UI.MainPartsSub
         private BunifuMaterialTextbox _txtBoxDescription;
         private Label _labelName;
         private Label _labelIcon;
-        private Image _imageIcon;
+        private string _imageKey;
 
         private Button _buttonLogin;
         private Button _buttonNewTag;
@@ -194,10 +195,10 @@ namespace LealPassword.UI.MainPartsSub
             HideValues(true);
         }
 
-        private void IconsPopup_OnIconChosen(Image image, IconChooserPopup popup)
+        private void IconsPopup_OnIconChosen(string imageKey, IconChooserPopup popup)
         {
-            _imageIcon = image;
-            _labelIcon.Image = image;
+            _imageKey = imageKey;
+            _labelIcon.Image = PRController.dictIdImages[imageKey];
             _labelIcon.ImageAlign = ContentAlignment.MiddleCenter;
             popup.Dispose();
             HideValues(false);
@@ -252,6 +253,7 @@ namespace LealPassword.UI.MainPartsSub
                 Name = regName,
                 Email = milName,
                 Password = passwrd,
+                ImageKey = _imageKey,
                 Description = descrpt,
             });
         }

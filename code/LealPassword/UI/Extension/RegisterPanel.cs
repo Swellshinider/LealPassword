@@ -1,4 +1,5 @@
 ﻿using LealPassword.Database.Model;
+using LealPassword.Definitions;
 using LealPassword.Themes;
 using System;
 using System.Drawing;
@@ -57,6 +58,18 @@ namespace LealPassword.UI.Extension
                 Text = GetPasswordValue(register.Password.Length),
                 Font = new Font("Verdana", 14,  FontStyle.Italic),
             };
+
+            var lblIcon = new Label()
+            {
+                Text = "",
+                Width = 96,
+                AutoSize = false,
+                Dock = DockStyle.Right,
+                ImageAlign = ContentAlignment.MiddleCenter,
+                Image = PRController.dictIdImages[register.ImageKey],
+            };
+            lblIcon.Click += RegisterPanel_Click;
+            _leftPanel.Controls.Add(lblIcon);
 
             var lblSee = new Label
             {

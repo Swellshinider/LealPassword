@@ -17,6 +17,14 @@ namespace LealPassword.Database.Controllers
             _masterpassword = masterpassword;
         }
 
+        internal void ClearAccounts()
+        {
+            using (var logic = new AccountManagement(_directory, _fileName, _masterpassword))
+            {
+                logic.ClearAccounts();
+            }
+        }
+
         internal void UpdateAccount(Account account)
         {
             var entity = Mapper.Map(account);

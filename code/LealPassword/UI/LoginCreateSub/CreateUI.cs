@@ -206,16 +206,21 @@ namespace LealPassword.UI.LoginCreateSub
             }
 
             var hashedPass = Security.Security.HashValue(pass);
-            var controller = new AccountController(Constants.DEFAULT_DATABASE_PATH,
+            var accountControler = new AccountController(Constants.DEFAULT_DATABASE_PATH,
                 Constants.DEFAULT_DATABASE_FILE, Security.Security.HashValue(hashedPass));
 
-            controller.InsertAccount(new Account()
+            accountControler.ClearAccounts();
+            accountControler.InsertAccount(new Account()
             {
                 Username = user,
                 Password = hashedPass,
                 Registers = new List<Register>(),
                 Cards = new List<Card>()
             });
+
+            var registerController = new RegisterController(Constants.DEFAULT_DATABASE_PATH,
+                Constants.DEFAULT_DATABASE_FILE, Security.Security.HashValue(hashedPass));
+            registerController.ClearRegisters();
 
             OnAccountCreated?.Invoke();
         }

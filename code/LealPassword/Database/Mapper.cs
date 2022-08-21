@@ -32,6 +32,7 @@ namespace LealPassword.Database
             Tag = register.Tag,
             Password = register.Password,
             Description = register.Description,
+            ImageKey = register.ImageKey,
             Email = register.Email,
         };
 
@@ -82,6 +83,7 @@ namespace LealPassword.Database
             Tag = register.Tag,
             Password = register.Password,
             Description = register.Description,
+            ImageKey = register.ImageKey,
             Email = register.Email,
         };
 

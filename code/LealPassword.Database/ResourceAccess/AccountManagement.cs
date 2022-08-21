@@ -17,6 +17,16 @@ namespace LealPassword.Database.ResourceAccess
             _tableName = _dataBase.ACC_TABLE;
         }
 
+        public void ClearAccounts()
+        {
+            using (var  command = _dataBase.CreateCommand())
+            {
+                command.CommandText = $@"DELETE FROM {_tableName}";
+
+                command.ExecuteNonQuery();
+            }
+        }
+
         public void DeleteAccount(Account account)
         {
             using (var command = _dataBase.CreateCommand())

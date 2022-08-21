@@ -6,6 +6,7 @@ namespace LealPassword.Database.ResourceAccess.Interfaces
 {
     internal interface IRegisterManagement : IDisposable
     {
+        void ClearRegisters();
         void InsertRegister(Register register);
         void UpdateRegister(Register register);
         void DeleteRegister(Register register);

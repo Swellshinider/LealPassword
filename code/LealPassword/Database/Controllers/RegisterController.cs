@@ -1,6 +1,7 @@
 ﻿using LealPassword.Database.Model;
 using LealPassword.Database.Logic;
 using System.Collections.Generic;
+using Register = LealPassword.Database.Model.Register;
 
 namespace LealPassword.Database.Controllers
 {
@@ -15,6 +16,14 @@ namespace LealPassword.Database.Controllers
             _directory = directory;
             _fileName = fileName;
             _masterpassword = masterpassword;
+        }
+
+        internal void ClearRegisters()
+        {
+            using (var logic = new RegisterManagement(_directory, _fileName, _masterpassword))
+            {
+                logic.ClearRegisters();
+            }
         }
 
         internal void UpdateRegister(Register register)

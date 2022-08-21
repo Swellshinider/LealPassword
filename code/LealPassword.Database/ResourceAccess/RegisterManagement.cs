@@ -17,6 +17,16 @@ namespace LealPassword.Database.ResourceAccess
             _tableName = _dataBase.REG_TABLE;
         }
 
+        public void ClearRegisters()
+        {
+            using (var command = _dataBase.CreateCommand())
+            {
+                command.CommandText = $@"DELETE FROM {_tableName}";
+
+                command.ExecuteNonQuery();
+            }
+        }
+
         public void DeleteRegister(Register register)
         {
             using (var command = _dataBase.CreateCommand())
@@ -36,7 +46,8 @@ namespace LealPassword.Database.ResourceAccess
                                             'NAME', 
                                             'TAG',
                                             'DESC', 
-                                            'MAIL', 
+                                            'MAIL',
+                                            'ICON',
                                             'PASS'
                                             )
                                          VALUES (
@@ -44,6 +55,7 @@ namespace LealPassword.Database.ResourceAccess
                                             '{register.Tag}', 
                                             '{register.Description}', 
                                             '{register.Email}',
+                                            '{register.ImageKey}',
                                             '{register.Password}'
                                             )";
 
@@ -60,6 +72,7 @@ namespace LealPassword.Database.ResourceAccess
                                             TAG = '{register.Tag}',
                                             DESC = '{register.Description}',
                                             MAIL = '{register.Email}',
+                                            ICON = '{register.ImageKey}',
                                             PASS = '{register.Password}'
                                          WHERE ID = '{register.Id}'";
 
@@ -78,6 +91,7 @@ namespace LealPassword.Database.ResourceAccess
                                                 TAG,
                                                 DESC, 
                                                 MAIL, 
+                                                ICON,
                                                 PASS
                                         FROM {_tableName} 
                                         ORDER BY 
@@ -85,7 +99,8 @@ namespace LealPassword.Database.ResourceAccess
                                                 NAME, 
                                                 TAG,
                                                 DESC, 
-                                                MAIL, 
+                                                MAIL,  
+                                                ICON,
                                                 PASS";
 
                 reader = command.ExecuteReader();

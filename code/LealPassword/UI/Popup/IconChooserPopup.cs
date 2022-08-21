@@ -7,7 +7,7 @@ namespace LealPassword.UI.Popup
 {
     internal sealed partial class IconChooserPopup : Form
     {
-        internal delegate void IconChosen(Image image, IconChooserPopup popup);
+        internal delegate void IconChosen(string imageId, IconChooserPopup popup);
         internal event IconChosen OnIconChosen;
 
         internal IconChooserPopup(Control parent)
@@ -34,7 +34,7 @@ namespace LealPassword.UI.Popup
             panelContainers.HorizontalScroll.Visible = false;
             Controls.Add(panelContainers);
 
-            var images = PRController.IconsList;
+            var images = PRController.GetIconsList();
             var counter = 0;
             var line = 0;
 
@@ -63,7 +63,7 @@ namespace LealPassword.UI.Popup
                     ImageAlign = ContentAlignment.MiddleCenter,
                 };
                 buttons.FlatAppearance.BorderSize = 0;
-                buttons.Click += (s, e) => OnIconChosen?.Invoke(image, this);
+                buttons.Click += (s, e) => OnIconChosen?.Invoke(PRController.GetImageKeyByValue(image), this);
                 panelContainers.Controls.Add(buttons);
             }
         }

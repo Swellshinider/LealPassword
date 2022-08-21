@@ -13,6 +13,9 @@ namespace LealPassword.Database.Logic
             _resource = new ResourceAccess.AccountManagement(directory, fileName, masterPassword);
         }
 
+        public void ClearAccounts()
+            => _resource.ClearAccounts();
+
         public void DeleteAccount(Account account)
             => _resource.DeleteAccount(account);
 

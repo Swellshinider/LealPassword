@@ -13,6 +13,9 @@ namespace LealPassword.Database.Logic
             _resource = new ResourceAccess.RegisterManagement(directory, fileName, masterPassword);
         }
 
+        public void ClearRegisters()
+            => _resource.ClearRegisters();
+
         public void DeleteRegister(Register register)
             => _resource.DeleteRegister(register);
 

@@ -25,9 +25,7 @@ namespace LealPassword.Database
                 File.Create($"{directory}\\{fileName}").Close();
 
             if (_connection.State != System.Data.ConnectionState.Open)
-            {
                 _connection.OpenAsync().Wait();
-            }
 
             CreateBaseTable();
         }
@@ -51,6 +49,7 @@ namespace LealPassword.Database
 	                                            'DESC'	TEXT NOT NULL,
 	                                            'MAIL'	TEXT NOT NULL,
 	                                            'PASS'	TEXT NOT NULL,
+                                                'ICON'  TEXT NOT NULL,
 	                                            PRIMARY KEY('ID')
                                             )";
                 var cardsTableCmd = $@"CREATE TABLE IF NOT EXISTS {CRD_TABLE} (
