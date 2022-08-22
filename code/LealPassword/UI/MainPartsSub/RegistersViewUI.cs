@@ -20,9 +20,10 @@ namespace LealPassword.UI.MainPartsSub
             parent.Controls.Clear();
             parent.Controls.Add(this);
             BackColor = Color.Transparent;
+            GenerateObjects();
         }
 
-        internal void GenerateObjects()
+        private void GenerateObjects()
         {
             if (_registers.Count <= 0)
             {

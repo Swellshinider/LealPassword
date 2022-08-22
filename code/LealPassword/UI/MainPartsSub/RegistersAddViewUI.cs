@@ -39,9 +39,10 @@ namespace LealPassword.UI.MainPartsSub
             _registers = registers;
             parent.Controls.Clear();
             parent.Controls.Add(this);
+            GenerateObjects();
         }
 
-        internal void GenerateObjects()
+        private void GenerateObjects()
         {
             _labelName = new Label()
             {

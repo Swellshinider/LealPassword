@@ -19,9 +19,10 @@ namespace LealPassword.UI.MainPartsSub
             Dock = DockStyle.Fill;
             parent.Controls.Clear();
             parent.Controls.Add(this);
+            GenerateObjects();
         }
 
-        internal void GenerateObjects()
+        private void GenerateObjects()
         {
             var panelLeft = new Panel()
             {

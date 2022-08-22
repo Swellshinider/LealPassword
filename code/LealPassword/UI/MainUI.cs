@@ -19,13 +19,12 @@ namespace LealPassword.UI
         private readonly DiagnosticList _diagnostic;
         private readonly List<Control> _sideControls;
 
-        private Button _addNewButton;
         private Account _account;
-
-        private SidePanel _buttonGeneral;
-        private SidePanel _buttonRegister;
+        private Button _addNewButton;
         private SidePanel _buttonCards;
         private SidePanel _buttonConfig;
+        private SidePanel _buttonGeneral;
+        private SidePanel _buttonRegister;
 
         internal MainUI(DiagnosticList diagnostic, Account account)
         {
@@ -274,6 +273,7 @@ namespace LealPassword.UI
         {
             _diagnostic.Debug("General button click");
             ButtonHighLight((SidePanel)sender);
+
         }
 
         private void ButtonRegisters_Click(object sender, EventArgs e)
@@ -281,7 +281,7 @@ namespace LealPassword.UI
             _diagnostic.Debug("Register button click");
             ButtonHighLight((SidePanel)sender);
             var regUI = new RegistersViewUI(_account.Registers, _container);
-            regUI.GenerateObjects();
+
         }
 
         private void ButtonCards_Click(object sender, EventArgs e)
@@ -304,14 +304,12 @@ namespace LealPassword.UI
             var chooseUI = new ChooseRegistersCardsUI(_container);
             chooseUI.OnChooseCards += ChooseUI_OnChooseCards;
             chooseUI.OnChooseRegister += ChooseUI_OnChooseRegister;
-            chooseUI.GenerateObjects();
         }
 
         private void ChooseUI_OnChooseRegister()
         {
             _diagnostic.Debug("Button add registers click");
             var newRegUI = new RegistersAddViewUI(_account.Registers, _container);
-            newRegUI.GenerateObjects();
             newRegUI.OnAddedRegisters += NewRegUI_OnAddedRegisters;
         }
 
