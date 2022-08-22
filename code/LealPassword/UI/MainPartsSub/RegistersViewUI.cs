@@ -23,6 +23,31 @@ namespace LealPassword.UI.MainPartsSub
             GenerateObjects();
         }
 
+        internal void Filter(string filter)
+        {
+            Controls.Clear();
+
+            if (filter == "" || filter == null)
+            {
+                GenerateObjects();
+                return;
+            }
+
+            foreach (var reg in _registers)
+            {
+                if (!reg.Name.Contains(filter) && !reg.Name.Equals(filter) &&
+                    !reg.Tag.Contains(filter) && !reg.Tag.Equals(filter))
+                    continue;
+
+                var regPanel = new RegisterPanel(reg);
+                regPanel.OnEditMe += RegPanel_OnEditMe;
+                regPanel.OnSeeMe += RegPanel_OnSeeMe;
+                regPanel.OnClickMe += RegPanel_OnClickMe;
+                Controls.Add(regPanel);
+                Update();
+            }
+        }
+
         private void GenerateObjects()
         {
             if (_registers.Count <= 0)
@@ -49,6 +74,7 @@ namespace LealPassword.UI.MainPartsSub
                 regPanel.OnSeeMe += RegPanel_OnSeeMe;
                 regPanel.OnClickMe += RegPanel_OnClickMe;
                 Controls.Add(regPanel);
+                Update();
             }
         }
 

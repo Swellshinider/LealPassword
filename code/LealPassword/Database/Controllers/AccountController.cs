@@ -4,16 +4,10 @@ using System.Collections.Generic;
 
 namespace LealPassword.Database.Controllers
 {
-    internal class AccountController
+    internal sealed class AccountController : BaseController
     {
-        private readonly string _directory;
-        private readonly string _fileName;
-
         internal AccountController(string directory, string fileName)
-        {
-            _directory = directory;
-            _fileName = fileName;
-        }
+            : base(directory, fileName) { }
 
         internal void ClearAccounts()
         {
@@ -65,14 +59,17 @@ namespace LealPassword.Database.Controllers
                     accounts.Add(Mapper.Map(acc));
             }
 
-            var _regController = new RegisterController(_directory, _fileName);
-            var regList = _regController.GetRegisters();
+            var regController = new RegisterController(_directory, _fileName);
+            var regList = regController.GetRegisters();
+            var crdController = new CardController(_directory, _fileName);
+            var crdList = crdController.GetCards();
 
             foreach (var acc in accounts)
             {
                 if (acc.Username == user)
                 {
                     acc.Registers.AddRange(regList);
+                    acc.Cards.AddRange(crdList);
                     return acc;
                 }
             }

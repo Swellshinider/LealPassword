@@ -55,6 +55,16 @@ namespace LealPassword.Database
             Number = card.Number,
             SecurityNumber = card.SecurityNumber,
         };
+
+        internal static List<Model.Card> Map(List<Entity.Card> cards)
+        {
+            var modelList = new List<Model.Card>();
+
+            foreach (var card in cards)
+                modelList.Add(Map(card));
+
+            return modelList;
+        }
         #endregion
 
         #region Entity converter
@@ -106,6 +116,16 @@ namespace LealPassword.Database
             Number = card.Number,
             SecurityNumber = card.SecurityNumber,
         };
+
+        internal static List<Entity.Card> Map(List<Model.Card> cards)
+        {
+            var modelList = new List<Entity.Card>();
+
+            foreach (var card in cards)
+                modelList.Add(Map(card));
+
+            return modelList;
+        }
         #endregion
     }
 }

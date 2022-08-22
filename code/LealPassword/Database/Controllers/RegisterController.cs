@@ -1,20 +1,13 @@
 ﻿using LealPassword.Database.Model;
 using LealPassword.Database.Logic;
 using System.Collections.Generic;
-using Register = LealPassword.Database.Model.Register;
 
 namespace LealPassword.Database.Controllers
 {
-    internal class RegisterController
+    internal sealed class RegisterController : BaseController
     {
-        private readonly string _directory;
-        private readonly string _fileName;
-
         internal RegisterController(string directory, string fileName)
-        {
-            _directory = directory;
-            _fileName = fileName;
-        }
+            : base(directory, fileName) { }
 
         internal void ClearRegisters()
         {

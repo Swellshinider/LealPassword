@@ -26,6 +26,8 @@ namespace LealPassword.UI
         private SidePanel _buttonGeneral;
         private SidePanel _buttonRegister;
 
+        private Control _activeControl;
+
         internal MainUI(DiagnosticList diagnostic, Account account)
         {
             Text = "LealPassword";
@@ -266,6 +268,11 @@ namespace LealPassword.UI
             if (e.KeyCode != Keys.Enter) return;
 
             var text = ((BunifuMaterialTextbox)sender).Text;
+
+            if (_activeControl is RegistersViewUI regViewUI)
+                regViewUI.Filter(text);
+            else if (_activeControl is CardAddViewUI cardViewUI)
+                cardViewUI.Filter(text);
         }
 
         #region Side Buttons
@@ -280,14 +287,14 @@ namespace LealPassword.UI
         {
             _diagnostic.Debug("Register button click");
             ButtonHighLight((SidePanel)sender);
-            var regUI = new RegistersViewUI(_account.Registers, _container);
-
+            _activeControl = new RegistersViewUI(_account.Registers, _container);
         }
 
         private void ButtonCards_Click(object sender, EventArgs e)
         {
             _diagnostic.Debug("Cards button click");
             ButtonHighLight((SidePanel)sender);
+            _activeControl = new CardAddViewUI(_account.Cards, _container);
         }
 
         private void ButtonConfig_Click(object sender, EventArgs e)
