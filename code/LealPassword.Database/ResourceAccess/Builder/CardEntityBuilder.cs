@@ -17,12 +17,12 @@ namespace LealPassword.Database.ResourceAccess.Builder
             {
                 crd.Add(new Card()
                 {
-                    Id = int.Parse(reader["ID"].ToString()),
+                    Id = (int)(long)reader["ID"],
                     CardName = (string)reader["CARD_NAME"],
                     OwnrName = (string)reader["OWNR_NAME"],
                     Number = (string)reader["NUMBER"],
-                    DueDate = new DateTime(int.Parse(reader["DATE"].ToString())),
-                    SecurityNumber = short.Parse((string)reader["SECURITY_NUMBER"])
+                    DueDate = new DateTime((long)reader["DATE"]),
+                    SecurityNumber = (short)(long)reader["SECURITY_NUMBER"]
                 });
             }
 
