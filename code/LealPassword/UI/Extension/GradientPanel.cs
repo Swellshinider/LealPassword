@@ -17,6 +17,8 @@ namespace LealPassword.UI.Extension
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            if (ClientRectangle.Height == 0 || ClientRectangle.Width == 0) return;
+
             var lgb = new LinearGradientBrush(ClientRectangle, TopColor, BottomColor, 90f);
             var g = e.Graphics;
 

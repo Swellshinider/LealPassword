@@ -271,7 +271,7 @@ namespace LealPassword.UI
 
             if (_activeControl is RegistersViewUI regViewUI)
                 regViewUI.Filter(text);
-            else if (_activeControl is CardAddViewUI cardViewUI)
+            else if (_activeControl is CardViewUI cardViewUI)
                 cardViewUI.Filter(text);
         }
 
@@ -294,7 +294,7 @@ namespace LealPassword.UI
         {
             _diagnostic.Debug("Cards button click");
             ButtonHighLight((SidePanel)sender);
-            _activeControl = new CardAddViewUI(_account.Cards, _container);
+            _activeControl = new CardViewUI(_account.Cards, _container);
         }
 
         private void ButtonConfig_Click(object sender, EventArgs e)
@@ -323,7 +323,21 @@ namespace LealPassword.UI
         private void ChooseUI_OnChooseCards()
         {
             _diagnostic.Debug("Button add cards click");
-            // TODO
+            var newCardUI = new CardAddViewUI(_container);
+            newCardUI.OnAddedCards += NewCardUI_OnAddedCards;
+        }
+
+        private void NewCardUI_OnAddedCards(Card card)
+        {
+            var cardController = new CardController(Constants.DEFAULT_DATABASE_PATH, Constants.DEFAULT_DATABASE_FILE);
+            cardController.InsertCard(card);
+            _diagnostic.Debug($"New card('{card.CardName}') inserted");
+
+            var accountController = new AccountController(Constants.DEFAULT_DATABASE_PATH, Constants.DEFAULT_DATABASE_FILE);
+            _account = accountController.GetAccount(_account.Username);
+            _diagnostic.Debug("New account pushed");
+
+            ButtonCards_Click(null, EventArgs.Empty);
         }
 
         private void NewRegUI_OnAddedRegisters(Register register)

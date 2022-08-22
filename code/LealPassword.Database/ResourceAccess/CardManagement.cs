@@ -53,7 +53,7 @@ namespace LealPassword.Database.ResourceAccess
                                             '{card.CardName}', 
                                             '{card.OwnrName}', 
                                             '{card.Number}', 
-                                            '{card.DueDate}',
+                                            '{card.DueDate.Ticks}',
                                             '{card.SecurityNumber}'
                                             )";
 

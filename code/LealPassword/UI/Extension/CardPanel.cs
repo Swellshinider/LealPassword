@@ -1,4 +1,5 @@
 ﻿using LealPassword.Database.Model;
+using LealPassword.Definitions;
 using LealPassword.Themes;
 using System;
 using System.Drawing;
@@ -27,10 +28,11 @@ namespace LealPassword.UI.Extension
             Height = 100;
             Dock = DockStyle.Top;
             ForeColor = ThemeController.Black;
+            BorderStyle = BorderStyle.FixedSingle;
 
             _leftPanel = new Panel()
             {
-                Width = 100,
+                Width = 125,
                 Dock = DockStyle.Left
             };
             _rightPanel = new Panel()
@@ -57,6 +59,18 @@ namespace LealPassword.UI.Extension
                 ForeColor = ThemeController.LiteGray,
                 Font = new Font("Verdana", 14, FontStyle.Italic),
             };
+
+            var lblIcon = new Label()
+            {
+                Text = "",
+                Width = 96,
+                AutoSize = false,
+                Dock = DockStyle.Right,
+                ImageAlign = ContentAlignment.MiddleCenter,
+                Image = Program.ResizeImage(PRController.dictIdImages["cartao_de_credito"], 32, 32),
+            };
+            lblIcon.Click += CardPanel_Click;
+            _leftPanel.Controls.Add(lblIcon);
 
             var lblSee = new Label
             {
@@ -85,6 +99,11 @@ namespace LealPassword.UI.Extension
             lblSee.Click += (s, e) => OnSeeMe?.Invoke(card);
             lblEdit.Click += (s, e) => OnEditMe?.Invoke(card);
 
+            Controls.Add(_lblPassword);
+            Controls.Add(_lblName);
+            Controls.Add(_leftPanel);
+            Controls.Add(_rightPanel);
+
             Click += CardPanel_Click;
             _lblName.Click += CardPanel_Click;
             _leftPanel.Click += CardPanel_Click;
@@ -104,7 +123,7 @@ namespace LealPassword.UI.Extension
 
         private static string FormatValue(string number, DateTime dueDate)
         {
-            var lastFor = number.Substring(12, number.Length - 1);
+            var lastFor = number.Substring(12, 4);
             var date = $"{dueDate.Month}/{dueDate.Year - 2000}";
 
             return $"Final: {lastFor}                        {date}";

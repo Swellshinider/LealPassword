@@ -29,7 +29,7 @@ namespace LealPassword.UI.MainPartsSub
         private Label _labelIcon;
         private string _imageKey;
 
-        private Button _buttonLogin;
+        private Button _buttonCreate;
         private Button _buttonNewTag;
         private Button _buttonGeneratePass;
 
@@ -90,7 +90,7 @@ namespace LealPassword.UI.MainPartsSub
             _buttonGeneratePass.Click += ButtonGeneratePass_Click;
             _txtBoxDescription = new BunifuMaterialTextbox() { HintText = "Descrição" };
 
-            _buttonLogin = new Button()
+            _buttonCreate = new Button()
             {
                 Height = 40,
                 Width = 500,
@@ -100,9 +100,9 @@ namespace LealPassword.UI.MainPartsSub
                 BackColor = ThemeController.BlueMain,
                 Font = new Font("Arial", 12, FontStyle.Regular),
             };
-            _buttonLogin.Click += ButtonLogin_Click;
-            _buttonLogin.FlatAppearance.MouseOverBackColor = ThemeController.SligBlue;
-            _buttonLogin.FlatAppearance.MouseDownBackColor = ThemeController.LiteBlue;
+            _buttonCreate.Click += ButtonLogin_Click;
+            _buttonCreate.FlatAppearance.MouseOverBackColor = ThemeController.SligBlue;
+            _buttonCreate.FlatAppearance.MouseDownBackColor = ThemeController.LiteBlue;
             
             Controls.Add(_labelName);
             Controls.Add(_txtBoxName);
@@ -113,7 +113,7 @@ namespace LealPassword.UI.MainPartsSub
             Controls.Add(_txtBoxPassword);
             Controls.Add(_buttonGeneratePass);
             Controls.Add(_txtBoxDescription); 
-            Controls.Add(_buttonLogin);
+            Controls.Add(_buttonCreate);
 
             foreach (var ctrls in Controls)
             {
@@ -153,8 +153,8 @@ namespace LealPassword.UI.MainPartsSub
                 + (_txtBoxCat.Width / 2), _buttonGeneratePass.Location.Y + 30);
             Program.CentralizeControl(_txtBoxDescription, this);
             _txtBoxDescription.Location = new Point(_txtBoxDescription.Location.X, _txtBoxDescription.Location.Y + 75);
-            Program.CentralizeControl(_buttonLogin, this);
-            _buttonLogin.Location = new Point(_buttonLogin.Location.X, _buttonLogin.Location.Y + 150);
+            Program.CentralizeControl(_buttonCreate, this);
+            _buttonCreate.Location = new Point(_buttonCreate.Location.X, _buttonCreate.Location.Y + 150);
             #endregion
 
             #region Icons
@@ -216,7 +216,7 @@ namespace LealPassword.UI.MainPartsSub
             _txtBoxCat.Visible = !hide;
             _txtBoxMail.Visible = !hide;
             _txtBoxName.Visible = !hide;
-            _buttonLogin.Visible = !hide;
+            _buttonCreate.Visible = !hide;
             _comboBoxTag.Visible = !hide;
             _buttonNewTag.Visible = !hide;
             _txtBoxPassword.Visible = !hide;
