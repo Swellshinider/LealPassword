@@ -6,7 +6,6 @@ namespace LealPassword.Themes
     {
         public static ThemeType Type { get; set; } = ThemeType.WHITE;
 
-
         public static Color Black => Color.Black;
 
         #region Blue variations

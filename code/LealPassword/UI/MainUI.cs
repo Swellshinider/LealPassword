@@ -19,8 +19,13 @@ namespace LealPassword.UI
         private readonly DiagnosticList _diagnostic;
         private readonly List<Control> _sideControls;
 
-        private Account _account;
         private Button _addNewButton;
+        private Account _account;
+
+        private SidePanel _buttonGeneral;
+        private SidePanel _buttonRegister;
+        private SidePanel _buttonCards;
+        private SidePanel _buttonConfig;
 
         internal MainUI(DiagnosticList diagnostic, Account account)
         {
@@ -205,22 +210,25 @@ namespace LealPassword.UI
             };
             _sideControls.Add(labelTag);
 
-            var buttonGeneral = new SidePanel("Geral", PRController.Images.General127px);
-            _sideControls.Add(buttonGeneral);
+            _buttonGeneral = new SidePanel("Geral", PRController.Images.General127px);
+            _buttonGeneral.Click += ButtonGeneral_Click;
+            _sideControls.Add(_buttonGeneral);
 
-            var buttonRegisters = new SidePanel("Registros", PRController.Images.Registers127px);
-            buttonRegisters.Click += ButtonRegisters_Click;
-            _sideControls.Add(buttonRegisters);
+            _buttonRegister = new SidePanel("Registros", PRController.Images.Registers127px);
+            _buttonRegister.Click += ButtonRegisters_Click;
+            _sideControls.Add(_buttonRegister);
 
-            var buttonCards = new SidePanel("Cartões", PRController.Images.Cards127px);
-            _sideControls.Add(buttonCards);
+            _buttonCards = new SidePanel("Cartões", PRController.Images.Cards127px);
+            _buttonCards.Click += ButtonCards_Click;
+            _sideControls.Add(_buttonCards);
 
-            var buttonConfig = new SidePanel("Configurações", PRController.Images.Config127px_Black)
+            _buttonConfig = new SidePanel("Configurações", PRController.Images.Config127px_Black)
             {
                 Dock = DockStyle.Bottom,
                 Textcolor = ThemeController.Black
             };
-            _sideControls.Add(buttonConfig);
+            _buttonConfig.Click += ButtonConfig_Click;
+            _sideControls.Add(_buttonConfig);
             #endregion
 
             #region Search box
@@ -261,13 +269,33 @@ namespace LealPassword.UI
             var text = ((BunifuMaterialTextbox)sender).Text;
         }
 
+        #region Side Buttons
+        private void ButtonGeneral_Click(object sender, EventArgs e)
+        {
+            _diagnostic.Debug("General button click");
+            ButtonHighLight((SidePanel)sender);
+        }
+
         private void ButtonRegisters_Click(object sender, EventArgs e)
         {
             _diagnostic.Debug("Register button click");
+            ButtonHighLight((SidePanel)sender);
             var regUI = new RegistersViewUI(_account.Registers, _container);
             regUI.GenerateObjects();
-            _diagnostic.Debug("Registers loaded!!");
         }
+
+        private void ButtonCards_Click(object sender, EventArgs e)
+        {
+            _diagnostic.Debug("Cards button click");
+            ButtonHighLight((SidePanel)sender);
+        }
+
+        private void ButtonConfig_Click(object sender, EventArgs e)
+        {
+            _diagnostic.Debug("Config button click");
+            ButtonHighLight((SidePanel)sender);
+        }
+        #endregion
 
         #region Button add new 
         private void AddNewButton_Click(object sender, EventArgs e)
@@ -308,6 +336,18 @@ namespace LealPassword.UI
         #endregion
 
         #region Form methods
+        private void ButtonHighLight(SidePanel current)
+        {
+            _diagnostic.Debug("SidePanel clicked");
+
+            _buttonGeneral.Normalcolor = Color.Transparent;
+            _buttonRegister.Normalcolor = Color.Transparent;
+            _buttonCards.Normalcolor = Color.Transparent;
+            _buttonConfig.Normalcolor = Color.Transparent;
+
+            current.Normalcolor = current.Activecolor;
+        }
+
         private void BtnMinimize_Click(object sender, EventArgs e)
             => WindowState = FormWindowState.Minimized;
 

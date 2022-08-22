@@ -28,10 +28,11 @@ namespace LealPassword.UI.Extension
             Height = 100;
             Dock = DockStyle.Top;
             ForeColor = ThemeController.Black;
+            var image = PRController.dictIdImages[register.ImageKey];
 
             _leftPanel = new Panel()
             {
-                Width = 100,
+                Width = 125,
                 Dock = DockStyle.Left
             };
             _rightPanel = new Panel()
@@ -47,15 +48,15 @@ namespace LealPassword.UI.Extension
                 Dock = DockStyle.Top,
                 ForeColor = ThemeController.Black,
                 TextAlign = ContentAlignment.BottomLeft,
-                Font = new Font("Arial", 18, FontStyle.Regular),
+                Font = new Font("Arial", 16, FontStyle.Bold),
             };
             _lblPassword = new Label()
             {
                 AutoSize = false,
+                Text = register.Tag,
                 Dock = DockStyle.Top,
                 TextAlign = ContentAlignment.TopLeft,
                 ForeColor = ThemeController.LiteGray,
-                Text = GetPasswordValue(register.Password.Length),
                 Font = new Font("Verdana", 14,  FontStyle.Italic),
             };
 
@@ -66,7 +67,7 @@ namespace LealPassword.UI.Extension
                 AutoSize = false,
                 Dock = DockStyle.Right,
                 ImageAlign = ContentAlignment.MiddleCenter,
-                Image = PRController.dictIdImages[register.ImageKey],
+                Image = Program.ResizeImage(image, 32, 32),
             };
             lblIcon.Click += RegisterPanel_Click;
             _leftPanel.Controls.Add(lblIcon);
@@ -119,15 +120,5 @@ namespace LealPassword.UI.Extension
 
         private void RegisterPanel_Click(object sender, EventArgs e)
             => OnClickMe.Invoke(this);
-
-        private static string GetPasswordValue(int length)
-        {
-            var fakePassword = "";
-
-            for (int i = 0; i < length; i++)
-                fakePassword += "*";
-
-            return fakePassword;
-        }
     }
 }

@@ -3,6 +3,8 @@ using LealPassword.Diagnostics;
 using LealPassword.UI;
 using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -103,6 +105,31 @@ namespace LealPassword
         internal static void Exit() => Application.Exit();
 
         internal static void Restart() => Application.Restart();
+
+        internal static Bitmap ResizeImage(Image image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var targetImage = new Bitmap(width, height);
+
+            targetImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var g = Graphics.FromImage(targetImage))
+            {
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.CompositingMode = CompositingMode.SourceCopy;
+                g.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                g.CompositingQuality = CompositingQuality.HighQuality;
+                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    g.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return targetImage;
+        }
 
         internal static Region GenerateRoundRegion(int width, int height)
             => GenerateRoundRegion(width, height, Constants.ELIPSE_CURVE);
