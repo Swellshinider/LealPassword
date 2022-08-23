@@ -2,16 +2,12 @@
 using LealPassword.Database.Model;
 using LealPassword.Themes;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace LealPassword.UI.MainPartsSub
+namespace LealPassword.UI.RegCardManageSub
 {
     internal sealed partial class CardAddViewUI : UserControl
     {
@@ -193,7 +189,14 @@ namespace LealPassword.UI.MainPartsSub
                 IsNotValid(securityCode))
             {
                 MessageBox.Show("Todos os valores devem ser preenchidos " +
-                    "para adicionar um novo cartão", "Aviso", MessageBoxButtons.OK);
+                    "para adicionar um novo cartão", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            if (!ValidateCardNum(cardNum, out var newCardNum))
+            {
+                MessageBox.Show("Número do cartão está inválido, verifique e tente novamente",
+                    "Número inválido", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -201,10 +204,20 @@ namespace LealPassword.UI.MainPartsSub
             {
                 CardName = cardName,
                 OwnrName = ownName,
-                Number = cardNum,
+                Number = newCardNum,
                 DueDate = GetDateFromData(comboBoxMonth, comboBoxYear),
                 SecurityNumber = short.Parse(securityCode),
             });
+        }
+
+        private bool ValidateCardNum(string cardNum, out string newCardNum)
+        {
+            newCardNum = string.Empty;
+
+            foreach (var c in cardNum.Where(c => char.IsDigit(c)))
+                newCardNum += c;
+
+            return newCardNum.Length == 16;
         }
 
         private static DateTime GetDateFromData(string comboBoxMonth, string comboBoxYear)

@@ -5,7 +5,8 @@ using LealPassword.Definitions;
 using LealPassword.Diagnostics;
 using LealPassword.Themes;
 using LealPassword.UI.Extension;
-using LealPassword.UI.MainPartsSub;
+using LealPassword.UI.GeneralSub;
+using LealPassword.UI.RegCardManageSub;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -21,12 +22,12 @@ namespace LealPassword.UI
 
         private Account _account;
         private Button _addNewButton;
+        private Control _activeControl;
         private SidePanel _buttonCards;
         private SidePanel _buttonConfig;
         private SidePanel _buttonGeneral;
         private SidePanel _buttonRegister;
-
-        private Control _activeControl;
+        private BunifuMaterialTextbox _searchBox;
 
         internal MainUI(DiagnosticList diagnostic, Account account)
         {
@@ -233,10 +234,11 @@ namespace LealPassword.UI
             #endregion
 
             #region Search box
-            var searchBox = new BunifuMaterialTextbox()
+            _searchBox = new BunifuMaterialTextbox()
             {
                 Text = "",
                 Height = 50,
+                Visible = false,
                 HintText = "Buscar",
                 BorderStyle = BorderStyle.None,
                 Width = (int)(panelTop.Width * 0.5f),
@@ -247,11 +249,11 @@ namespace LealPassword.UI
                 LineFocusedColor = ThemeController.IceWhite,
                 LineMouseHoverColor = ThemeController.IceWhite,
             };
-            panelTop.Controls.Add(searchBox);
-            searchBox.Font = new Font("Arial", 14, FontStyle.Regular);
-            searchBox.Region = Program.GenerateRoundRegion(searchBox.Width, searchBox.Height, 20);
-            searchBox.KeyDown += SearchBox_KeyDown;
-            Program.CentralizeControl(searchBox, panelTop);
+            panelTop.Controls.Add(_searchBox);
+            _searchBox.Font = new Font("Arial", 14, FontStyle.Regular);
+            _searchBox.Region = Program.GenerateRoundRegion(_searchBox.Width, _searchBox.Height, 20);
+            _searchBox.KeyDown += SearchBox_KeyDown;
+            Program.CentralizeControl(_searchBox, panelTop);
             #endregion
 
             foreach(var btns in _sideControls)
@@ -280,13 +282,15 @@ namespace LealPassword.UI
         {
             _diagnostic.Debug("General button click");
             ButtonHighLight((SidePanel)sender);
-
+            _searchBox.Visible = false;
+            _activeControl = new GeneralInfosUI(_account, _container);
         }
 
         private void ButtonRegisters_Click(object sender, EventArgs e)
         {
             _diagnostic.Debug("Register button click");
             ButtonHighLight((SidePanel)sender);
+            _searchBox.Visible = true;
             _activeControl = new RegistersViewUI(_account.Registers, _container);
         }
 
@@ -294,6 +298,7 @@ namespace LealPassword.UI
         {
             _diagnostic.Debug("Cards button click");
             ButtonHighLight((SidePanel)sender);
+            _searchBox.Visible = true;
             _activeControl = new CardViewUI(_account.Cards, _container);
         }
 
@@ -301,6 +306,8 @@ namespace LealPassword.UI
         {
             _diagnostic.Debug("Config button click");
             ButtonHighLight((SidePanel)sender);
+            _searchBox.Visible = false;
+            // TODO: add configuration loaded
         }
         #endregion
 
@@ -337,7 +344,8 @@ namespace LealPassword.UI
             _account = accountController.GetAccount(_account.Username);
             _diagnostic.Debug("New account pushed");
 
-            ButtonCards_Click(null, EventArgs.Empty);
+            ButtonHighLight();
+            _container.Controls.Clear();
         }
 
         private void NewRegUI_OnAddedRegisters(Register register)
@@ -350,12 +358,13 @@ namespace LealPassword.UI
             _account = accountController.GetAccount(_account.Username);
             _diagnostic.Debug("New account pushed");
 
-            ButtonRegisters_Click(null, EventArgs.Empty);
+            ButtonHighLight();
+            _container.Controls.Clear();
         }
         #endregion
 
         #region Form methods
-        private void ButtonHighLight(SidePanel current)
+        private void ButtonHighLight(SidePanel current = null)
         {
             _diagnostic.Debug("SidePanel clicked");
 
@@ -364,7 +373,8 @@ namespace LealPassword.UI
             _buttonCards.Normalcolor = Color.Transparent;
             _buttonConfig.Normalcolor = Color.Transparent;
 
-            current.Normalcolor = current.Activecolor;
+            if (current != null)
+                current.Normalcolor = current.Activecolor;
         }
 
         private void BtnMinimize_Click(object sender, EventArgs e)

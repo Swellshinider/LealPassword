@@ -1,6 +1,6 @@
-﻿namespace LealPassword.UI.MainPartsSub
+﻿namespace LealPassword.UI.RegCardManageSub
 {
-    internal sealed partial class CardViewUI
+    internal sealed partial class ChooseRegistersCardsUI
     {
         /// <summary> 
         /// Variável de designer necessária.

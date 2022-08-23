@@ -1,6 +1,6 @@
-﻿namespace LealPassword.UI.MainPartsSub
+﻿namespace LealPassword.UI.RegCardManageSub
 {
-    internal sealed partial class RegistersAddViewUI
+    internal sealed partial class CardAddViewUI
     {
         /// <summary> 
         /// Variável de designer necessária.
@@ -28,15 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // RegistersAddViewUI
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "RegistersAddViewUI";
-            this.ResumeLayout(false);
-
         }
 
         #endregion

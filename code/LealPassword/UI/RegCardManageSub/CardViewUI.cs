@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace LealPassword.UI.MainPartsSub
+namespace LealPassword.UI.RegCardManageSub
 {
     internal sealed partial class CardViewUI : UserControl
     {
