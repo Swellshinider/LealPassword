@@ -20,7 +20,7 @@ namespace LealPassword.Definitions
         };
         internal static readonly char[] InvalidChar = new char[]
         {
-            '{', '}', '[', ']', '(', ')','%'
+            '{', '}', '[', ']', '(', ')', '%', '/', '\\', '<', '>'
         };
 
         internal static string DEFAULT_DATABASE_PATH 
