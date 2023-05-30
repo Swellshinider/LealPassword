@@ -9,15 +9,26 @@ namespace LealPassword.UI.RegCardManageSub
 {
     internal sealed partial class CardViewUI : UserControl
     {
+        internal delegate void DiscardMe(Card card);
+        internal event DiscardMe OnDiscardMe;
+
+        internal delegate void EditMe(Card card);
+        internal event EditMe OnEditMe;
+
+        internal delegate void SeeMe(Card card);
+        internal event SeeMe OnSeeMe;
+
         private readonly List<Card> _cards;
+        private readonly Control _parent;
 
         internal CardViewUI(List<Card> registers, Control parent)
         {
             InitializeComponent();
             Dock = DockStyle.Fill;
             _cards = registers;
-            parent.Controls.Clear();
-            parent.Controls.Add(this);
+            _parent = parent;
+            _parent.Controls.Clear();
+            _parent.Controls.Add(this);
             BackColor = Color.Transparent;
             GenerateObjects();
         }
@@ -25,6 +36,7 @@ namespace LealPassword.UI.RegCardManageSub
         internal void Filter(string filter)
         {
             Controls.Clear();
+            filter = filter.ToLower();
 
             if (filter == "" || filter == null)
             {
@@ -34,9 +46,15 @@ namespace LealPassword.UI.RegCardManageSub
 
             foreach (var card in _cards)
             {
-                if (!card.CardName.Contains(filter) && !card.CardName.Equals(filter))
+                if (!card.CardName.ToLower().Contains(filter) &&
+                    !card.CardName.ToLower().Equals(filter))
                     continue;
 
+                var cardPanel = new CardPanel(card);
+                cardPanel.OnClickMe += CardPanel_OnClickMe;
+                cardPanel.OnSeeMe += CardPanel_OnSeeMe;
+                cardPanel.OnEditMe += CardPanel_OnEditMe;
+                Controls.Add(cardPanel);
                 Update();
             }
         }
@@ -66,6 +84,7 @@ namespace LealPassword.UI.RegCardManageSub
                 cardPanel.OnClickMe += CardPanel_OnClickMe;
                 cardPanel.OnSeeMe += CardPanel_OnSeeMe;
                 cardPanel.OnEditMe += CardPanel_OnEditMe;
+                cardPanel.OnDiscardMe += CardPanel_OnDiscardMe;
                 Controls.Add(cardPanel);
                 Update();
             }
@@ -73,14 +92,13 @@ namespace LealPassword.UI.RegCardManageSub
 
         #region Card panel
         private void CardPanel_OnEditMe(Card card)
-        {
-            // TODO
-        }
+            => OnEditMe?.Invoke(card);
 
         private void CardPanel_OnSeeMe(Card card)
-        {
-            // TODO
-        }
+            => OnSeeMe?.Invoke(card);
+
+        private void CardPanel_OnDiscardMe(Card card)
+            => OnDiscardMe?.Invoke(card);
 
         private void CardPanel_OnClickMe(CardPanel cardPanel)
         {

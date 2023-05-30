@@ -1,4 +1,6 @@
-﻿using LealPassword.Definitions;
+﻿#define DEBUG
+
+using LealPassword.Definitions;
 using LealPassword.Diagnostics;
 using LealPassword.UI;
 using System;
@@ -29,14 +31,12 @@ namespace LealPassword
         [STAThread]
         internal static void Main(string[] argv)
         {
-            _diagnostics.DiagnosticGenerated += DiagnosticsList_DiagnosticGenerated;
             HideConsole();
-            if ((argv.Length >= 1 && argv[0].ToLower() == "-adm") || Constants.DEBUG == true)
-            {
-                ShowConsole();
-                _diagnostics.Debug("ADM mode activate");
-            }
-
+            _diagnostics.DiagnosticGenerated += DiagnosticsList_DiagnosticGenerated;
+#if DEBUG
+            ShowConsole();
+            _diagnostics.Debug("ADM mode activate");
+#endif
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             _diagnostics.Debug("App configuration started");

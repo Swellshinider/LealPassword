@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Security.Cryptography;
+using System.Linq;
 
 namespace LealPassword.Security
 {
@@ -12,7 +13,7 @@ namespace LealPassword.Security
         private static readonly string UpperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private static readonly string LowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
         private static readonly string NumberListing = "1234567890";
-        private static readonly string EspecialChars = "!@#%";
+        private static readonly string EspecialChars = "!@#%*?&";
 
         public static string GeneratePassword(string seed)
         {
@@ -50,6 +51,28 @@ namespace LealPassword.Security
             }
 
             return gen.ToString().Shuffle();
+        }
+
+        public static int GetPasswordStrengh(string text)
+        {
+            var counter = 0;
+
+            if (text.Length >= 10)
+                counter++;
+
+            if (HasDigit(text))
+                counter++;
+
+            if (HasLowerCaseLetter(text))
+                counter++;
+
+            if (HasUpperCaseLetter(text))
+                counter++;
+
+            if (HasSpecialChar(text))
+                counter++;
+
+            return counter;
         }
 
         public static string HashValue(string valueToHash)
@@ -97,5 +120,17 @@ namespace LealPassword.Security
 
             return new string(array);
         }
+
+        private static bool HasDigit(string text)
+            => text.Any(c => char.IsDigit(c));
+
+        private static bool HasLowerCaseLetter(string text)
+            => text.Any(c => char.IsLower(c));
+
+        private static bool HasUpperCaseLetter(string text)
+            => text.Any(c => char.IsUpper(c));
+
+        private static bool HasSpecialChar(string text)
+            => text.IndexOfAny(EspecialChars.ToCharArray()) != -1;
     }
 }

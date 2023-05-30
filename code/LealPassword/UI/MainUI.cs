@@ -4,6 +4,7 @@ using LealPassword.Database.Model;
 using LealPassword.Definitions;
 using LealPassword.Diagnostics;
 using LealPassword.Themes;
+using LealPassword.UI.EditComponentSub;
 using LealPassword.UI.Extension;
 using LealPassword.UI.GeneralSub;
 using LealPassword.UI.RegCardManageSub;
@@ -263,6 +264,14 @@ namespace LealPassword.UI
             }
 
             _diagnostic.Debug("Objects generated");
+            Clear();
+        }
+
+        private void Clear()
+        {
+            _diagnostic.Debug("Controls cleared");
+            _container.Controls.Clear();
+            ButtonGeneral_Click(_buttonGeneral, new EventArgs());
         }
 
         private void SearchBox_KeyDown(object sender, KeyEventArgs e)
@@ -289,17 +298,23 @@ namespace LealPassword.UI
         private void ButtonRegisters_Click(object sender, EventArgs e)
         {
             _diagnostic.Debug("Register button click");
-            ButtonHighLight((SidePanel)sender);
             _searchBox.Visible = true;
-            _activeControl = new RegistersViewUI(_account.Registers, _container);
+            ButtonHighLight((SidePanel)sender);
+            var regUI = new RegistersViewUI(_account.Registers, _container);
+
+            _activeControl = regUI;
         }
 
         private void ButtonCards_Click(object sender, EventArgs e)
         {
             _diagnostic.Debug("Cards button click");
-            ButtonHighLight((SidePanel)sender);
             _searchBox.Visible = true;
-            _activeControl = new CardViewUI(_account.Cards, _container);
+            ButtonHighLight((SidePanel)sender);
+            var cardUI = new CardViewUI(_account.Cards, _container);
+            cardUI.OnSeeMe += CardUI_OnSeeMe;
+            cardUI.OnEditMe += CardUI_OnEditMe;
+            cardUI.OnDiscardMe += CardUI_OnDiscardMe;
+            _activeControl = cardUI;
         }
 
         private void ButtonConfig_Click(object sender, EventArgs e)
@@ -309,6 +324,43 @@ namespace LealPassword.UI
             _searchBox.Visible = false;
             // TODO: add configuration loaded
         }
+        #endregion
+
+        #region Cards methods
+        private void CardUI_OnSeeMe(Card card)
+        {
+            Clear();
+            var seeUI = new ViewCardUI(card, _container);
+
+            seeUI.GenerateObjects();
+        }
+
+        private void CardUI_OnEditMe(Card card)
+        {
+            Clear();
+        }
+
+        private void CardUI_OnDiscardMe(Card card)
+        {
+            var dialog = MessageBox.Show($"Deseja excluir o cartão {card.CardName}?",
+                "Exclusão de cartão", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (dialog != DialogResult.Yes) return;
+
+            var cardController = new CardController(Constants.DEFAULT_DATABASE_PATH, 
+                Constants.DEFAULT_DATABASE_FILE);
+            cardController.DeleteCard(card);
+
+            var accController = new AccountController(Constants.DEFAULT_DATABASE_PATH,
+                Constants.DEFAULT_DATABASE_FILE);
+            _account = accController.GetAccount(_account.Username);
+
+            Clear();
+        }
+        #endregion
+
+        #region Registers methods
+
         #endregion
 
         #region Button add new 
@@ -344,8 +396,7 @@ namespace LealPassword.UI
             _account = accountController.GetAccount(_account.Username);
             _diagnostic.Debug("New account pushed");
 
-            ButtonHighLight();
-            _container.Controls.Clear();
+            Clear();
         }
 
         private void NewRegUI_OnAddedRegisters(Register register)
@@ -358,8 +409,7 @@ namespace LealPassword.UI
             _account = accountController.GetAccount(_account.Username);
             _diagnostic.Debug("New account pushed");
 
-            ButtonHighLight();
-            _container.Controls.Clear();
+            Clear();
         }
         #endregion
 

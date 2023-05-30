@@ -26,6 +26,7 @@ namespace LealPassword.UI.RegCardManageSub
         internal void Filter(string filter)
         {
             Controls.Clear();
+            filter = filter.ToLower();
 
             if (filter == "" || filter == null)
             {
@@ -35,14 +36,15 @@ namespace LealPassword.UI.RegCardManageSub
 
             foreach (var reg in _registers)
             {
-                if (!reg.Name.Contains(filter) && !reg.Name.Equals(filter) &&
-                    !reg.Tag.Contains(filter) && !reg.Tag.Equals(filter))
+                if (!reg.Name.ToLower().Contains(filter) && !reg.Name.ToLower().Equals(filter) &&
+                    !reg.Tag.ToLower().Contains(filter) && !reg.Tag.ToLower().Equals(filter))
                     continue;
 
                 var regPanel = new RegisterPanel(reg);
                 regPanel.OnEditMe += RegPanel_OnEditMe;
                 regPanel.OnSeeMe += RegPanel_OnSeeMe;
                 regPanel.OnClickMe += RegPanel_OnClickMe;
+                regPanel.OnDiscardMe += RegPanel_OnDiscartMe;
                 Controls.Add(regPanel);
                 Update();
             }
@@ -81,12 +83,17 @@ namespace LealPassword.UI.RegCardManageSub
         #region Register panel
         private void RegPanel_OnSeeMe(Register register)
         {
-            // TODO
+            // TODO: seepanel
         }
 
         private void RegPanel_OnEditMe(Register register)
         {
-            // TODO
+            // TODO: editpanel
+        }
+
+        private void RegPanel_OnDiscartMe(Register register)
+        {
+            // TODO: discartpanel
         }
 
         private void RegPanel_OnClickMe(RegisterPanel registerPanel)
