@@ -186,7 +186,7 @@ namespace LealPassword.UI.RegCardManageSub
 
         private void ButtonGeneratePass_Click(object sender, EventArgs e)
         {
-            var passGenerated = Security.Security.GeneratePassword("221221234341221");
+            var passGenerated = Security.Security.GeneratePassword(12);
             _txtBoxPassword.Text = passGenerated;
         }
 
