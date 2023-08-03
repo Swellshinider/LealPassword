@@ -27,6 +27,9 @@ namespace LealPassword.Diagnostics
         public void Debug(string message, [CallerMemberName] string caller = "")
             => Add(new Diagnostic(DiagnosticType.DEBUG, caller, message));
 
+        public void Info(string message, [CallerMemberName] string caller = "")
+            => Add(new Diagnostic(DiagnosticType.INFO, caller, message));
+
         public void Warn(string message, Exception exception, [CallerMemberName] string caller = "")
             => Add(new Diagnostic(DiagnosticType.WARNING, caller, message, exception));
 
@@ -41,10 +44,11 @@ namespace LealPassword.Diagnostics
             switch (diagnosticType)
             {
                 case DiagnosticType.DEBUG: return ConsoleColor.Cyan;
+                case DiagnosticType.INFO: return ConsoleColor.Green;
                 case DiagnosticType.WARNING: return ConsoleColor.Yellow;
                 case DiagnosticType.ERROR: return ConsoleColor.Red;
                 case DiagnosticType.FATAL: return ConsoleColor.Magenta;
-                default: return ConsoleColor.Cyan;
+                default: return ConsoleColor.Gray;
             }
         }
     }

@@ -27,9 +27,9 @@ namespace LealPassword.Diagnostics
             return Exception == null
                 ? $"{dtf} {Type}, {From}(): {Message}"
                 : $"{dtf} {Type}, {From}(): {Message}\n" +
-                $"Exception: {Exception.Message}\n" +
-                $"InnerException: {Exception.InnerException}\n" +
-                $"StackTrace: {Exception.StackTrace}";
+                $"                   ├── Exception: {Exception.Message}\n" +
+                $"                   │   ├── InnerException: {Exception.InnerException}\n" +
+                $"                   │   └── StackTrace: {Exception.StackTrace}";
         }
     }
 }

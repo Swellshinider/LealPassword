@@ -36,7 +36,7 @@ namespace LealPassword.UI.GeneralSub
                 ForeColor = Themes.ThemeController.LiteGray,
                 Font = new Font("Arial", 32, FontStyle.Regular),
             };
-            Controls.Add(image);                                       
+            Controls.Add(image);    
         }
 
         internal static bool IsSecure(string password)

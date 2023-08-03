@@ -15,39 +15,15 @@ namespace LealPassword.Security
         private static readonly string NumberListing = "1234567890";
         private static readonly string EspecialChars = "!@#%*?&";
 
-        public static string GeneratePassword(string seed)
+        public static string GeneratePassword(int size = 8)
         {
             var gen = new StringBuilder();
+            var allLists = UpperAlphabet + LowerAlphabet + NumberListing + EspecialChars;
 
-            foreach(var c in seed)
+            while(size > 0)
             {
-                switch (c)
-                {
-                    case '1':
-                        {
-                            var index = Random.Next(0, UpperAlphabet.Length);
-                            gen.Append(UpperAlphabet[index]);
-                            break;
-                        }
-                    case '2':
-                        {
-                            var index = Random.Next(0, LowerAlphabet.Length);
-                            gen.Append(LowerAlphabet[index]);
-                            break;
-                        }
-                    case '3':
-                        {
-                            var index = Random.Next(0, NumberListing.Length);
-                            gen.Append(NumberListing[index]);
-                            break;
-                        }
-                    default:
-                        {
-                            var index = Random.Next(0, EspecialChars.Length);
-                            gen.Append(EspecialChars[index]);
-                            break;
-                        }
-                }
+                gen.Append(Random.Next(allLists.Length - 1));
+                size--;
             }
 
             return gen.ToString().Shuffle();
@@ -91,16 +67,16 @@ namespace LealPassword.Security
             }
         }
 
-        public static string Encrypt(string text) 
+        public static string Encrypt(this string text) 
             => Encrypt(text, DefaultKey);
 
-        public static string Decrypt(string text)
+        public static string Decrypt(this string text)
             => Decrypt(text, DefaultKey);
 
-        public static string Encrypt(string text, string key)
-            => Encryption.EncryptString(text, key);
+        public static string Encrypt(this string text, string key)
+            => Encryption.EncryptString(key, text);
 
-        public static string Decrypt(string text, string key)
+        public static string Decrypt(this string text, string key)
             => Decryption.DecryptString(key, text);
 
         private static string Shuffle(this string str)
@@ -113,9 +89,7 @@ namespace LealPassword.Security
             {
                 n--;
                 int k = rng.Next(n + 1);
-                var value = array[k];
-                array[k] = array[n];
-                array[n] = value;
+                (array[n], array[k]) = (array[k], array[n]);
             }
 
             return new string(array);

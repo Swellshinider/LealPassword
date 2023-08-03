@@ -92,7 +92,7 @@ namespace LealPassword.UI.Extension
             var lblSee = new Button
             {
                 Width = 50,
-                Text = "Ver",
+                Text = "See",
                 AutoSize = false,
                 Cursor = Cursors.Hand,
                 Dock = DockStyle.Right,
@@ -106,7 +106,7 @@ namespace LealPassword.UI.Extension
             var lblEdit = new Button
             {
                 Width = 75,
-                Text = "Editar",
+                Text = "Edit",
                 AutoSize = false,
                 Dock = DockStyle.Right,
                 Cursor = Cursors.Hand,

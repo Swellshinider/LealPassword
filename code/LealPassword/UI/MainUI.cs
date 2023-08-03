@@ -142,7 +142,7 @@ namespace LealPassword.UI
             {
                 AutoSize = false,
                 Dock = DockStyle.Fill,
-                Text = "Gerenciador de senhas",
+                Text = "Password management",
                 TextAlign = ContentAlignment.TopLeft,
                 ForeColor = ThemeController.SuperLiteGray,
                 Font = new Font("Times new Roman", 12, FontStyle.Italic),
@@ -181,7 +181,7 @@ namespace LealPassword.UI
             {
                 Height = 50,
                 Width = 125,
-                Text = "Novo",
+                Text = "Add New",
                 Cursor = Cursors.Hand,
                 FlatStyle = FlatStyle.Flat,
                 ForeColor = ThemeController.White,
@@ -213,19 +213,19 @@ namespace LealPassword.UI
             };
             _sideControls.Add(labelTag);
 
-            _buttonGeneral = new SidePanel("Geral", PRController.Images.General127px);
+            _buttonGeneral = new SidePanel("Menu", PRController.Images.General127px);
             _buttonGeneral.Click += ButtonGeneral_Click;
             _sideControls.Add(_buttonGeneral);
 
-            _buttonRegister = new SidePanel("Registros", PRController.Images.Registers127px);
+            _buttonRegister = new SidePanel("Registers", PRController.Images.Registers127px);
             _buttonRegister.Click += ButtonRegisters_Click;
             _sideControls.Add(_buttonRegister);
 
-            _buttonCards = new SidePanel("Cartões", PRController.Images.Cards127px);
+            _buttonCards = new SidePanel("Cards", PRController.Images.Cards127px);
             _buttonCards.Click += ButtonCards_Click;
             _sideControls.Add(_buttonCards);
 
-            _buttonConfig = new SidePanel("Configurações", PRController.Images.Config127px_Black)
+            _buttonConfig = new SidePanel("Configurations", PRController.Images.Config127px_Black)
             {
                 Dock = DockStyle.Bottom,
                 Textcolor = ThemeController.Black
@@ -240,7 +240,7 @@ namespace LealPassword.UI
                 Text = "",
                 Height = 50,
                 Visible = false,
-                HintText = "Buscar",
+                HintText = "Search",
                 BorderStyle = BorderStyle.None,
                 Width = (int)(panelTop.Width * 0.5f),
                 ForeColor = ThemeController.LiteGray,
@@ -342,17 +342,17 @@ namespace LealPassword.UI
 
         private void CardUI_OnDiscardMe(Card card)
         {
-            var dialog = MessageBox.Show($"Deseja excluir o cartão {card.CardName}?",
-                "Exclusão de cartão", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var dialog = MessageBox.Show($"Do you want to delete the card {card.CardName}?",
+                "Card deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (dialog != DialogResult.Yes) return;
 
             var cardController = new CardController(Constants.DEFAULT_DATABASE_PATH, 
-                Constants.DEFAULT_DATABASE_FILE);
+                Constants.DEFAULT_DATABASE_FILE, _account.Password);
             cardController.DeleteCard(card);
 
             var accController = new AccountController(Constants.DEFAULT_DATABASE_PATH,
-                Constants.DEFAULT_DATABASE_FILE);
+                Constants.DEFAULT_DATABASE_FILE, _account.Password);
             _account = accController.GetAccount(_account.Username);
 
             Clear();
@@ -388,11 +388,13 @@ namespace LealPassword.UI
 
         private void NewCardUI_OnAddedCards(Card card)
         {
-            var cardController = new CardController(Constants.DEFAULT_DATABASE_PATH, Constants.DEFAULT_DATABASE_FILE);
+            var cardController = new CardController(Constants.DEFAULT_DATABASE_PATH, 
+                Constants.DEFAULT_DATABASE_FILE, _account.Password);
             cardController.InsertCard(card);
             _diagnostic.Debug($"New card('{card.CardName}') inserted");
 
-            var accountController = new AccountController(Constants.DEFAULT_DATABASE_PATH, Constants.DEFAULT_DATABASE_FILE);
+            var accountController = new AccountController(Constants.DEFAULT_DATABASE_PATH, 
+                Constants.DEFAULT_DATABASE_FILE, _account.Password);
             _account = accountController.GetAccount(_account.Username);
             _diagnostic.Debug("New account pushed");
 
@@ -401,11 +403,13 @@ namespace LealPassword.UI
 
         private void NewRegUI_OnAddedRegisters(Register register)
         {
-            var regController = new RegisterController(Constants.DEFAULT_DATABASE_PATH, Constants.DEFAULT_DATABASE_FILE);
+            var regController = new RegisterController(Constants.DEFAULT_DATABASE_PATH, 
+                Constants.DEFAULT_DATABASE_FILE, _account.Password);
             regController.InsertRegister(register);
             _diagnostic.Debug($"New register('{register.Name}') inserted");
 
-            var accountController = new AccountController(Constants.DEFAULT_DATABASE_PATH, Constants.DEFAULT_DATABASE_FILE);
+            var accountController = new AccountController(Constants.DEFAULT_DATABASE_PATH, 
+                Constants.DEFAULT_DATABASE_FILE, _account.Password);
             _account = accountController.GetAccount(_account.Username);
             _diagnostic.Debug("New account pushed");
 

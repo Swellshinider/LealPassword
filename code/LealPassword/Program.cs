@@ -1,7 +1,6 @@
-﻿#define DEBUG
-
-using LealPassword.Definitions;
+﻿using LealPassword.Definitions;
 using LealPassword.Diagnostics;
+using LealPassword.Exceptions;
 using LealPassword.UI;
 using System;
 using System.Drawing;
@@ -33,14 +32,41 @@ namespace LealPassword
         {
             HideConsole();
             _diagnostics.DiagnosticGenerated += DiagnosticsList_DiagnosticGenerated;
-#if DEBUG
-            ShowConsole();
-            _diagnostics.Debug("ADM mode activate");
-#endif
+
+            ArgvLoad(argv);
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             _diagnostics.Debug("App configuration started");
             Application.Run(new LoginCreateAccountUI(_diagnostics));
+        }
+
+        private static void ArgvLoad(string[] args)
+        {
+            if (args.Length == 0)
+                return;
+
+            foreach (var arg in args)
+            {
+                if (!arg.StartsWith("-"))
+                {
+                    _diagnostics.Warn("Invalid argument format", new InvalidArgumentFormatException(arg));
+                    continue;
+                }
+                
+                var argument = arg.Replace("-", "").ToLower();
+
+                switch (argument)
+                {
+                    case "a":
+                        ShowConsole();
+                        _diagnostics.Debug("ADM mode activate");
+                        break;
+                    default:
+                        _diagnostics.Warn("Invalid argument handled", new InvalidArgumentHandledException(arg));
+                        break;
+                }
+            }
         }
 
         internal static void ControlMouseDown(IntPtr handle, MouseEventArgs e)
@@ -101,6 +127,8 @@ namespace LealPassword
                     m.Result = (IntPtr)17;
             }
         }
+
+        internal static bool NullCheckString(this string s) => !string.IsNullOrEmpty(s) && !string.IsNullOrWhiteSpace(s);
 
         internal static void Exit() => Application.Exit();
 

@@ -6,12 +6,12 @@ namespace LealPassword.Database.Controllers
 {
     internal sealed class CardController : BaseController
     {
-        internal CardController(string directory, string fileName)
-            : base(directory, fileName) { }
+        internal CardController(string directory, string fileName, string unhashedPassword)
+            : base(directory, fileName, unhashedPassword) { }
 
         internal void ClearCards()
         {
-            using (var logic = new CardManagement(_directory, _fileName))
+            using (var logic = new CardManagement(_directory, _fileName, _unhashedPassword))
             {
                 logic.ClearCards();
             }
@@ -21,7 +21,7 @@ namespace LealPassword.Database.Controllers
         {
             var entity = Mapper.Map(card);
 
-            using (var logic = new CardManagement(_directory, _fileName))
+            using (var logic = new CardManagement(_directory, _fileName, _unhashedPassword))
             {
                 logic.UpdateCard(entity);
             }
@@ -31,7 +31,7 @@ namespace LealPassword.Database.Controllers
         {
             var entity = Mapper.Map(card);
 
-            using (var logic = new CardManagement(_directory, _fileName))
+            using (var logic = new CardManagement(_directory, _fileName, _unhashedPassword))
             {
                 logic.InsertCard(entity);
             }
@@ -41,7 +41,7 @@ namespace LealPassword.Database.Controllers
         {
             var entity = Mapper.Map(card);
 
-            using (var logic = new CardManagement(_directory, _fileName))
+            using (var logic = new CardManagement(_directory, _fileName, _unhashedPassword))
             {
                 logic.DeleteCard(entity);
             }
@@ -49,7 +49,7 @@ namespace LealPassword.Database.Controllers
 
         internal List<Card> GetCards()
         {
-            using (var logic = new CardManagement(_directory, _fileName))
+            using (var logic = new CardManagement(_directory, _fileName, _unhashedPassword))
             {
                 var entity = logic.GetCards();
                 return Mapper.Map(entity);
