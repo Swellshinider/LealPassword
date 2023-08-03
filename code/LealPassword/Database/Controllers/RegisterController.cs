@@ -6,12 +6,12 @@ namespace LealPassword.Database.Controllers
 {
     internal sealed class RegisterController : BaseController
     {
-        internal RegisterController(string directory, string fileName)
-            : base(directory, fileName) { }
+        internal RegisterController(string directory, string fileName, string unhashedPassword)
+            : base(directory, fileName, unhashedPassword) { }
 
         internal void ClearRegisters()
         {
-            using (var logic = new RegisterManagement(_directory, _fileName))
+            using (var logic = new RegisterManagement(_directory, _fileName, _unhashedPassword))
             {
                 logic.ClearRegisters();
             }
@@ -21,7 +21,7 @@ namespace LealPassword.Database.Controllers
         {
             var entity = Mapper.Map(register);
 
-            using(var logic = new RegisterManagement(_directory, _fileName))
+            using(var logic = new RegisterManagement(_directory, _fileName, _unhashedPassword))
             {
                 logic.UpdateRegister(entity);
             }
@@ -31,7 +31,7 @@ namespace LealPassword.Database.Controllers
         {
             var entity = Mapper.Map(register);
 
-            using (var logic = new RegisterManagement(_directory, _fileName))
+            using (var logic = new RegisterManagement(_directory, _fileName, _unhashedPassword))
             {
                 logic.InsertRegister(entity);
             }
@@ -41,7 +41,7 @@ namespace LealPassword.Database.Controllers
         {
             var entity = Mapper.Map(register);
 
-            using (var logic = new RegisterManagement(_directory, _fileName))
+            using (var logic = new RegisterManagement(_directory, _fileName, _unhashedPassword))
             {
                 logic.DeleteRegister(entity);
             }
@@ -49,7 +49,7 @@ namespace LealPassword.Database.Controllers
 
         internal List<Register> GetRegisters()
         {
-            using (var logic = new RegisterManagement(_directory, _fileName))
+            using (var logic = new RegisterManagement(_directory, _fileName, _unhashedPassword))
             {
                 var entity = logic.GetRegisters();
                 return Mapper.Map(entity);

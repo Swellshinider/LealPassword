@@ -5,6 +5,8 @@ using LealPassword.Diagnostics;
 using LealPassword.Themes;
 using System;
 using System.Drawing;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows.Forms;
 
 namespace LealPassword.UI.LoginCreateSub
@@ -12,7 +14,7 @@ namespace LealPassword.UI.LoginCreateSub
     internal sealed partial class LoginUI : UserControl
     {
         private readonly DiagnosticList _diagnostic;
-        private readonly bool _remember;
+        private readonly bool _rememberUser;
 
         internal delegate void CreatingAccountUI();
         internal event CreatingAccountUI OnCreatingAccount;
@@ -27,8 +29,7 @@ namespace LealPassword.UI.LoginCreateSub
             _diagnostic = diagnostic;
             Dock = DockStyle.Fill;
             BackColor = ThemeController.SuperLiteGray;
-            _remember = !string.IsNullOrEmpty(PRController.LastUser) &&
-                !string.IsNullOrWhiteSpace(PRController.LastUser);
+            _rememberUser = PRController.LastUser.NullCheckString();
             textBoxUser.Text = PRController.LastUser;
             GenerateObjects();
         }
@@ -36,6 +37,7 @@ namespace LealPassword.UI.LoginCreateSub
         internal void GenerateObjects()
         {
             _diagnostic.Debug("Generating login objects");
+
             #region Labels
             var lblIcon = new Label
             {
@@ -72,7 +74,7 @@ namespace LealPassword.UI.LoginCreateSub
 
             #region TextBoxUser
             textBoxUser.Height = 50;
-            textBoxUser.HintText = "Usuário";
+            textBoxUser.HintText = "Username";
             textBoxUser.Width = (int)(Width * 0.65f);
             textBoxUser.ForeColor = ThemeController.LiteGray;
             textBoxUser.BackColor = ThemeController.IceWhite;
@@ -88,7 +90,7 @@ namespace LealPassword.UI.LoginCreateSub
             #region TextBoxPass
             textBoxPass.Text = "";
             textBoxPass.Height = 50;
-            textBoxPass.HintText = "Senha";
+            textBoxPass.HintText = "Password";
             textBoxPass.Width = (int)(Width * 0.65f);
             textBoxPass.BorderStyle = BorderStyle.None;
             textBoxPass.ForeColor = ThemeController.LiteGray;
@@ -105,20 +107,20 @@ namespace LealPassword.UI.LoginCreateSub
             var checkBoxRemember = new CheckBox()
             {
                 AutoSize = true,
-                Checked = _remember,
-                Text = "Lembrar login",
+                Checked = _rememberUser,
+                Text = "Remember username",
                 FlatStyle = FlatStyle.Flat,
                 TextAlign = ContentAlignment.MiddleRight,
                 ForeColor = ThemeController.LiteGray,
                 Font = new Font("Times new roman", 11, FontStyle.Italic),
             };
-            checkBoxRemember.Click += CheckBoxShowHidePassword_Click;
+            checkBoxRemember.Click += CheckBoxRememberUsername_Click;
             Controls.Add(checkBoxRemember);
-           
+
             var buttonLogin = new Button()
             {
                 Height = 50,
-                Text = "Entrar",
+                Text = "Login",
                 FlatStyle = FlatStyle.Flat,
                 Width = (int)(Width * 0.65f),
                 ForeColor = ThemeController.White,
@@ -139,7 +141,7 @@ namespace LealPassword.UI.LoginCreateSub
                 Dock = DockStyle.Bottom,
                 ForeColor = ThemeController.LiteGray,
                 TextAlign = ContentAlignment.TopCenter,
-                Text = "Ainda não tem uma conta? clique aqui!",
+                Text = "Does not have an account? click here!",
                 Font = new Font("Arial", 11, FontStyle.Italic),
             };
             lblDoesNotHaveAcc.Click += LblDoesNotHaveAcc_Click;
@@ -152,8 +154,7 @@ namespace LealPassword.UI.LoginCreateSub
             SetDynamicHeight(textBoxUser, 250);
             SetDynamicHeight(textBoxPass, 325);
             SetDynamicHeight(checkBoxRemember, 380);
-            checkBoxRemember.Location = new Point(checkBoxRemember.Location.X + 
-                (checkBoxRemember.Width / 2) - (textBoxPass.Width / 2), checkBoxRemember.Location.Y);
+            checkBoxRemember.Location = new Point(checkBoxRemember.Location.X + (checkBoxRemember.Width / 2) - (textBoxPass.Width / 2), checkBoxRemember.Location.Y);
             SetDynamicHeight(buttonLogin, 425);
             #endregion
 
@@ -172,32 +173,41 @@ namespace LealPassword.UI.LoginCreateSub
         private bool IsLoginValid(string user, string pass, out Account account)
         {
             account = null;
-            pass = "Papibaquigrafo1!"; // HACK: Exclude this
 
             if (string.IsNullOrWhiteSpace(user) || string.IsNullOrEmpty(user) || 
                 string.IsNullOrWhiteSpace(pass) || string.IsNullOrEmpty(pass))
             {
-                MessageBox.Show("Usuário ou senha inválidos",
-                    "Dados inválidos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Username or password are invalid",
+                    "Invalid data", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
 
-            var hashedPass = Security.Security.HashValue(pass);
-            var controller = new AccountController(Constants.DEFAULT_DATABASE_PATH, 
-                Constants.DEFAULT_DATABASE_FILE);
-            account = controller.GetAccount(user);
+            try
+            {
+                var controller = new AccountController(Constants.DEFAULT_DATABASE_PATH,
+                Constants.DEFAULT_DATABASE_FILE, pass);
+                account = controller.GetAccount(user);
+            }
+            catch (CryptographicException)
+            {
+                account = new Account()
+                {
+                    Username = "",
+                    Password = ""
+                };
+            }
 
             if (account == null || account.Username == null || account.Password == null)
             {
-                MessageBox.Show("Não existe nenhuma conta criada com esses parâmetros",
-                    "Conta inexistente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("There is no account created with these parameters.",
+                    "Account does not exist", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
 
-            if (account.Username != user || account.Password != hashedPass)
+            if (account.Username != user || account.Password != pass)
             {
-                MessageBox.Show("Usuário ou senha inválidos",
-                    "Dados inválidos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Username or password are invalid.",
+                    "Invalid data", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
 
@@ -206,8 +216,11 @@ namespace LealPassword.UI.LoginCreateSub
 
         private void TextBoxKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode != Keys.Enter) return;
-            ButtonLogin_Click(sender, e);
+            if (e.KeyCode == Keys.Enter)
+            {
+                ButtonLogin_Click(sender, e);
+                return;
+            }
         }
 
         private void SetDynamicHeight(Control control, int dynamicHeight)
@@ -225,15 +238,12 @@ namespace LealPassword.UI.LoginCreateSub
 
             if (!IsLoginValid(user, pass, out var account)) return;
 
-            CheckBoxShowHidePassword_Click(ExtractBox(), e);
+            CheckBoxRememberUsername_Click(ExtractBox(), e);
             OnLogginToAccount?.Invoke(account, pass);
         }
 
-        private void CheckBoxShowHidePassword_Click(object sender, EventArgs e)
-        {
-            var cbox = (CheckBox)sender;
-            PRController.LastUser = cbox.Checked ? textBoxUser.Text : "";
-        }
+        private void CheckBoxRememberUsername_Click(object sender, EventArgs e) 
+            => PRController.LastUser = ((CheckBox)sender).Checked ? textBoxUser.Text : "";
 
         private void LblDoesNotHaveAcc_Click(object sender, EventArgs e)
             => OnCreatingAccount?.Invoke();

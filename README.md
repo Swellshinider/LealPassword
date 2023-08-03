@@ -9,43 +9,53 @@
 </p>
 
 A complete password manager to make your life easier.<br> 
-`LealPassword` é capaz de armazenar, proteger e fortaceler suas senhas.<br> 
->  Feito por alguém que esquece todas as senhas e não aguenta mais ficar redefinindo-as.
+`LealPassword` is capable of storing, protecting, and strengthening your passwords.<br>
+>  Made by someone who forgets all passwords and can't stand resetting them anymore.
 
-# Visão geral
+## Overview
 
 <p align="center">
-  <img width="700" align="center" src="" alt="Visão geral"/>
+  <img width="700" align="center" src="" alt="Overview"/>
 </p>
 
-## Plano de desenvolvimento
+## Download
 
-- [x] Inicialização base do projeto
+Version 1.0.0: [LealPassword.exe v1.0.0](https://www.google.com.br)
 
+## Development plan
 
-## Contribuições
+- [x] Base project initialization
+- [x] Database definition
+- [x] Database completed
+- [x] Security system
+- [x] Secutity system applied to database
+- [x] Login and sign in UI
+- [x] Cards creation
+- [ ] Register creation
+- [ ] Edit, vizualize and destroy cards and registers
+- [ ] New icons to LealPassword (cards, registers and Main icon)
+- [ ] Configurations UI
+- [ ] Menu UI
 
-Contribuições são muito bem vindas.<br>
-Sinta-se livre para visitar a [issue page](https://github.com/Swellshinider/LealPassword/issues) se deseja contribuir.<br>
+## Contributions
 
-## Autor
+Contributions are very welcome.<br>
+Feel free to visit the [issue page](https://github.com/Swellshinider/LealPassword/issues) if you want to contribute.<br>
 
-👤 **Eduardo Leal**
+## Author
 
-- Twitter: [@Duzi1nho](https://twitter.com/Duzi1nho)
+👤 **Eduardo R. Leal**
+
+- Twitter: [@Swellshinider](https://twitter.com/Swellshinider)
 - Github: [@Swellshinider](https://github.com/Swellshinider)
 
 ## Dê um apoio
 
-Por favor, se o `LealPassword` te ajudou de alguma forma, dê uma estrelinha ⭐.<br>
-
-<a href="https://www.patreon.com/Swellshinider">
-  <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
-</a>
+Please, if  `LealPassword` has helped you in any way, give it a star ⭐.<br>
 
 ## 📝 Licença
 
-Copyright © 2022 [Eduardo Leal](https://github.com/Swellshinider).<br />
-Esse projeto segue a licença [GNU](https://github.com/Swellshinider/LealPassword/blob/master/LICENSE).
+Copyright © 2023 [Eduardo R. Leal](https://github.com/Swellshinider).<br />
+This project is licensed under the [GNU](https://github.com/Swellshinider/LealPassword/blob/master/LICENSE).
 
 ---

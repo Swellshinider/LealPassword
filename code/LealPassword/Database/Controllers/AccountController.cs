@@ -6,12 +6,12 @@ namespace LealPassword.Database.Controllers
 {
     internal sealed class AccountController : BaseController
     {
-        internal AccountController(string directory, string fileName)
-            : base(directory, fileName) { }
+        internal AccountController(string directory, string fileName, string unhashedPassword)
+            : base(directory, fileName, unhashedPassword) { }
 
         internal void ClearAccounts()
         {
-            using (var logic = new AccountManagement(_directory, _fileName))
+            using (var logic = new AccountManagement(_directory, _fileName, _unhashedPassword))
             {
                 logic.ClearAccounts();
             }
@@ -21,7 +21,7 @@ namespace LealPassword.Database.Controllers
         {
             var entity = Mapper.Map(account);
 
-            using (var logic = new AccountManagement(_directory, _fileName))
+            using (var logic = new AccountManagement(_directory, _fileName, _unhashedPassword))
             {
                 logic.UpdateAccount(entity);
             }
@@ -31,7 +31,7 @@ namespace LealPassword.Database.Controllers
         {
             var entity = Mapper.Map(account);
 
-            using (var logic = new AccountManagement(_directory, _fileName))
+            using (var logic = new AccountManagement(_directory, _fileName, _unhashedPassword))
             {
                 logic.InsertAccount(entity);
             }
@@ -41,7 +41,7 @@ namespace LealPassword.Database.Controllers
         {
             var entity = Mapper.Map(account);
 
-            using (var logic = new AccountManagement(_directory, _fileName))
+            using (var logic = new AccountManagement(_directory, _fileName, _unhashedPassword))
             {
                 logic.DeleteAccount(entity);
             }
@@ -51,7 +51,7 @@ namespace LealPassword.Database.Controllers
         {
             var accounts = new List<Account>();
 
-            using (var logic = new AccountManagement(_directory, _fileName))
+            using (var logic = new AccountManagement(_directory, _fileName, _unhashedPassword))
             {
                 var entity = logic.GetAccount();
 
@@ -59,9 +59,9 @@ namespace LealPassword.Database.Controllers
                     accounts.Add(Mapper.Map(acc));
             }
 
-            var regController = new RegisterController(_directory, _fileName);
+            var regController = new RegisterController(_directory, _fileName, _unhashedPassword);
             var regList = regController.GetRegisters();
-            var crdController = new CardController(_directory, _fileName);
+            var crdController = new CardController(_directory, _fileName, _unhashedPassword);
             var crdList = crdController.GetCards();
 
             foreach (var acc in accounts)

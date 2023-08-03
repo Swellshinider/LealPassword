@@ -73,8 +73,6 @@ namespace LealPassword.Database
             }
         }
 
-        // TODO: get, save and edit Card, Date is long
-
         #region Dispose
         private void Dispose(bool disposing)
         {

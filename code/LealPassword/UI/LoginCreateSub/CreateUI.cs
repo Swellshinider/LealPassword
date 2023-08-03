@@ -56,7 +56,7 @@ namespace LealPassword.UI.LoginCreateSub
             #region UserTextBox
             textBoxUser.Text = "";
             textBoxUser.Height = 50;
-            textBoxUser.HintText = "Usuário";
+            textBoxUser.HintText = "Username";
             textBoxUser.Width = (int)(Width * 0.65f);
             textBoxUser.ForeColor = ThemeController.LiteGray;
             textBoxUser.BackColor = ThemeController.IceWhite;
@@ -73,7 +73,7 @@ namespace LealPassword.UI.LoginCreateSub
             textBoxPass.Text = "";
             textBoxPass.Height = 50;
             textBoxPass.isPassword = true;
-            textBoxPass.HintText = "Senha";
+            textBoxPass.HintText = "Password";
             textBoxPass.Width = (int)(Width * 0.65f);
             textBoxPass.BorderStyle = BorderStyle.None;
             textBoxPass.ForeColor = ThemeController.LiteGray;
@@ -91,7 +91,7 @@ namespace LealPassword.UI.LoginCreateSub
             textBoxPass2.Text = "";
             textBoxPass2.Height = 50;
             textBoxPass2.isPassword = true;
-            textBoxPass2.HintText = "Confirme a senha";
+            textBoxPass2.HintText = "Confirm password";
             textBoxPass2.Width = (int)(Width * 0.65f);
             textBoxPass2.BorderStyle = BorderStyle.None;
             textBoxPass2.ForeColor = ThemeController.LiteGray;
@@ -109,7 +109,7 @@ namespace LealPassword.UI.LoginCreateSub
             var buttonCreate = new Button()
             {
                 Height = 50,
-                Text = "Criar",
+                Text = "Create account",
                 FlatStyle = FlatStyle.Flat,
                 Width = (int)(Width * 0.65f),
                 ForeColor = ThemeController.White,
@@ -131,7 +131,7 @@ namespace LealPassword.UI.LoginCreateSub
                 Dock = DockStyle.Bottom,
                 ForeColor = ThemeController.LiteGray,
                 TextAlign = ContentAlignment.TopCenter,
-                Text = "Já tem uma conta? Clique aqui para entrar!",
+                Text = "Do you already have an account? Click here to sign in!",
                 Font = new Font("Arial", 11, FontStyle.Italic),
             };
             lblcopyright.Click += (s, e) => OnAccountCreated?.Invoke();
@@ -157,9 +157,9 @@ namespace LealPassword.UI.LoginCreateSub
 
         private void ButtonCreate_Click(object sender, EventArgs e)
         {
-            var dialog = MessageBox.Show("Você só pode ter uma conta por computador nessa versão, " +
-                "ao criar uma nova, todas as outras contas e registros serão excluídas\n\n" +
-                "Tem certeza disso?", "Aviso", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            var dialog = MessageBox.Show("You can only have one account per computer in this version. " +
+                "Creating a new account will delete all other accounts and registers.\n\n" +
+                "Are you sure about this?", "Warning!", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
 
             if (!dialog.Equals(DialogResult.Yes)) return;
 
@@ -169,15 +169,15 @@ namespace LealPassword.UI.LoginCreateSub
 
             if (string.IsNullOrEmpty(user) || string.IsNullOrWhiteSpace(user) || user.Length < 3)
             {
-                MessageBox.Show("Nome de usuário deve ter pelo menos 3 caracteres", "Usuário inválido", 
+                MessageBox.Show("Username must have at least 3 characters", "Invalid Username", 
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (!CheckIsValidCharacters(user))
             {
-                MessageBox.Show($"Nome de usuário não deve conter os seguintes caracteres:\n" +
-                    $"{new string(Constants.InvalidChar)}", "Usuário inválido",
+                MessageBox.Show($"Username cannot handle with theses characters:\n" +
+                    $"{new string(Constants.InvalidChar)}", "Invalid Username",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
@@ -185,54 +185,46 @@ namespace LealPassword.UI.LoginCreateSub
             if (string.IsNullOrEmpty(pass) || string.IsNullOrWhiteSpace(pass)
                 || string.IsNullOrEmpty(pass2) || string.IsNullOrWhiteSpace(pass2))
             {
-                MessageBox.Show("Senha deve ter pelo menos 3 caractéres", "Senha inválida",
+                MessageBox.Show("Password must have at least 3 characters", "Invalid Password",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (!CheckIsValidCharacters(pass))
             {
-                MessageBox.Show($"Senha não deve conter os seguintes caracteres:\n" +
-                    $"{new string(Constants.InvalidChar)}", "Usuário inválido",
+                MessageBox.Show($"Password cannot handle with these characters:\n" +
+                    $"{new string(Constants.InvalidChar)}", "Invalid Password",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (pass != pass2)
             {
-                MessageBox.Show("As senhas devem ser iguais", "Senha inválida",
+                MessageBox.Show("Passwords must be equal", "Invalid Password",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            var hashedPass = Security.Security.HashValue(pass);
             var accountControler = new AccountController(Constants.DEFAULT_DATABASE_PATH,
-                Constants.DEFAULT_DATABASE_FILE);
+                Constants.DEFAULT_DATABASE_FILE, pass);
 
             accountControler.ClearAccounts();
             accountControler.InsertAccount(new Account()
             {
                 Username = user,
-                Password = hashedPass,
+                Password = pass,
                 Registers = new List<Register>(),
                 Cards = new List<Card>()
             });
 
             var registerController = new RegisterController(Constants.DEFAULT_DATABASE_PATH,
-                Constants.DEFAULT_DATABASE_FILE);
+                Constants.DEFAULT_DATABASE_FILE, pass);
             registerController.ClearRegisters();
 
             OnAccountCreated?.Invoke();
         }
 
-        private bool CheckIsValidCharacters(string user)
-        {
-            foreach(var c in user)
-                if (Constants.InvalidChar.Contains(c)) 
-                    return false;
-
-            return true;
-        }
+        private bool CheckIsValidCharacters(string user) => !Constants.InvalidChar.Any(c => user.Contains(c));
 
         private void SetDynamicHeight(Control control, int dynamicHeight)
         {

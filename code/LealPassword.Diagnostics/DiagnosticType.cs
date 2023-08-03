@@ -3,8 +3,9 @@
     public enum DiagnosticType
     {
         DEBUG,
+        INFO,
         WARNING,
         ERROR,
-        FATAL
+        FATAL,
     }
 }

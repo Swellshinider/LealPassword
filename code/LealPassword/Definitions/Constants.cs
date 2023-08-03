@@ -7,26 +7,24 @@ namespace LealPassword.Definitions
     {
         private static readonly string[] NiceMessages = new string[]
         {
-            "Não importa que você vá devagar, contanto que você não pare.",
-            "Para cada problema existe um desafio, para cada desafio existe uma solução.",
-            "Faça o melhor que puder, seja o melhor que puder. O resultado virá na mesma proporção de seu esforço.",
-            "Somos o que repetidamente fazemos. Portanto, a excelência não é um feito, é um hábito.",
-            "Pedras no caminho? Guarde todas. Um dia poderá construir um castelo.",
-            "As pessoas costumam dizer que a motivação não dura sempre. Bem, nem o efeito do banho, por isso recomenda-se diariamente.",
-            "Motivação é a arte de fazer as pessoas fazerem o que você quer que elas façam porque elas o querem fazer.",
-            "Lute. Acredite. Conquiste. Perca. Deseje. Espere. Alcance. Caia. Seja tudo, mas, acima de tudo, seja sempre você.",
-            "O insucesso é apenas uma oportunidade para recomeçar com mais inteligência.",
-            "Só se pode alcançar um grande êxito quando nos mantemos fiéis a nós mesmos."
+            "It doesn't matter how slowly you go as long as you do not stop.",
+            "For every problem, there is a challenge; for every challenge, there is a solution.",
+            "Do the best you can, be the best you can be. The result will come in proportion to your effort.",
+            "We are what we repeatedly do. Excellence, then, is not an act but a habit.",
+            "Stones on the path? Keep them all. One day, you may build a castle.",
+            "People often say that motivation doesn't last. Well, neither does the effect of a bath; that's why it is recommended daily.",
+            "Motivation is the art of getting people to do what you want them to do because they want to do it.",
+            "Fight. Believe. Conquer. Lose. Desire. Wait. Achieve. Fall. Be everything, but above all, always be yourself.",
+            "Failure is just an opportunity to start again with more intelligence.",
+            "Only through being true to ourselves can we achieve great success."
         };
+        
         internal static readonly char[] InvalidChar = new char[]
         {
             '{', '}', '[', ']', '(', ')', '%', '/', '\\', '<', '>'
         };
-
-        internal static string DEFAULT_DATABASE_PATH 
-            => $"{Environment.GetLogicalDrives()[0]}Users\\Public\\LealPassword";
-        internal static string DEFAULT_DATABASE_FILE
-            => $"LealPassword.sqlite3";
+        internal static string DEFAULT_DATABASE_PATH => $"{Environment.GetLogicalDrives()[0]}Users\\Public\\LealPassword";
+        internal static string DEFAULT_DATABASE_FILE => $"LealPassword.sqlite3";
 
         internal static readonly bool DEBUG = true;
 
