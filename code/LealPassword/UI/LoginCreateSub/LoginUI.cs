@@ -14,7 +14,6 @@ namespace LealPassword.UI.LoginCreateSub
     internal sealed partial class LoginUI : UserControl
     {
         private readonly DiagnosticList _diagnostic;
-        private readonly bool _rememberUser;
 
         internal delegate void CreatingAccountUI();
         internal event CreatingAccountUI OnCreatingAccount;
@@ -29,7 +28,6 @@ namespace LealPassword.UI.LoginCreateSub
             _diagnostic = diagnostic;
             Dock = DockStyle.Fill;
             BackColor = ThemeController.SuperLiteGray;
-            _rememberUser = PRController.LastUser.NullCheckString();
             textBoxUser.Text = PRController.LastUser;
             GenerateObjects();
         }
@@ -39,14 +37,14 @@ namespace LealPassword.UI.LoginCreateSub
             _diagnostic.Debug("Generating login objects");
 
             #region Labels
-            var lblIcon = new Label
+            var lblIcon = new Panel
             {
                 Width = 64,
                 Height = 64,
-                Text = "",
                 AutoSize = false,
-                FlatStyle = FlatStyle.Flat,
-                BorderStyle = BorderStyle.FixedSingle
+                BorderStyle = BorderStyle.None,
+                BackgroundImageLayout = ImageLayout.Stretch,
+                BackgroundImage = PRController.Images.LealPasswordLogo512px
             };
             Controls.Add(lblIcon);
             var lblTitle = new Label()
@@ -104,18 +102,18 @@ namespace LealPassword.UI.LoginCreateSub
             textBoxPass.KeyDown += TextBoxKeyDown;
             #endregion
 
-            var checkBoxRemember = new CheckBox()
+            var checkBoxShowHidePassword = new CheckBox()
             {
                 AutoSize = true,
-                Checked = _rememberUser,
-                Text = "Remember username",
+                Checked = true,
+                Text = "Show Password",
                 FlatStyle = FlatStyle.Flat,
                 TextAlign = ContentAlignment.MiddleRight,
                 ForeColor = ThemeController.LiteGray,
                 Font = new Font("Times new roman", 11, FontStyle.Italic),
             };
-            checkBoxRemember.Click += CheckBoxRememberUsername_Click;
-            Controls.Add(checkBoxRemember);
+            checkBoxShowHidePassword.Click += CheckBoxShowHidePassword_Click;
+            Controls.Add(checkBoxShowHidePassword);
 
             var buttonLogin = new Button()
             {
@@ -153,8 +151,8 @@ namespace LealPassword.UI.LoginCreateSub
             SetDynamicHeight(lblNiceMessage, 160);
             SetDynamicHeight(textBoxUser, 250);
             SetDynamicHeight(textBoxPass, 325);
-            SetDynamicHeight(checkBoxRemember, 380);
-            checkBoxRemember.Location = new Point(checkBoxRemember.Location.X + (checkBoxRemember.Width / 2) - (textBoxPass.Width / 2), checkBoxRemember.Location.Y);
+            SetDynamicHeight(checkBoxShowHidePassword, 380);
+            checkBoxShowHidePassword.Location = new Point(checkBoxShowHidePassword.Location.X + (checkBoxShowHidePassword.Width / 2) - (textBoxPass.Width / 2), checkBoxShowHidePassword.Location.Y);
             SetDynamicHeight(buttonLogin, 425);
             #endregion
 
@@ -162,14 +160,6 @@ namespace LealPassword.UI.LoginCreateSub
         }
 
         #region Private methods
-        private CheckBox ExtractBox()
-        {
-            foreach(var ctrl in Controls)
-                if (ctrl is CheckBox box) return box;
-
-            return null;
-        }
-
         private bool IsLoginValid(string user, string pass, out Account account)
         {
             account = null;
@@ -238,15 +228,18 @@ namespace LealPassword.UI.LoginCreateSub
 
             if (!IsLoginValid(user, pass, out var account)) return;
 
-            CheckBoxRememberUsername_Click(ExtractBox(), e);
+            PRController.LastUser = user;
             OnLogginToAccount?.Invoke(account, pass);
         }
 
-        private void CheckBoxRememberUsername_Click(object sender, EventArgs e) 
-            => PRController.LastUser = ((CheckBox)sender).Checked ? textBoxUser.Text : "";
-
         private void LblDoesNotHaveAcc_Click(object sender, EventArgs e)
             => OnCreatingAccount?.Invoke();
+
+        private void CheckBoxShowHidePassword_Click(object sender, EventArgs e)
+        {
+            var box = (CheckBox)sender;
+            textBoxPass.isPassword = !box.Checked;
+        }
         #endregion
     }
 }

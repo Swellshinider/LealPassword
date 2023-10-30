@@ -28,6 +28,9 @@ namespace LealPassword.UI
         private SidePanel _buttonConfig;
         private SidePanel _buttonGeneral;
         private SidePanel _buttonRegister;
+
+        private SidePanel _buttonBackup;
+
         private BunifuMaterialTextbox _searchBox;
 
         internal MainUI(DiagnosticList diagnostic, Account account)
@@ -200,7 +203,8 @@ namespace LealPassword.UI
             #endregion
 
             #region Side Buttons
-            var labelTag = new Label()
+            // Menu
+            var labelTagMenu = new Label()
             {
                 Height = 50,
                 AutoSize = false,
@@ -211,7 +215,7 @@ namespace LealPassword.UI
                 ForeColor = ThemeController.SuperLiteGray,
                 Font = new Font("Arial", 11, FontStyle.Regular),
             };
-            _sideControls.Add(labelTag);
+            _sideControls.Add(labelTagMenu);
 
             _buttonGeneral = new SidePanel("Menu", PRController.Images.General127px);
             _buttonGeneral.Click += ButtonGeneral_Click;
@@ -232,6 +236,24 @@ namespace LealPassword.UI
             };
             _buttonConfig.Click += ButtonConfig_Click;
             _sideControls.Add(_buttonConfig);
+
+            // Extra
+            var labelTagExtra = new Label()
+            {
+                Height = 50,
+                AutoSize = false,
+                Dock = DockStyle.Top,
+                Text = "        Extra",
+                BackColor = Color.Transparent,
+                TextAlign = ContentAlignment.MiddleLeft,
+                ForeColor = ThemeController.SuperLiteGray,
+                Font = new Font("Arial", 11, FontStyle.Regular),
+            };
+            _sideControls.Add(labelTagExtra);
+
+            _buttonBackup = new SidePanel("Backup", null);
+            _buttonBackup.Click += ButtonBackup_Click;
+            _sideControls.Add(_buttonBackup);
             #endregion
 
             #region Search box
@@ -320,6 +342,14 @@ namespace LealPassword.UI
         private void ButtonConfig_Click(object sender, EventArgs e)
         {
             _diagnostic.Debug("Config button click");
+            ButtonHighLight((SidePanel)sender);
+            _searchBox.Visible = false;
+            // TODO: add configuration loaded
+        }
+
+        private void ButtonBackup_Click(object sender, EventArgs e)
+        {
+            _diagnostic.Debug("Backup button click");
             ButtonHighLight((SidePanel)sender);
             _searchBox.Visible = false;
             // TODO: add configuration loaded
@@ -426,6 +456,7 @@ namespace LealPassword.UI
             _buttonRegister.Normalcolor = Color.Transparent;
             _buttonCards.Normalcolor = Color.Transparent;
             _buttonConfig.Normalcolor = Color.Transparent;
+            _buttonBackup.Normalcolor = Color.Transparent;
 
             if (current != null)
                 current.Normalcolor = current.Activecolor;

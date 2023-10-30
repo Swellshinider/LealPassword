@@ -1,6 +1,5 @@
 ﻿using LealPassword.Security;
 using System;
-using System.Xml.Linq;
 
 namespace LealPassword.Database.Entity
 {
@@ -24,9 +23,9 @@ namespace LealPassword.Database.Entity
 
         internal Card Decrypt(string decryptionKey)
         {
-            CardName = CardName.Encrypt(decryptionKey);
-            OwnrName = OwnrName.Encrypt(decryptionKey);
-            Number = Number.Encrypt(decryptionKey);
+            CardName = CardName.Decrypt(decryptionKey);
+            OwnrName = OwnrName.Decrypt(decryptionKey);
+            Number = Number.Decrypt(decryptionKey);
 
             return this;
         }

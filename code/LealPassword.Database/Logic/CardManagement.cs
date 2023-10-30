@@ -16,20 +16,15 @@ namespace LealPassword.Database.Logic
             _unhashedPassword = unhashedPassword;
         }
 
-        public void ClearCards()
-            => _resource.ClearCards();
+        public void ClearCards() => _resource.ClearCards();
 
-        public void DeleteCard(Card card) 
-            => _resource.DeleteCard(card.Encrypt(_unhashedPassword));
+        public void DeleteCard(Card card) => _resource.DeleteCard(card.Encrypt(_unhashedPassword));
 
-        public void InsertCard(Card card)
-            => _resource.InsertCard(card.Encrypt(_unhashedPassword));
+        public void InsertCard(Card card) => _resource.InsertCard(card.Encrypt(_unhashedPassword));
 
-        public void UpdateCard(Card card)
-            => _resource.UpdateCard(card.Encrypt(_unhashedPassword));
+        public void UpdateCard(Card card) => _resource.UpdateCard(card.Encrypt(_unhashedPassword));
 
-        public List<Card> GetCards()
-            => _resource.GetCards().Select(enCard => enCard.Decrypt(_unhashedPassword)).ToList();
+        public List<Card> GetCards() => _resource.GetCards().Select(card => card.Decrypt(_unhashedPassword)).ToList();
 
         #region Dispose
         private void Dispose(bool disposing)

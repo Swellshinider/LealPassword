@@ -16,6 +16,8 @@ namespace LealPassword.Definitions
             internal static Image Registers127px => Properties.Resources.register_127px;
             internal static Image General127px => Properties.Resources.four_squares_127px;
             internal static Image Config127px_Black => Properties.Resources.gear_black_127px;
+
+            internal static Image LealPasswordLogo512px => Properties.Resources.LealPassword_Logo;
         }
 
         internal static Dictionary<string, Image> dictIdImages = new Dictionary<string, Image>()
@@ -120,8 +122,7 @@ namespace LealPassword.Definitions
             return list;
         }
 
-        internal static string GetImageKeyByValue(Image image)
-            => dictIdImages.FirstOrDefault(x => x.Value == image).Key;
+        internal static string GetImageKeyByValue(Image image) => dictIdImages.FirstOrDefault(x => x.Value == image).Key;
 
         internal static string LastUser 
         { 

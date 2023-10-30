@@ -28,10 +28,9 @@ namespace LealPassword.UI.GeneralSub
         {
             var image = new Label()
             {
-                Height = Height,
                 AutoSize = false,
                 Dock = DockStyle.Fill,
-                Text = "Tela de informações gerais em desenvolvimento    ",
+                Text = "This screen was not created yet",
                 TextAlign = ContentAlignment.MiddleCenter,
                 ForeColor = Themes.ThemeController.LiteGray,
                 Font = new Font("Arial", 32, FontStyle.Regular),

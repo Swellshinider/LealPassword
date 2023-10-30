@@ -49,11 +49,11 @@ namespace LealPassword.UI.RegCardManageSub
                 Height = 50,
                 Width = 250,
                 AutoSize = false,
-                Text = "Novo registro",
+                Text = "New Register",
                 Font = new Font("Verdana", 21, FontStyle.Regular)
             };
-            _txtBoxName = new BunifuMaterialTextbox() { HintText = "Nome*" };
-            _txtBoxCat = new BunifuMaterialTextbox() { HintText = "Categoria", Visible = false };
+            _txtBoxName = new BunifuMaterialTextbox() { HintText = "Name*" };
+            _txtBoxCat = new BunifuMaterialTextbox() { HintText = "Category", Visible = false };
             _comboBoxTag = new ComboBox()
             {
                 Width = 500,
@@ -71,30 +71,30 @@ namespace LealPassword.UI.RegCardManageSub
             {
                 Width = 95,
                 Height = 30,
-                Text = "Nova",
+                Text = "New",
                 FlatStyle = FlatStyle.Flat,
                 Font = new Font("Verdana", 11, FontStyle.Regular)
             };
             _buttonNewTag.Click += ButtonNewTag_Click;
 
             _txtBoxMail = new BunifuMaterialTextbox() { HintText = "Email*" };
-            _txtBoxPassword = new BunifuMaterialTextbox() { HintText = "Senha*" };
+            _txtBoxPassword = new BunifuMaterialTextbox() { HintText = "Password*" };
             _buttonGeneratePass = new Button()
             {
                 Width = 95,
                 Height = 30,
-                Text = "Gerar",
+                Text = "Generate",
                 FlatStyle = FlatStyle.Flat,
                 Font = new Font("Verdana", 11, FontStyle.Regular)
             };
             _buttonGeneratePass.Click += ButtonGeneratePass_Click;
-            _txtBoxDescription = new BunifuMaterialTextbox() { HintText = "Descrição" };
+            _txtBoxDescription = new BunifuMaterialTextbox() { HintText = "Description" };
 
             _buttonCreate = new Button()
             {
                 Height = 40,
                 Width = 500,
-                Text = "Criar",
+                Text = "Create",
                 FlatStyle = FlatStyle.Flat,
                 ForeColor = ThemeController.White,
                 BackColor = ThemeController.BlueMain,
@@ -192,9 +192,7 @@ namespace LealPassword.UI.RegCardManageSub
 
         private void ButtonIcon_Click(object sender, EventArgs e)
         {
-            if (Popup != null)
-                Popup.Dispose();
-
+            Popup?.Dispose();
             Popup = new IconChooserPopup(this);
             Popup.OnIconChosen += IconsPopup_OnIconChosen;
             Popup.Show();
@@ -225,8 +223,8 @@ namespace LealPassword.UI.RegCardManageSub
 
             if (!hide)
             {
-                _comboBoxTag.Visible = _buttonNewTag.Text == "Nova";
-                _txtBoxCat.Visible = _buttonNewTag.Text == "Existente";
+                _comboBoxTag.Visible = _buttonNewTag.Text == "New";
+                _txtBoxCat.Visible = _buttonNewTag.Text == "Existing";
             }
         }
 
@@ -234,9 +232,9 @@ namespace LealPassword.UI.RegCardManageSub
         {
             _txtBoxCat.Visible = !_txtBoxCat.Visible;
             _comboBoxTag.Visible = !_comboBoxTag.Visible;
-            _buttonNewTag.Text = _buttonNewTag.Text == "Nova" 
-                ? "Existente" 
-                : "Nova";
+            _buttonNewTag.Text = _buttonNewTag.Text == "New"
+                ? "Existing"
+                : "New";
         }
 
         private void ButtonLogin_Click(object sender, EventArgs e)
@@ -254,8 +252,8 @@ namespace LealPassword.UI.RegCardManageSub
                 string.IsNullOrEmpty(milName) || string.IsNullOrWhiteSpace(milName) ||
                 string.IsNullOrEmpty(passwrd) || string.IsNullOrWhiteSpace(passwrd))
             {
-                MessageBox.Show("Preencha os campos obrigatórios:\n" +
-                    "Nome, Categoria, Email e Senha.", "Preencha os campos obrigatórios", 
+                MessageBox.Show("Please fill in the required fields:\n" +
+                    "Name, category, email and password.", "Please fill in the required fields", 
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }

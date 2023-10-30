@@ -41,6 +41,9 @@ namespace LealPassword.UI
             };
             panelLeftContainer.MouseDown += ControlMouseDown;
             Controls.Add(panelLeftContainer);
+
+            // TODO: Add image left side
+
             panelRightContainer = new Panel()
             {
                 Dock = DockStyle.Fill,

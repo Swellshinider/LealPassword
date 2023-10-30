@@ -36,17 +36,17 @@ namespace LealPassword.UI.RegCardManageSub
                 Height = 50,
                 Width = 250,
                 AutoSize = false,
-                Text = "Novo cartão",
+                Text = "New card",
                 Font = new Font("Verdana", 21, FontStyle.Regular)
             };
-            _txtBoxName = new BunifuMaterialTextbox() { HintText = "Nome do cartão" };
-            _txtBoxOwnName = new BunifuMaterialTextbox() { HintText = "Dono do cartão" };
+            _txtBoxName = new BunifuMaterialTextbox() { HintText = "Name of card" };
+            _txtBoxOwnName = new BunifuMaterialTextbox() { HintText = "Owner name" };
             var labelCardNumber = new Label()
             {
                 Width = 250,
                 Height = 40,
                 AutoSize = false,
-                Text = "Número do Cartão",
+                Text = "Card number",
                 FlatStyle = FlatStyle.Flat,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Font = new Font("Verdana", 14, FontStyle.Regular)
@@ -67,7 +67,7 @@ namespace LealPassword.UI.RegCardManageSub
                 Width = 250,
                 Height = 40,
                 AutoSize = false,
-                Text = "Data de validade",
+                Text = "Expiration Date",
                 FlatStyle = FlatStyle.Flat,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Font = new Font("Verdana", 14, FontStyle.Regular)
@@ -83,8 +83,8 @@ namespace LealPassword.UI.RegCardManageSub
             };
             _comboBoxMonth.Items.AddRange(new string[]
             {
-                "01) Janeiro", "02) Fevereiro", "03) Março", "04) Abril", "05) Maio", "06) Junho",
-                "07) Julho", "08) Agosto", "09) Setembro", "10) Outubro", "11) Novembro", "12) Dezembro"
+                "01) January", "02) February", "03) March", "04) April", "05) May", "06) June", 
+                "07) July", "08) August", "09) September", "10) October", "11) November", "12) December"
             });
             _comboBoxYear = new ComboBox()
             {
@@ -105,7 +105,7 @@ namespace LealPassword.UI.RegCardManageSub
             {
                 Height = 40,
                 Width = 500,
-                Text = "Criar",
+                Text = "Create",
                 FlatStyle = FlatStyle.Flat,
                 ForeColor = ThemeController.White,
                 BackColor = ThemeController.BlueMain,
@@ -161,7 +161,7 @@ namespace LealPassword.UI.RegCardManageSub
                 labelDateCard.Location.Y - 45);
             Program.CentralizeControl(_comboBoxMonth, this);
             _comboBoxMonth.Location = new Point(_comboBoxMonth.Location.X + _comboBoxMonth.Width / 2,
-                _comboBoxMonth.Location.Y - 45); 
+                _comboBoxMonth.Location.Y - 45);
             Program.CentralizeControl(_comboBoxYear, this);
             _comboBoxYear.Location = new Point(_comboBoxYear.Location.X + (_txtBoxOwnName.Width / 2)
                 - (_comboBoxYear.Width / 2), _comboBoxYear.Location.Y - 45);
@@ -181,22 +181,21 @@ namespace LealPassword.UI.RegCardManageSub
             var comboBoxYear = _comboBoxYear.Text;
             var securityCode = _txtBoxCvv.Text;
 
-            if (IsNotValid(cardName) || 
-                IsNotValid(ownName) || 
-                IsNotValid(cardNum) ||
-                IsNotValid(comboBoxMonth) || 
-                IsNotValid(comboBoxYear) || 
-                IsNotValid(securityCode))
+            if (IsNotValid(cardName) || IsNotValid(ownName) || IsNotValid(cardNum) || IsNotValid(comboBoxMonth) || IsNotValid(comboBoxYear) || IsNotValid(securityCode))
             {
-                MessageBox.Show("Todos os valores devem ser preenchidos " +
-                    "para adicionar um novo cartão", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("All fields must be filled in to add a new card", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
             if (!ValidateCardNum(cardNum, out var newCardNum))
             {
-                MessageBox.Show("Número do cartão está inválido, verifique e tente novamente",
-                    "Número inválido", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("The card number is invalid, please check and try again", "Invalid Number", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            if (!ValidadeSecurityCode(securityCode))
+            {
+                MessageBox.Show("The card's security code is invalid, please check and try again", "Invalid Security Code", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -210,7 +209,7 @@ namespace LealPassword.UI.RegCardManageSub
             });
         }
 
-        private bool ValidateCardNum(string cardNum, out string newCardNum)
+        private static bool ValidateCardNum(string cardNum, out string newCardNum)
         {
             newCardNum = string.Empty;
 
@@ -218,6 +217,17 @@ namespace LealPassword.UI.RegCardManageSub
                 newCardNum += c;
 
             return newCardNum.Length == 16;
+        }
+
+        private static bool ValidadeSecurityCode(string securityCode)
+        {
+            if (securityCode.Length > 4)
+                return false;
+
+            if (securityCode.Length < 3)
+                return false;
+
+            return true;
         }
 
         private static DateTime GetDateFromData(string comboBoxMonth, string comboBoxYear)
