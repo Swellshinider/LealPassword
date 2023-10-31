@@ -277,8 +277,23 @@
   <data name="intel" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\intel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="LealPassword_Logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LealPassword-Logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="LealPassword_128px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LealPassword_128px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LealPassword_500px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LealPassword_500px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LealPassword_black_128px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LealPassword_black_128px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LealPassword_black_500px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LealPassword_black_500px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LealPassword_black_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LealPassword_black_Icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LealPassword_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LealPassword_Icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="line" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\line.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

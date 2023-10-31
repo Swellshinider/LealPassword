@@ -593,10 +593,60 @@ namespace LealPassword.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap LealPassword_Logo {
+        internal static System.Drawing.Bitmap LealPassword_128px {
             get {
-                object obj = ResourceManager.GetObject("LealPassword_Logo", resourceCulture);
+                object obj = ResourceManager.GetObject("LealPassword_128px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LealPassword_500px {
+            get {
+                object obj = ResourceManager.GetObject("LealPassword_500px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LealPassword_black_128px {
+            get {
+                object obj = ResourceManager.GetObject("LealPassword_black_128px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LealPassword_black_500px {
+            get {
+                object obj = ResourceManager.GetObject("LealPassword_black_500px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon LealPassword_black_Icon {
+            get {
+                object obj = ResourceManager.GetObject("LealPassword_black_Icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon LealPassword_Icon {
+            get {
+                object obj = ResourceManager.GetObject("LealPassword_Icon", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
             }
         }
         

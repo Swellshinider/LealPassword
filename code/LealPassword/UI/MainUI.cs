@@ -46,6 +46,7 @@ namespace LealPassword.UI
             _sideControls = new List<Control>();
             Width = Constants.BaseUISize.Width;
             Height = Constants.BaseUISize.Height;
+            Icon = PRController.LealPassword_Icon;
             BackColor = ThemeController.SuperLiteGray;
             Resize += MainUI_Resize;
             DoubleBuffered = true;
@@ -134,9 +135,9 @@ namespace LealPassword.UI
 
             var panelLogo = new Panel()
             {
-                BackColor = Color.Transparent,
-                Height = panelTop.Height,
                 Dock = DockStyle.Top,
+                Height = panelTop.Height,
+                BackColor = Color.Transparent
             };
             panelLogo.MouseDown += ControlMouseDown;
             panelLeft.Controls.Add(panelLogo);
@@ -166,17 +167,31 @@ namespace LealPassword.UI
             programName.MouseDown += ControlMouseDown;
             panelLogo.Controls.Add(programName);
 
-            var imageIcon = new Label()
+            var panelSpacing1 = new Panel()
             {
-                Text = "",
-                AutoSize = false,
                 Dock = DockStyle.Left,
-                // TODO: add icon
+                Width = 15,
+            };
+            panelSpacing1.MouseDown += ControlMouseDown;
+            panelLogo.Controls.Add(panelSpacing1);
+
+            var imageIcon = new Panel()
+            {
+                Dock = DockStyle.Left,
                 Width = (int)(panelLogo.Width * 0.2f),
-                ImageAlign = ContentAlignment.MiddleRight,
+                BackgroundImageLayout = ImageLayout.Zoom,
+                BackgroundImage = PRController.Images.LealPasswordLogo128px
             };
             imageIcon.MouseDown += ControlMouseDown;
             panelLogo.Controls.Add(imageIcon);
+
+            var panelSpacing2 = new Panel()
+            {
+                Dock = DockStyle.Left,
+                Width = 15,
+            };
+            panelSpacing2.MouseDown += ControlMouseDown;
+            panelLogo.Controls.Add(panelSpacing2);
             #endregion
 
             #region Top Add Button

@@ -63,18 +63,16 @@ namespace LealPassword.UI.RegCardManageSub
         {
             if (_cards.Count <= 0)
             {
-                var lblCards = new Label()
+                var image = new Label()
                 {
-                    Height = 100,
-                    Dock = DockStyle.Top,
-                    ForeColor = ThemeController.Black,
+                    AutoSize = false,
+                    Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter,
-                    Font = new Font("Verdana", 18, FontStyle.Regular),
-                    Text = "Você não tem nenhum cartão cadastrado.\n" +
-                    "Adicione um novo no botão azul do painel superior.",
+                    ForeColor = ThemeController.LiteGray,
+                    Font = new Font("Arial", 32, FontStyle.Regular),
+                    Text = "You don't have any card registered.\nAdd a new one on the blue button in the top panel.",
                 };
-
-                Controls.Add(lblCards);
+                Controls.Add(image);
                 return;
             }
 

@@ -38,7 +38,14 @@ namespace LealPassword.UI.GeneralSub
             Controls.Add(image);    
         }
 
-        internal static bool IsSecure(string password)
-            => Security.Security.GetPasswordStrengh(password) >= 4;
+        internal int AveragePasswordStrength()
+        {
+            var total = 0;
+
+            foreach(var register in _account.Registers)
+                total += Security.Security.GetPasswordStrength(register.Password);
+
+            return total / _account.Registers.Count;
+        }
     }
 }

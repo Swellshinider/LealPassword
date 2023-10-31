@@ -17,8 +17,15 @@ namespace LealPassword.Definitions
             internal static Image General127px => Properties.Resources.four_squares_127px;
             internal static Image Config127px_Black => Properties.Resources.gear_black_127px;
 
-            internal static Image LealPasswordLogo512px => Properties.Resources.LealPassword_Logo;
+            internal static Image LealPasswordLogo128px => Properties.Resources.LealPassword_128px;
+            internal static Image LealPasswordLogo500px => Properties.Resources.LealPassword_500px;
+
+            internal static Image LealPasswordLogoBlack128px => Properties.Resources.LealPassword_black_128px;
+            internal static Image LealPasswordLogoBlack500px => Properties.Resources.LealPassword_black_500px;
         }
+
+        internal static Icon LealPassword_Icon => Properties.Resources.LealPassword_Icon;
+        internal static Icon LealPassword_Black_Icon => Properties.Resources.LealPassword_black_Icon;
 
         internal static Dictionary<string, Image> dictIdImages = new Dictionary<string, Image>()
         {

@@ -39,7 +39,7 @@ namespace LealPassword.UI.LoginCreateSub
                 AutoSize = false,
                 BorderStyle = BorderStyle.None,
                 BackgroundImageLayout = ImageLayout.Stretch,
-                BackgroundImage = PRController.Images.LealPasswordLogo512px
+                BackgroundImage = PRController.Images.LealPasswordLogo500px
             };
             Controls.Add(lblIcon);
             var lblTitle = new Label()
@@ -72,7 +72,6 @@ namespace LealPassword.UI.LoginCreateSub
             #region PassTextBox
             textBoxPass.Text = "";
             textBoxPass.Height = 50;
-            textBoxPass.isPassword = true;
             textBoxPass.HintText = "Password";
             textBoxPass.Width = (int)(Width * 0.65f);
             textBoxPass.BorderStyle = BorderStyle.None;
@@ -90,7 +89,6 @@ namespace LealPassword.UI.LoginCreateSub
             #region PassTextBox2
             textBoxPass2.Text = "";
             textBoxPass2.Height = 50;
-            textBoxPass2.isPassword = true;
             textBoxPass2.HintText = "Confirm password";
             textBoxPass2.Width = (int)(Width * 0.65f);
             textBoxPass2.BorderStyle = BorderStyle.None;
@@ -160,9 +158,11 @@ namespace LealPassword.UI.LoginCreateSub
             SetDynamicHeight(textBoxUser, 200);
             SetDynamicHeight(textBoxPass, 260);
             SetDynamicHeight(textBoxPass2, 320);
-            SetDynamicHeight(checkBoxShowHidePassword, 330);
-            SetDynamicHeight(buttonCreate, 395);
+            SetDynamicHeight(checkBoxShowHidePassword, 380);
+            checkBoxShowHidePassword.Location = new Point(checkBoxShowHidePassword.Location.X + (checkBoxShowHidePassword.Width / 2) - (textBoxPass.Width / 2), checkBoxShowHidePassword.Location.Y);
+            SetDynamicHeight(buttonCreate, 420);
             #endregion
+
             _diagnostic.Debug("createUI objects generated");
         }
 

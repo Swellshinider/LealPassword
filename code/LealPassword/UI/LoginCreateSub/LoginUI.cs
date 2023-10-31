@@ -6,7 +6,6 @@ using LealPassword.Themes;
 using System;
 using System.Drawing;
 using System.Security.Cryptography;
-using System.Text;
 using System.Windows.Forms;
 
 namespace LealPassword.UI.LoginCreateSub
@@ -34,7 +33,7 @@ namespace LealPassword.UI.LoginCreateSub
 
         internal void GenerateObjects()
         {
-            _diagnostic.Debug("Generating login objects");
+            _diagnostic.Debug("Generating LoginUI objects");
 
             #region Labels
             var lblIcon = new Panel
@@ -44,7 +43,7 @@ namespace LealPassword.UI.LoginCreateSub
                 AutoSize = false,
                 BorderStyle = BorderStyle.None,
                 BackgroundImageLayout = ImageLayout.Stretch,
-                BackgroundImage = PRController.Images.LealPasswordLogo512px
+                BackgroundImage = PRController.Images.LealPasswordLogo500px
             };
             Controls.Add(lblIcon);
             var lblTitle = new Label()
@@ -156,7 +155,7 @@ namespace LealPassword.UI.LoginCreateSub
             SetDynamicHeight(buttonLogin, 425);
             #endregion
 
-            _diagnostic.Debug("login objects generated");
+            _diagnostic.Debug("LoginUI objects generated");
         }
 
         #region Private methods

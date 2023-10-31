@@ -195,7 +195,7 @@ namespace LealPassword.UI.RegCardManageSub
 
             if (!ValidadeSecurityCode(securityCode))
             {
-                MessageBox.Show("The card's security code is invalid, please check and try again", "Invalid Security Code", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox.Show("The card's security code is invalid, check it and try again", "Invalid Security Code", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -226,6 +226,12 @@ namespace LealPassword.UI.RegCardManageSub
 
             if (securityCode.Length < 3)
                 return false;
+
+            foreach(var c in securityCode)
+            {
+                if (!char.IsDigit(c))
+                    return false;
+            }
 
             return true;
         }

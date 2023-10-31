@@ -28,7 +28,7 @@ namespace LealPassword.Security
             return password.ToString().Shuffle();
         }
 
-        public static int GetPasswordStrengh(string text)
+        public static int GetPasswordStrength(string text)
         {
             var counter = 0;
 
