@@ -19,13 +19,25 @@ namespace LealPassword.UI.EditComponentSub
         {
             _card = card;
             Dock = DockStyle.Fill;
-            BackColor = parent.BackColor;
+            parent.Controls.Clear();
             parent.Controls.Add(this);
+            BackColor = parent.BackColor;
+            GenerateObjects();
         }
 
         internal void GenerateObjects()
         {
+            var labelTest = new Label()
+            {
+                AutoSize = false,
+                Text = "Test card",
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter
+            };
 
+            #region Add Controls
+            Controls.Add(labelTest);
+            #endregion
         }
     }
 }

@@ -263,6 +263,16 @@ namespace LealPassword.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap closed_eye_50px {
+            get {
+                object obj = ResourceManager.GetObject("closed_eye_50px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap computador {
             get {
                 object obj = ResourceManager.GetObject("computador", resourceCulture);
@@ -296,6 +306,16 @@ namespace LealPassword.Properties {
         internal static System.Drawing.Bitmap dados_alt {
             get {
                 object obj = ResourceManager.GetObject("dados_alt", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap database_backup_127px {
+            get {
+                object obj = ResourceManager.GetObject("database_backup_127px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -406,6 +426,16 @@ namespace LealPassword.Properties {
         internal static System.Drawing.Bitmap ethereum {
             get {
                 object obj = ResourceManager.GetObject("ethereum", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap eye_50px {
+            get {
+                object obj = ResourceManager.GetObject("eye_50px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -876,6 +906,16 @@ namespace LealPassword.Properties {
         internal static System.Drawing.Bitmap restaurante {
             get {
                 object obj = ResourceManager.GetObject("restaurante", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap script_key_127px {
+            get {
+                object obj = ResourceManager.GetObject("script_key_127px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

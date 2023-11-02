@@ -30,6 +30,8 @@ namespace LealPassword.UI
         private SidePanel _buttonRegister;
 
         private SidePanel _buttonBackup;
+        private SidePanel _buttonCripto;
+        private SidePanel _buttonAbouty;
 
         private BunifuMaterialTextbox _searchBox;
 
@@ -266,9 +268,17 @@ namespace LealPassword.UI
             };
             _sideControls.Add(labelTagExtra);
 
-            _buttonBackup = new SidePanel("Backup", null);
+            _buttonBackup = new SidePanel("Backup", PRController.Images.DataBaseBackup_127px);
             _buttonBackup.Click += ButtonBackup_Click;
             _sideControls.Add(_buttonBackup);
+
+            _buttonCripto = new SidePanel("Criptografia", PRController.Images.ScriptKey_127px);
+            _buttonCripto.Click += ButtonCripto_Click;
+            _sideControls.Add(_buttonCripto);
+
+            _buttonAbouty = new SidePanel("Sobre", PRController.Images.DataBaseBackup_127px);
+            _buttonAbouty.Click += ButtonAbouty_Click;
+            _sideControls.Add(_buttonAbouty);
             #endregion
 
             #region Search box
@@ -290,7 +300,7 @@ namespace LealPassword.UI
             panelTop.Controls.Add(_searchBox);
             _searchBox.Font = new Font("Arial", 14, FontStyle.Regular);
             _searchBox.Region = Program.GenerateRoundRegion(_searchBox.Width, _searchBox.Height, 20);
-            _searchBox.KeyDown += SearchBox_KeyDown;
+            _searchBox.OnValueChanged += SearchBox_ValueChanged;
             Program.CentralizeControl(_searchBox, panelTop);
             #endregion
 
@@ -311,10 +321,8 @@ namespace LealPassword.UI
             ButtonGeneral_Click(_buttonGeneral, new EventArgs());
         }
 
-        private void SearchBox_KeyDown(object sender, KeyEventArgs e)
+        private void SearchBox_ValueChanged(object sender, EventArgs e)
         {
-            if (e.KeyCode != Keys.Enter) return;
-
             var text = ((BunifuMaterialTextbox)sender).Text;
 
             if (_activeControl is RegistersViewUI regViewUI)
@@ -338,7 +346,7 @@ namespace LealPassword.UI
             _searchBox.Visible = true;
             ButtonHighLight((SidePanel)sender);
             var regUI = new RegistersViewUI(_account.Registers, _container);
-
+            regUI.OnSeeMe += RegisterUI_OnSeeMe;
             _activeControl = regUI;
         }
 
@@ -349,8 +357,6 @@ namespace LealPassword.UI
             ButtonHighLight((SidePanel)sender);
             var cardUI = new CardViewUI(_account.Cards, _container);
             cardUI.OnSeeMe += CardUI_OnSeeMe;
-            cardUI.OnEditMe += CardUI_OnEditMe;
-            cardUI.OnDiscardMe += CardUI_OnDiscardMe;
             _activeControl = cardUI;
         }
 
@@ -367,45 +373,44 @@ namespace LealPassword.UI
             _diagnostic.Debug("Backup button click");
             ButtonHighLight((SidePanel)sender);
             _searchBox.Visible = false;
-            // TODO: add configuration loaded
+            // TODO: add backup loaded
+        }
+
+        private void ButtonCripto_Click(object sender, EventArgs e)
+        {
+            _diagnostic.Debug("Cripto button click");
+            ButtonHighLight((SidePanel)sender);
+            _searchBox.Visible = false;
+            // TODO: add backup loaded
+        }
+
+        private void ButtonAbouty_Click(object sender, EventArgs e)
+        {
+            _diagnostic.Debug("About button click");
+            ButtonHighLight((SidePanel)sender);
+            _searchBox.Visible = false;
+            // TODO: add backup loaded
         }
         #endregion
 
         #region Cards methods
         private void CardUI_OnSeeMe(Card card)
         {
-            Clear();
-            var seeUI = new ViewCardUI(card, _container);
-
-            seeUI.GenerateObjects();
-        }
-
-        private void CardUI_OnEditMe(Card card)
-        {
-            Clear();
-        }
-
-        private void CardUI_OnDiscardMe(Card card)
-        {
-            var dialog = MessageBox.Show($"Do you want to delete the card {card.CardName}?",
-                "Card deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (dialog != DialogResult.Yes) return;
-
-            var cardController = new CardController(Constants.DEFAULT_DATABASE_PATH, 
-                Constants.DEFAULT_DATABASE_FILE, _account.Password);
-            cardController.DeleteCard(card);
-
-            var accController = new AccountController(Constants.DEFAULT_DATABASE_PATH,
-                Constants.DEFAULT_DATABASE_FILE, _account.Password);
-            _account = accController.GetAccount(_account.Username);
-
-            Clear();
+            _diagnostic.Debug("CardUI_OnSeeMe");
+            ButtonHighLight(_buttonCards);
+            _searchBox.Visible = false;
+            _activeControl = new ViewCardUI(card, _container);
         }
         #endregion
 
         #region Registers methods
-
+        private void RegisterUI_OnSeeMe(Register register)
+        {
+            _diagnostic.Debug("RegisterUI_OnSeeMe");
+            ButtonHighLight(_buttonRegister);
+            _searchBox.Visible = false;
+            _activeControl = new ViewRegisterUI(register, _container);
+        }
         #endregion
 
         #region Button add new 
@@ -472,22 +477,21 @@ namespace LealPassword.UI
             _buttonCards.Normalcolor = Color.Transparent;
             _buttonConfig.Normalcolor = Color.Transparent;
             _buttonBackup.Normalcolor = Color.Transparent;
+            _buttonCripto.Normalcolor = Color.Transparent;
+            _buttonAbouty.Normalcolor = Color.Transparent;
 
             if (current != null)
                 current.Normalcolor = current.Activecolor;
         }
 
-        private void BtnMinimize_Click(object sender, EventArgs e)
-            => WindowState = FormWindowState.Minimized;
+        private void BtnClose_Click(object sender, EventArgs e) => Program.Exit();
 
-        private void BtnClose_Click(object sender, EventArgs e)
-            => Program.Exit();
+        private void BtnMinimize_Click(object sender, EventArgs e) => WindowState = FormWindowState.Minimized;
 
-        private void MainUI_Resize(object sender, EventArgs e)
-            => Region = Program.GenerateRoundRegion(Width, Height);
+        private void ControlMouseDown(object sender, MouseEventArgs e) => Program.ControlMouseDown(Handle, e);
 
-        private void ControlMouseDown(object sender, MouseEventArgs e)
-            => Program.ControlMouseDown(Handle, e);
+        private void MainUI_Resize(object sender, EventArgs e) => Region = Program.GenerateRoundRegion(Width, Height);
+
         #endregion
     }
 }

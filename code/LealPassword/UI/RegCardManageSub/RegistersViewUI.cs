@@ -9,6 +9,9 @@ namespace LealPassword.UI.RegCardManageSub
 {
     internal sealed partial class RegistersViewUI : UserControl
     {
+        internal delegate void SeeMe(Register card);
+        internal event SeeMe OnSeeMe;
+
         private readonly List<Register> _registers;
 
         internal RegistersViewUI(List<Register> registers, Control parent)
@@ -41,10 +44,8 @@ namespace LealPassword.UI.RegCardManageSub
                     continue;
 
                 var regPanel = new RegisterPanel(reg);
-                regPanel.OnEditMe += RegPanel_OnEditMe;
                 regPanel.OnSeeMe += RegPanel_OnSeeMe;
                 regPanel.OnClickMe += RegPanel_OnClickMe;
-                regPanel.OnDiscardMe += RegPanel_OnDiscartMe;
                 Controls.Add(regPanel);
                 Update();
             }
@@ -70,7 +71,6 @@ namespace LealPassword.UI.RegCardManageSub
             foreach (var reg in _registers)
             {
                 var regPanel = new RegisterPanel(reg);
-                regPanel.OnEditMe += RegPanel_OnEditMe;
                 regPanel.OnSeeMe += RegPanel_OnSeeMe;
                 regPanel.OnClickMe += RegPanel_OnClickMe;
                 Controls.Add(regPanel);
@@ -79,20 +79,7 @@ namespace LealPassword.UI.RegCardManageSub
         }
 
         #region Register panel
-        private void RegPanel_OnSeeMe(Register register)
-        {
-            // TODO: seepanel
-        }
-
-        private void RegPanel_OnEditMe(Register register)
-        {
-            // TODO: editpanel
-        }
-
-        private void RegPanel_OnDiscartMe(Register register)
-        {
-            // TODO: discartpanel
-        }
+        private void RegPanel_OnSeeMe(Register register) => OnSeeMe?.Invoke(register);
 
         private void RegPanel_OnClickMe(RegisterPanel registerPanel)
         {

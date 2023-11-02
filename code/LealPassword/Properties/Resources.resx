@@ -175,6 +175,9 @@
   <data name="citacao_a_direita" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\citacao-a-direita.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="closed_eye_50px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\closed_eye_50px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="close_16px" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\close_16px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -189,6 +192,9 @@
   </data>
   <data name="dados_alt" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\dados-alt.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="database_backup_127px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\database_backup_127px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="definicoes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\definicoes.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -222,6 +228,9 @@
   </data>
   <data name="ethereum" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ethereum.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="eye_50px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\eye_50px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="facebook" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\facebook.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -363,6 +372,9 @@
   </data>
   <data name="restaurante" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\restaurante.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="script_key_127px" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\script_key_127px.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="skype" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\skype.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

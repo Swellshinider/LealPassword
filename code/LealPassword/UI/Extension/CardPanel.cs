@@ -12,22 +12,24 @@ namespace LealPassword.UI.Extension
         internal delegate void ClickedMe(CardPanel cardPanel);
         internal event ClickedMe OnClickMe;
 
-        internal delegate void DiscardMe(Card card);
-        internal event DiscardMe OnDiscardMe;
-
-        internal delegate void EditMe(Card card);
-        internal event EditMe OnEditMe;
-
         internal delegate void SeeMe(Card card);
         internal event SeeMe OnSeeMe;
 
+        private readonly Card _card;
         private readonly Panel _leftPanel;
         private readonly Panel _rightPanel;
         private readonly Label _lblName;
-        private readonly Label _lblPassword;
+        private readonly Label _lblDescription;
+        private readonly Panel _panelObserve;
+        private readonly Label _buttonObserve;
+
+        private readonly ToolTip _tooltipControl;
 
         internal CardPanel(Card card)
         {
+            _card = card;
+            _tooltipControl = new ToolTip();
+
             Height = 100;
             Dock = DockStyle.Top;
             ForeColor = ThemeController.Black;
@@ -53,7 +55,7 @@ namespace LealPassword.UI.Extension
                 TextAlign = ContentAlignment.BottomLeft,
                 Font = new Font("Arial", 16, FontStyle.Bold),
             };
-            _lblPassword = new Label()
+            _lblDescription = new Label()
             {
                 AutoSize = false,
                 Text = FormatValue(card.Number, card.DueDate),
@@ -75,65 +77,45 @@ namespace LealPassword.UI.Extension
             lblIcon.Click += CardPanel_Click;
             _leftPanel.Controls.Add(lblIcon);
 
-            var lblDiscart = new Button()
+            _panelObserve = new Panel()
+            {
+                Width = 96,
+                Dock = DockStyle.Right,
+                BackColor = Color.Transparent
+            };
+            _buttonObserve = new Label()
             {
                 Text = "",
-                Width = 50,
-                AutoSize = false,
-                Dock = DockStyle.Right,
-                Cursor = Cursors.Hand,
-                FlatStyle = FlatStyle.Flat,
-                Image = PRController.Images.Close16px,  // TODO: Adjust remove image
-                ImageAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Arial", 11, FontStyle.Underline),
-            };
-            lblDiscart.FlatAppearance.BorderSize = 0;
-
-            var lblSee = new Button
-            {
-                Width = 50,
-                Text = "See",
+                Width = 32,
+                Height = 32,
                 AutoSize = false,
                 Cursor = Cursors.Hand,
-                Dock = DockStyle.Right,
                 FlatStyle = FlatStyle.Flat,
-                ForeColor = ThemeController.LiteGray,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Arial", 11, FontStyle.Underline),
+                BackColor = Color.Transparent,
+                BackgroundImageLayout = ImageLayout.Zoom,
+                BackgroundImage = PRController.Images.ClosedEye_50px,
             };
-            lblSee.FlatAppearance.BorderSize = 0;
+            _buttonObserve.Click += ButtonObserve_Click;
+            _buttonObserve.MouseEnter += ButtonObserve_MouseEnter;
+            _buttonObserve.MouseLeave += ButtonObserve_MouseLeave;
 
-            var lblEdit = new Button
-            {
-                Width = 75,
-                Text = "Edit",
-                AutoSize = false,
-                Dock = DockStyle.Right,
-                Cursor = Cursors.Hand,
-                FlatStyle = FlatStyle.Flat,
-                ForeColor = ThemeController.LiteGray,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Arial", 11, FontStyle.Underline),
-            };
-            lblEdit.FlatAppearance.BorderSize = 0;
+            _tooltipControl.SetToolTip(_buttonObserve, "Card details");
 
-            _rightPanel.Controls.Add(lblSee);
-            _rightPanel.Controls.Add(lblEdit);
-            _rightPanel.Controls.Add(lblDiscart);
-            lblSee.Click += (s, e) => OnSeeMe?.Invoke(card);
-            lblEdit.Click += (s, e) => OnEditMe?.Invoke(card);
-            lblDiscart.Click += (s, e) => OnDiscardMe?.Invoke(card);
+            _rightPanel.Controls.Add(_panelObserve);
+            _panelObserve.Controls.Add(_buttonObserve);
+            Program.CentralizeControl(_buttonObserve, _panelObserve);
 
-            Controls.Add(_lblPassword);
+            Controls.Add(_lblDescription);
             Controls.Add(_lblName);
             Controls.Add(_leftPanel);
             Controls.Add(_rightPanel);
 
+            Resize += CardPanel_Resize;
             Click += CardPanel_Click;
             _lblName.Click += CardPanel_Click;
             _leftPanel.Click += CardPanel_Click;
             _rightPanel.Click += CardPanel_Click;
-            _lblPassword.Click += CardPanel_Click; 
+            _lblDescription.Click += CardPanel_Click; 
             HideOptions();
         }
 
@@ -143,15 +125,24 @@ namespace LealPassword.UI.Extension
             BorderStyle = hide ? BorderStyle.None : BorderStyle.Fixed3D;
         }
 
-        private void CardPanel_Click(object sender, EventArgs e)
-            => OnClickMe.Invoke(this);
-
         private static string FormatValue(string number, DateTime dueDate)
         {
             var lastFor = number.Substring(12, 4);
-            var date = $"{dueDate.Month}/{dueDate.Year - 2000}";
+            var month = dueDate.Month.ToString();
+            var fixedm = month.Length == 1 ? $"0{month}" : month;
+            var date = $"{fixedm}/{dueDate.Year - 2000}";
 
-            return $"Final: {lastFor}                        {date}";
+            return $"End: {lastFor}                        Date: {date}";
         }
+
+        private void CardPanel_Click(object sender, EventArgs e) => OnClickMe?.Invoke(this);
+
+        private void ButtonObserve_Click(object sender, EventArgs e) => OnSeeMe?.Invoke(_card);
+
+        private void ButtonObserve_MouseEnter(object sender, EventArgs e) => _buttonObserve.BackgroundImage = PRController.Images.Eye_50px;
+
+        private void ButtonObserve_MouseLeave(object sender, EventArgs e) => _buttonObserve.BackgroundImage = PRController.Images.ClosedEye_50px;
+
+        private void CardPanel_Resize(object sender, EventArgs e) => Program.CentralizeControl(_buttonObserve, _panelObserve);
     }
 }

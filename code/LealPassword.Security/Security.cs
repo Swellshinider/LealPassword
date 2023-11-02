@@ -8,13 +8,14 @@ namespace LealPassword.Security
     public static class Security
     {
         private static readonly string DefaultKey = "srVgYPaP6TqWkfOLBU4n";
+        private static readonly Random RANDOM = new Random();
 
         private static readonly string UpperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private static readonly string LowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
         private static readonly string NumberListing = "1234567890";
         private static readonly string EspecialChars = "!@#%*?&";
 
-        public static string GeneratePassword(int size = 8)
+        public static string GeneratePassword(int size = 12)
         {
             var password = new StringBuilder();
             password.Append(GetRandomCharacter(EspecialChars));
@@ -84,22 +85,20 @@ namespace LealPassword.Security
 
         private static string Shuffle(this string str)
         {
-            var array = str.ToCharArray();
-            int n = array.Length;
+            var charArray = str.ToCharArray();
 
-            while (n > 1)
+            for (int i = charArray.Length - 1; i > 0; i--)
             {
-                n--;
-                int k = new Random().Next(n + 1);
-                (array[n], array[k]) = (array[k], array[n]);
+                var j = RANDOM.Next(0, i + 1);
+                (charArray[j], charArray[i]) = (charArray[i], charArray[j]);
             }
 
-            return new string(array);
+            return new string(charArray);
         }
 
         private static char GetRandomCharacter(string charSet)
         {
-            int index = new Random().Next(0, charSet.Length);
+            int index = RANDOM.Next(0, charSet.Length);
             return charSet[index];
         }
     }

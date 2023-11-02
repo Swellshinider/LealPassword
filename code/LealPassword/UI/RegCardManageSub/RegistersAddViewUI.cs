@@ -47,9 +47,10 @@ namespace LealPassword.UI.RegCardManageSub
             _labelName = new Label()
             {
                 Height = 50,
-                Width = 250,
+                Width = 400,
                 AutoSize = false,
                 Text = "New Register",
+                TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font("Verdana", 21, FontStyle.Regular)
             };
             _txtBoxName = new BunifuMaterialTextbox() { HintText = "Name*" };
@@ -173,7 +174,7 @@ namespace LealPassword.UI.RegCardManageSub
             {
                 Width = 96,
                 Height = 30,
-                Text = "Ícone",
+                Text = "Icon",
                 FlatStyle = FlatStyle.Flat,
                 Font = new Font("Verdana", 11, FontStyle.Regular),
             };
@@ -186,7 +187,7 @@ namespace LealPassword.UI.RegCardManageSub
 
         private void ButtonGeneratePass_Click(object sender, EventArgs e)
         {
-            var passGenerated = Security.Security.GeneratePassword(12);
+            var passGenerated = Security.Security.GeneratePassword(15);
             _txtBoxPassword.Text = passGenerated;
         }
 

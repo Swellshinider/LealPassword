@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LealPassword.Database.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,11 +11,33 @@ using System.Windows.Forms;
 
 namespace LealPassword.UI.EditComponentSub
 {
-    public partial class ViewRegisterUI : UserControl
+    internal partial class ViewRegisterUI : UserControl
     {
-        public ViewRegisterUI()
+        private readonly Register _register;
+
+        internal ViewRegisterUI(Register register, Control parent)
         {
-            InitializeComponent();
+            _register = register;
+            Dock = DockStyle.Fill;
+            parent.Controls.Clear();
+            parent.Controls.Add(this);
+            BackColor = parent.BackColor;
+            GenerateObjects();
+        }
+
+        internal void GenerateObjects()
+        {
+            var labelTest = new Label()
+            {
+                AutoSize = false,
+                Text = "Test register",
+                Dock = DockStyle.Fill,
+                TextAlign = ContentAlignment.MiddleCenter
+            };
+
+            #region Add Controls
+            Controls.Add(labelTest);
+            #endregion
         }
     }
 }

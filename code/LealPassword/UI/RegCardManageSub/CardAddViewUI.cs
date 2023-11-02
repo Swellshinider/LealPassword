@@ -34,9 +34,10 @@ namespace LealPassword.UI.RegCardManageSub
             var labelName = new Label()
             {
                 Height = 50,
-                Width = 250,
+                Width = 400,
                 AutoSize = false,
                 Text = "New card",
+                TextAlign = ContentAlignment.MiddleCenter,
                 Font = new Font("Verdana", 21, FontStyle.Regular)
             };
             _txtBoxName = new BunifuMaterialTextbox() { HintText = "Name of card" };
@@ -95,11 +96,7 @@ namespace LealPassword.UI.RegCardManageSub
                 BackColor = ThemeController.IceWhite,
                 Font = new Font("Consolas", 16, FontStyle.Regular)
             };
-            _comboBoxYear.Items.AddRange(new string[]
-            {
-                "2022", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030",
-                "2031", "2032", "2033", "2034", "2035", "2036", "2037", "2038", "2039"
-            });
+            _comboBoxYear.Items.AddRange(GenerateYearsOfCard(15));
             _txtBoxCvv = new BunifuMaterialTextbox() { HintText = "Código de segurança" };
             var buttonCreate = new Button()
             {
@@ -242,6 +239,17 @@ namespace LealPassword.UI.RegCardManageSub
             var year = int.Parse(comboBoxYear);
 
             return new DateTime(year, month, 1);
+        }
+
+        private static string[] GenerateYearsOfCard(int nextYears)
+        {
+            var result = new string[nextYears];
+            var current = DateTime.Now.Year;
+
+            for (var i = 0; i < nextYears; i++)
+                result[i] = $"{current + i}";
+
+            return result;
         }
 
         private static bool IsNotValid(string text)

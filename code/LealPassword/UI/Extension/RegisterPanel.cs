@@ -13,22 +13,24 @@ namespace LealPassword.UI.Extension
         internal delegate void ClickedMe(RegisterPanel registerPanel);
         internal event ClickedMe OnClickMe;
 
-        internal delegate void DiscardMe(Register register);
-        internal event DiscardMe OnDiscardMe;
-
-        internal delegate void EditMe(Register register);
-        internal event EditMe OnEditMe;
-
         internal delegate void SeeMe(Register register);
         internal event SeeMe OnSeeMe;
 
+        private readonly Register _register;
         private readonly Panel _leftPanel;
         private readonly Panel _rightPanel;
         private readonly Label _lblName;
         private readonly Label _lblPassword;
+        private readonly Panel _panelObserve;
+        private readonly Label _buttonObserve;
+
+        private readonly ToolTip _tooltipControl;
 
         internal RegisterPanel(Register register)
         {
+            _register = register;
+            _tooltipControl = new ToolTip();
+
             Height = 100;
             Dock = DockStyle.Top;
             ForeColor = ThemeController.Black;
@@ -86,60 +88,40 @@ namespace LealPassword.UI.Extension
             lblIcon.Click += RegisterPanel_Click;
             _leftPanel.Controls.Add(lblIcon);
 
-            var lblDiscart = new Button()
+            _panelObserve = new Panel()
+            {
+                Width = 96,
+                Dock = DockStyle.Right,
+                BackColor = Color.Transparent
+            };
+            _buttonObserve = new Label()
             {
                 Text = "",
-                Width = 50,
-                AutoSize = false,
-                Dock = DockStyle.Right,
-                Cursor = Cursors.Hand,
-                FlatStyle = FlatStyle.Flat,
-                Image = PRController.Images.Close16px, // TODO: Adjust remove image
-                ImageAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Arial", 11, FontStyle.Underline),
-            };
-            lblDiscart.FlatAppearance.BorderSize = 0;
-
-            var lblSee = new Button
-            {
-                Width = 50,
-                Text = "Ver",
+                Width = 32,
+                Height = 32,
                 AutoSize = false,
                 Cursor = Cursors.Hand,
-                Dock = DockStyle.Right,
                 FlatStyle = FlatStyle.Flat,
-                ForeColor = ThemeController.LiteGray,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Arial", 11, FontStyle.Underline),
+                BackColor = Color.Transparent,
+                BackgroundImageLayout = ImageLayout.Zoom,
+                BackgroundImage = PRController.Images.ClosedEye_50px,
             };
-            lblSee.FlatAppearance.BorderSize = 0;
+            _buttonObserve.Click += ButtonObserve_Click;
+            _buttonObserve.MouseEnter += ButtonObserve_MouseEnter;
+            _buttonObserve.MouseLeave += ButtonObserve_MouseLeave;
 
-            var lblEdit = new Button
-            {
-                Width = 75,
-                Text = "Editar",
-                AutoSize = false,
-                Dock = DockStyle.Right,
-                Cursor = Cursors.Hand,
-                FlatStyle = FlatStyle.Flat,
-                ForeColor = ThemeController.LiteGray,
-                TextAlign = ContentAlignment.MiddleCenter,
-                Font = new Font("Arial", 11, FontStyle.Underline),
-            };
-            lblEdit.FlatAppearance.BorderSize = 0;
+            _tooltipControl.SetToolTip(_buttonObserve, "Register details");
 
-            _rightPanel.Controls.Add(lblSee);
-            _rightPanel.Controls.Add(lblEdit);
-            _rightPanel.Controls.Add(lblDiscart);
-            lblSee.Click += (s, e) => OnSeeMe?.Invoke(register);
-            lblEdit.Click += (s, e) => OnEditMe?.Invoke(register);
-            lblDiscart.Click += (s, e) => OnDiscardMe?.Invoke(register);
+            _rightPanel.Controls.Add(_panelObserve);
+            _panelObserve.Controls.Add(_buttonObserve);
+            Program.CentralizeControl(_buttonObserve, _panelObserve);
 
             Controls.Add(_lblPassword);
             Controls.Add(_lblName);
             Controls.Add(_leftPanel);
             Controls.Add(_rightPanel);
 
+            Resize += CardPanel_Resize;
             Click += RegisterPanel_Click;
             _lblName.Click += RegisterPanel_Click;
             _leftPanel.Click += RegisterPanel_Click;
@@ -154,7 +136,14 @@ namespace LealPassword.UI.Extension
             BorderStyle = hide ? BorderStyle.None : BorderStyle.Fixed3D;
         }
 
-        private void RegisterPanel_Click(object sender, EventArgs e)
-            => OnClickMe.Invoke(this);
+        private void RegisterPanel_Click(object sender, EventArgs e) => OnClickMe?.Invoke(this);
+
+        private void ButtonObserve_Click(object sender, EventArgs e) => OnSeeMe?.Invoke(_register);
+
+        private void ButtonObserve_MouseEnter(object sender, EventArgs e) => _buttonObserve.BackgroundImage = PRController.Images.Eye_50px;
+
+        private void ButtonObserve_MouseLeave(object sender, EventArgs e) => _buttonObserve.BackgroundImage = PRController.Images.ClosedEye_50px;
+
+        private void CardPanel_Resize(object sender, EventArgs e) => Program.CentralizeControl(_buttonObserve, _panelObserve);
     }
 }
