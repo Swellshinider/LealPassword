@@ -68,7 +68,7 @@ namespace LealPassword.UI.RegCardManageSub
                 Width = 250,
                 Height = 40,
                 AutoSize = false,
-                Text = "Expiration Date",
+                Text = "Due Date",
                 FlatStyle = FlatStyle.Flat,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Font = new Font("Verdana", 14, FontStyle.Regular)
@@ -97,7 +97,7 @@ namespace LealPassword.UI.RegCardManageSub
                 Font = new Font("Consolas", 16, FontStyle.Regular)
             };
             _comboBoxYear.Items.AddRange(GenerateYearsOfCard(15));
-            _txtBoxCvv = new BunifuMaterialTextbox() { HintText = "Código de segurança" };
+            _txtBoxCvv = new BunifuMaterialTextbox() { HintText = "Security Code" };
             var buttonCreate = new Button()
             {
                 Height = 40,

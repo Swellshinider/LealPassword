@@ -82,8 +82,16 @@ namespace LealPassword.UI.EditComponentSub
             _buttonObserve.MouseLeave += ButtonDelete_MouseLeave;
             #endregion
 
-            _txtBoxName = new BunifuMaterialTextbox() { HintText = "Name of card" };
-            _txtBoxOwnName = new BunifuMaterialTextbox() { HintText = "Owner name" };
+            _txtBoxName = new BunifuMaterialTextbox() 
+            { 
+                HintText = "Name of card",
+                Text = _card.CardName
+            };
+            _txtBoxOwnName = new BunifuMaterialTextbox() 
+            { 
+                HintText = "Owner name",
+                Text = _card.OwnrName,
+            };
             var labelCardNumber = new Label()
             {
                 Width = 250,
@@ -96,9 +104,9 @@ namespace LealPassword.UI.EditComponentSub
             };
             _txtBoxCardNumber = new MaskedTextBox()
             {
-                Text = "",
                 Height = 40,
                 Width = 250,
+                Text = _card.Number,
                 Mask = "####.####.####.####",
                 ForeColor = ThemeController.LiteGray,
                 BackColor = ThemeController.IceWhite,
@@ -110,7 +118,7 @@ namespace LealPassword.UI.EditComponentSub
                 Width = 250,
                 Height = 40,
                 AutoSize = false,
-                Text = "Expiration Date",
+                Text = "Due Date",
                 FlatStyle = FlatStyle.Flat,
                 TextAlign = ContentAlignment.MiddleLeft,
                 Font = new Font("Verdana", 14, FontStyle.Regular)
@@ -129,6 +137,7 @@ namespace LealPassword.UI.EditComponentSub
                 "01) January", "02) February", "03) March", "04) April", "05) May", "06) June",
                 "07) July", "08) August", "09) September", "10) October", "11) November", "12) December"
             });
+            _comboBoxMonth.SelectedIndex = _card.DueDate.Month - 1;
             _comboBoxYear = new ComboBox()
             {
                 Text = "",
@@ -139,7 +148,12 @@ namespace LealPassword.UI.EditComponentSub
                 Font = new Font("Consolas", 16, FontStyle.Regular)
             };
             _comboBoxYear.Items.AddRange(GenerateYearsOfCard(15));
-            _txtBoxCvv = new BunifuMaterialTextbox() { HintText = "Código de segurança" };
+            _comboBoxYear.SelectedText = _card.DueDate.Year.ToString();
+            _txtBoxCvv = new BunifuMaterialTextbox() 
+            { 
+                HintText = "Security code",
+                Text = _card.SecurityNumber.ToString()
+            };
             var buttonCreate = new Button()
             {
                 Height = 40,
@@ -170,7 +184,6 @@ namespace LealPassword.UI.EditComponentSub
             {
                 if (ctrls is BunifuMaterialTextbox txtbox)
                 {
-                    txtbox.Text = "";
                     txtbox.Height = 40;
                     txtbox.Width = 500;
                     txtbox.ForeColor = ThemeController.LiteGray;
