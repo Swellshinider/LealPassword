@@ -10,5 +10,17 @@ namespace LealPassword.Database.Model
         internal string Number { get; set; }
         internal DateTime DueDate { get; set; }
         internal short SecurityNumber { get; set; }
+
+        internal bool Equals(Card other)
+        {
+            return Id == other.Id && 
+                CardName == other.CardName && 
+                OwnrName == other.OwnrName && 
+                Number == other.Number && 
+                DueDate.Day == other.DueDate.Day &&
+                DueDate.Month == other.DueDate.Month &&
+                DueDate.Year == other.DueDate.Year &&
+                SecurityNumber == other.SecurityNumber;
+        }
     }
 }

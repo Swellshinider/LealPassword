@@ -248,10 +248,7 @@ namespace LealPassword.UI.RegCardManageSub
             var passwrd = _txtBoxPassword.Text;
             var descrpt = _txtBoxDescription.Text;
 
-            if (string.IsNullOrEmpty(regName) || string.IsNullOrWhiteSpace(regName) ||
-                string.IsNullOrEmpty(tagName) || string.IsNullOrWhiteSpace(tagName) ||
-                string.IsNullOrEmpty(milName) || string.IsNullOrWhiteSpace(milName) ||
-                string.IsNullOrEmpty(passwrd) || string.IsNullOrWhiteSpace(passwrd))
+            if (regName.IsNullString() || tagName.IsNullString() || milName.IsNullString() || passwrd.IsNullString())
             {
                 MessageBox.Show("Please fill in the required fields:\n" +
                     "Name, category, email and password.", "Please fill in the required fields", 
