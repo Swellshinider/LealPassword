@@ -178,7 +178,12 @@ namespace LealPassword.UI.RegCardManageSub
             var comboBoxYear = _comboBoxYear.Text;
             var securityCode = _txtBoxCvv.Text;
 
-            if (IsNotValid(cardName) || IsNotValid(ownName) || IsNotValid(cardNum) || IsNotValid(comboBoxMonth) || IsNotValid(comboBoxYear) || IsNotValid(securityCode))
+            if (cardName.IsNullString() || 
+                ownName.IsNullString() || 
+                cardNum.IsNullString() || 
+                comboBoxMonth.IsNullString() || 
+                comboBoxYear.IsNullString() || 
+                securityCode.IsNullString())
             {
                 MessageBox.Show("All fields must be filled in to add a new card", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
@@ -251,8 +256,5 @@ namespace LealPassword.UI.RegCardManageSub
 
             return result;
         }
-
-        private static bool IsNotValid(string text)
-            => string.IsNullOrEmpty(text) || string.IsNullOrWhiteSpace(text);
     }
 }

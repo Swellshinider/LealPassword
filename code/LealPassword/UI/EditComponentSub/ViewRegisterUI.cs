@@ -5,12 +5,7 @@ using LealPassword.Themes;
 using LealPassword.UI.Popup;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LealPassword.UI.EditComponentSub
@@ -18,10 +13,10 @@ namespace LealPassword.UI.EditComponentSub
     internal partial class ViewRegisterUI : UserControl
     {
         internal delegate void UpdateRegister(Register register);
-        internal event UpdateRegister RegisterUpdated;
+        internal event UpdateRegister OnCardUpdated;
 
         internal delegate void DeleteRegister(Register register);
-        internal event DeleteRegister RegisterDeleted;
+        internal event DeleteRegister OnCardDeleted;
 
         private ComboBox _comboBoxTag;
         private BunifuMaterialTextbox _txtBoxCat;
@@ -291,7 +286,7 @@ namespace LealPassword.UI.EditComponentSub
             if (!dialog.Equals(DialogResult.Yes))
                 return;
 
-            RegisterUpdated?.Invoke(_register);
+            OnCardUpdated?.Invoke(_register);
         }
 
         private void ButtonGeneratePass_Click(object sender, EventArgs e)
@@ -326,7 +321,7 @@ namespace LealPassword.UI.EditComponentSub
             if (!dialog.Equals(DialogResult.Yes))
                 return;
 
-            RegisterDeleted?.Invoke(_register);
+            OnCardDeleted?.Invoke(_register);
         }
 
         private void ButtonDelete_MouseEnter(object sender, EventArgs e) => _buttonObserve.BackgroundImage = PRController.Images.Trash_Openning_64px;

@@ -399,7 +399,44 @@ namespace LealPassword.UI
             _diagnostic.Debug("CardUI_OnSeeMe");
             ButtonHighLight(_buttonCards);
             _searchBox.Visible = false;
-            _activeControl = new ViewCardUI(card, _container);
+            var viewCardUI = new ViewCardUI(card, _container);
+            viewCardUI.Disposed += ViewCard_Disposed;
+            viewCardUI.OnCardUpdated += ViewCardUI_OnCardUpdated;
+            viewCardUI.OnCardDeleted += ViewCardUI_OnCardDeleted;
+
+            _activeControl = viewCardUI;
+        }
+
+        private void ViewCardUI_OnCardUpdated(Card card)
+        {
+            var cardController = new CardController(Constants.DEFAULT_DATABASE_PATH,
+                Constants.DEFAULT_DATABASE_FILE, _account.Password);
+            cardController.UpdateCard(card);
+            _diagnostic.Debug($"Updating card('{card.CardName}')");
+
+            var accountController = new AccountController(Constants.DEFAULT_DATABASE_PATH,
+                Constants.DEFAULT_DATABASE_FILE, _account.Password);
+            _account = accountController.GetAccount(_account.Username);
+            _diagnostic.Debug("New account pushed");
+
+            Clear();
+            ButtonCards_Click(_buttonCards, null);
+        }
+
+        private void ViewCardUI_OnCardDeleted(Card card)
+        {
+            var cardController = new CardController(Constants.DEFAULT_DATABASE_PATH,
+                Constants.DEFAULT_DATABASE_FILE, _account.Password);
+            cardController.DeleteCard(card);
+            _diagnostic.Debug($"Deleting card('{card.CardName}')");
+
+            var accountController = new AccountController(Constants.DEFAULT_DATABASE_PATH,
+                Constants.DEFAULT_DATABASE_FILE, _account.Password);
+            _account = accountController.GetAccount(_account.Username);
+            _diagnostic.Debug("New account pushed");
+
+            Clear();
+            ButtonCards_Click(_buttonCards, null);
         }
 
         private void RegisterUI_OnSeeMe(Register register)
@@ -409,28 +446,13 @@ namespace LealPassword.UI
             _searchBox.Visible = false;
             var viewRegisterUI = new ViewRegisterUI(_account.Registers, register, _container);
             viewRegisterUI.Disposed += ViewRegister_Disposed;
-            viewRegisterUI.RegisterUpdated += ViewRegisterUI_RegisterUpdated;
-            viewRegisterUI.RegisterDeleted += ViewRegisterUI_RegisterDeleted;
+            viewRegisterUI.OnCardUpdated += ViewRegisterUI_OnRegisterUpdated;
+            viewRegisterUI.OnCardDeleted += ViewRegisterUI_OnRegisterDeleted;
 
             _activeControl = viewRegisterUI;
         }
 
-        private void ViewRegisterUI_RegisterDeleted(Register register)
-        {
-            var regController = new RegisterController(Constants.DEFAULT_DATABASE_PATH,
-                Constants.DEFAULT_DATABASE_FILE, _account.Password);
-            regController.DeleteRegister(register);
-            _diagnostic.Debug($"Deleting register('{register.Name}')");
-
-            var accountController = new AccountController(Constants.DEFAULT_DATABASE_PATH,
-                Constants.DEFAULT_DATABASE_FILE, _account.Password);
-            _account = accountController.GetAccount(_account.Username);
-            _diagnostic.Debug("New account pushed");
-
-            Clear();
-        }
-
-        private void ViewRegisterUI_RegisterUpdated(Register register)
+        private void ViewRegisterUI_OnRegisterUpdated(Register register)
         {
             var regController = new RegisterController(Constants.DEFAULT_DATABASE_PATH,
                 Constants.DEFAULT_DATABASE_FILE, _account.Password);
@@ -443,6 +465,23 @@ namespace LealPassword.UI
             _diagnostic.Debug("New account pushed");
 
             Clear();
+            ButtonRegisters_Click(_buttonRegister, null);
+        }
+
+        private void ViewRegisterUI_OnRegisterDeleted(Register register)
+        {
+            var regController = new RegisterController(Constants.DEFAULT_DATABASE_PATH,
+                Constants.DEFAULT_DATABASE_FILE, _account.Password);
+            regController.DeleteRegister(register);
+            _diagnostic.Debug($"Deleting register('{register.Name}')");
+
+            var accountController = new AccountController(Constants.DEFAULT_DATABASE_PATH,
+                Constants.DEFAULT_DATABASE_FILE, _account.Password);
+            _account = accountController.GetAccount(_account.Username);
+            _diagnostic.Debug("New account pushed");
+
+            Clear();
+            ButtonRegisters_Click(_buttonRegister, null);
         }
         #endregion
 
@@ -524,6 +563,8 @@ namespace LealPassword.UI
         private void ControlMouseDown(object sender, MouseEventArgs e) => Program.ControlMouseDown(Handle, e);
 
         private void MainUI_Resize(object sender, EventArgs e) => Region = Program.GenerateRoundRegion(Width, Height);
+
+        private void ViewCard_Disposed(object sender, EventArgs e) => ButtonCards_Click(_buttonCards, null);
 
         private void ViewRegister_Disposed(object sender, EventArgs e) => ButtonRegisters_Click(_buttonRegister, null);
         #endregion
