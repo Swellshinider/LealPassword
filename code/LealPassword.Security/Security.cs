@@ -8,28 +8,28 @@ namespace LealPassword.Security
     public static class Security
     {
         private static readonly string DefaultKey = "srVgYPaP6TqWkfOLBU4n";
+        private static readonly Random RANDOM = new Random();
 
-        private static readonly Random Random = new Random();
         private static readonly string UpperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private static readonly string LowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
         private static readonly string NumberListing = "1234567890";
         private static readonly string EspecialChars = "!@#%*?&";
 
-        public static string GeneratePassword(int size = 8)
+        public static string GeneratePassword(int size = 12)
         {
-            var gen = new StringBuilder();
-            var allLists = UpperAlphabet + LowerAlphabet + NumberListing + EspecialChars;
+            var password = new StringBuilder();
+            password.Append(GetRandomCharacter(EspecialChars));
+            password.Append(GetRandomCharacter(LowerAlphabet));
+            password.Append(GetRandomCharacter(UpperAlphabet));
+            password.Append(GetRandomCharacter(NumberListing));
 
-            while(size > 0)
-            {
-                gen.Append(Random.Next(allLists.Length - 1));
-                size--;
-            }
+            for (int i = 0; i < size - 4; i++)
+                password.Append(GetRandomCharacter(EspecialChars + LowerAlphabet + UpperAlphabet + NumberListing));
 
-            return gen.ToString().Shuffle();
+            return password.ToString().Shuffle();
         }
 
-        public static int GetPasswordStrengh(string text)
+        public static int GetPasswordStrength(string text)
         {
             var counter = 0;
 
@@ -67,44 +67,39 @@ namespace LealPassword.Security
             }
         }
 
-        public static string Encrypt(this string text) 
-            => Encrypt(text, DefaultKey);
+        public static string Encrypt(this string text) => Encrypt(text, DefaultKey);
 
-        public static string Decrypt(this string text)
-            => Decrypt(text, DefaultKey);
+        public static string Decrypt(this string text) => Decrypt(text, DefaultKey);
 
-        public static string Encrypt(this string text, string key)
-            => Encryption.EncryptString(key, text);
+        public static string Encrypt(this string text, string key) => Encryption.EncryptString(key, text);
 
-        public static string Decrypt(this string text, string key)
-            => Decryption.DecryptString(key, text);
+        public static string Decrypt(this string text, string key) => Decryption.DecryptString(key, text);
+
+        private static bool HasDigit(string text) => text.Any(c => char.IsDigit(c));
+
+        private static bool HasLowerCaseLetter(string text) => text.Any(c => char.IsLower(c));
+
+        private static bool HasUpperCaseLetter(string text) => text.Any(c => char.IsUpper(c));
+
+        private static bool HasSpecialChar(string text) => text.IndexOfAny(EspecialChars.ToCharArray()) != -1;
 
         private static string Shuffle(this string str)
         {
-            var array = str.ToCharArray();
-            var rng = new Random();
-            int n = array.Length;
+            var charArray = str.ToCharArray();
 
-            while (n > 1)
+            for (int i = charArray.Length - 1; i > 0; i--)
             {
-                n--;
-                int k = rng.Next(n + 1);
-                (array[n], array[k]) = (array[k], array[n]);
+                var j = RANDOM.Next(0, i + 1);
+                (charArray[j], charArray[i]) = (charArray[i], charArray[j]);
             }
 
-            return new string(array);
+            return new string(charArray);
         }
 
-        private static bool HasDigit(string text)
-            => text.Any(c => char.IsDigit(c));
-
-        private static bool HasLowerCaseLetter(string text)
-            => text.Any(c => char.IsLower(c));
-
-        private static bool HasUpperCaseLetter(string text)
-            => text.Any(c => char.IsUpper(c));
-
-        private static bool HasSpecialChar(string text)
-            => text.IndexOfAny(EspecialChars.ToCharArray()) != -1;
+        private static char GetRandomCharacter(string charSet)
+        {
+            int index = RANDOM.Next(0, charSet.Length);
+            return charSet[index];
+        }
     }
 }

@@ -26,20 +26,35 @@ namespace LealPassword.UI.GeneralSub
 
         private void GenerateObjects()
         {
-            var image = new Label()
+            var upperPanel = new Panel()
             {
-                Height = Height,
-                AutoSize = false,
-                Dock = DockStyle.Fill,
-                Text = "Tela de informações gerais em desenvolvimento    ",
-                TextAlign = ContentAlignment.MiddleCenter,
-                ForeColor = Themes.ThemeController.LiteGray,
-                Font = new Font("Arial", 32, FontStyle.Regular),
+                Height = Height / 2,
+                Dock = DockStyle.Top,
             };
-            Controls.Add(image);    
+            var lowerPanel = new Panel()
+            {
+                Height = Height / 2,
+                Dock = DockStyle.Top,
+                BackColor = Color.AliceBlue
+            };
+
+            #region Upper
+            #endregion
+
+            #region Add Controls
+            Controls.Add(lowerPanel);
+            Controls.Add(upperPanel);
+            #endregion
         }
 
-        internal static bool IsSecure(string password)
-            => Security.Security.GetPasswordStrengh(password) >= 4;
+        internal double AveragePasswordStrength()
+        {
+            var total = 0;
+
+            foreach(var register in _account.Registers)
+                total += Security.Security.GetPasswordStrength(register.Password);
+
+            return total / _account.Registers.Count;
+        }
     }
 }

@@ -42,7 +42,7 @@ namespace LealPassword.UI.RegCardManageSub
             {
                 Width = 350,
                 Height = 350,
-                Text = "Novo cartão",
+                Text = "New card",
                 Cursor = Cursors.Hand,
                 FlatStyle = FlatStyle.Flat,
                 ForeColor = ThemeController.Black,
@@ -61,7 +61,7 @@ namespace LealPassword.UI.RegCardManageSub
                 Width = 350,
                 Height = 350,
                 Cursor = Cursors.Hand,
-                Text = "Novo registro",
+                Text = "New register",
                 FlatStyle = FlatStyle.Flat,
                 ForeColor = ThemeController.Black,
                 TextAlign = ContentAlignment.BottomCenter,

@@ -1,4 +1,5 @@
-﻿using LealPassword.Diagnostics;
+﻿using LealPassword.Definitions;
+using LealPassword.Diagnostics;
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
@@ -23,6 +24,7 @@ namespace LealPassword.UI
         private void BaseDefinition()
         {
             _diagnostic.Debug("Initialize base definition");
+            Icon = PRController.LealPassword_Icon;
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
             SetStyle(ControlStyles.ResizeRedraw, true);

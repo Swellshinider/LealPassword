@@ -9,6 +9,9 @@ namespace LealPassword.UI.RegCardManageSub
 {
     internal sealed partial class RegistersViewUI : UserControl
     {
+        internal delegate void SeeMe(Register card);
+        internal event SeeMe OnSeeMe;
+
         private readonly List<Register> _registers;
 
         internal RegistersViewUI(List<Register> registers, Control parent)
@@ -41,10 +44,8 @@ namespace LealPassword.UI.RegCardManageSub
                     continue;
 
                 var regPanel = new RegisterPanel(reg);
-                regPanel.OnEditMe += RegPanel_OnEditMe;
                 regPanel.OnSeeMe += RegPanel_OnSeeMe;
                 regPanel.OnClickMe += RegPanel_OnClickMe;
-                regPanel.OnDiscardMe += RegPanel_OnDiscartMe;
                 Controls.Add(regPanel);
                 Update();
             }
@@ -54,25 +55,22 @@ namespace LealPassword.UI.RegCardManageSub
         {
             if (_registers.Count <= 0)
             {
-                var lblRegisters = new Label()
+                var image = new Label()
                 {
-                    Height = 100,
-                    Dock = DockStyle.Top,
-                    ForeColor = ThemeController.Black,
+                    AutoSize = false,
+                    Dock = DockStyle.Fill,
                     TextAlign = ContentAlignment.MiddleCenter,
-                    Font = new Font("Verdana", 18, FontStyle.Regular),
-                    Text = "Você não tem nenhum registro cadastrado.\n" +
-                    "Adicione um novo no botão azul do painel superior.",
+                    ForeColor = ThemeController.LiteGray,
+                    Font = new Font("Arial", 32, FontStyle.Regular),
+                    Text = "You don't have any register registered.\nAdd a new one on the blue button in the top panel.",
                 };
-
-                Controls.Add(lblRegisters);
+                Controls.Add(image);
                 return;
             }
 
             foreach (var reg in _registers)
             {
                 var regPanel = new RegisterPanel(reg);
-                regPanel.OnEditMe += RegPanel_OnEditMe;
                 regPanel.OnSeeMe += RegPanel_OnSeeMe;
                 regPanel.OnClickMe += RegPanel_OnClickMe;
                 Controls.Add(regPanel);
@@ -81,20 +79,7 @@ namespace LealPassword.UI.RegCardManageSub
         }
 
         #region Register panel
-        private void RegPanel_OnSeeMe(Register register)
-        {
-            // TODO: seepanel
-        }
-
-        private void RegPanel_OnEditMe(Register register)
-        {
-            // TODO: editpanel
-        }
-
-        private void RegPanel_OnDiscartMe(Register register)
-        {
-            // TODO: discartpanel
-        }
+        private void RegPanel_OnSeeMe(Register register) => OnSeeMe?.Invoke(register);
 
         private void RegPanel_OnClickMe(RegisterPanel registerPanel)
         {

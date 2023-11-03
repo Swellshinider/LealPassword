@@ -20,6 +20,7 @@ namespace LealPassword.Themes
         public static Color IceWhite => Color.FromArgb(237, 244, 245);
         public static Color LiteGray => Color.FromArgb(182, 182, 184);
         public static Color SuperLiteGray => Color.FromArgb(249, 251, 251);
+        public static Color SuperCleanWhite => Color.FromArgb(227, 234, 235);
         #endregion
 
         #region Functionable colors

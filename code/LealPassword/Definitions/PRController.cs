@@ -8,18 +8,35 @@ namespace LealPassword.Definitions
     {
         internal static class Images
         {
+            internal static Image Eye_50px => Properties.Resources.eye_50px;
             internal static Image Close16px => Properties.Resources.close_16px;
             internal static Image Cards127px => Properties.Resources.cards_127px;
-            internal static Image CardsBlack256px => Properties.Resources.cards_black_256px;
-            internal static Image RegisterBlack256px => Properties.Resources.register_black_256px;
             internal static Image Minimize16px => Properties.Resources.minimize_16px;
             internal static Image Registers127px => Properties.Resources.register_127px;
+            internal static Image ClosedEye_50px => Properties.Resources.closed_eye_50px;
             internal static Image General127px => Properties.Resources.four_squares_127px;
+            internal static Image ScriptKey_127px => Properties.Resources.script_key_127px;
+            internal static Image CardsBlack256px => Properties.Resources.cards_black_256px;
             internal static Image Config127px_Black => Properties.Resources.gear_black_127px;
+            internal static Image RegisterBlack256px => Properties.Resources.register_black_256px;
+            internal static Image DataBaseBackup_127px => Properties.Resources.database_backup_127px;
+            
+            internal static Image Trash_64px => Properties.Resources.trash_64px;
+            internal static Image Trash_Openning_64px => Properties.Resources.trash_openning_64px;
+
+            internal static Image LealPasswordLogo128px => Properties.Resources.LealPassword_128px;
+            internal static Image LealPasswordLogo500px => Properties.Resources.LealPassword_500px;
+
+            internal static Image LealPasswordLogoBlack128px => Properties.Resources.LealPassword_black_128px;
+            internal static Image LealPasswordLogoBlack500px => Properties.Resources.LealPassword_black_500px;
         }
+
+        internal static Icon LealPassword_Icon => Properties.Resources.LealPassword_Icon;
+        internal static Icon LealPassword_Black_Icon => Properties.Resources.LealPassword_black_Icon;
 
         internal static Dictionary<string, Image> dictIdImages = new Dictionary<string, Image>()
         {
+            { "", new Bitmap(64, 64) },
             { "alta_temperatura", Properties.Resources.alta_temperatura },
             { "android", Properties.Resources.android },
             { "apple", Properties.Resources.apple },
@@ -106,8 +123,7 @@ namespace LealPassword.Definitions
             { "windows", Properties.Resources.windows },
             { "wix", Properties.Resources.wix },
             { "wordpress", Properties.Resources.wordpress },
-            { "youtube", Properties.Resources.youtube },
-            { "", new Bitmap(64, 64) }
+            { "youtube", Properties.Resources.youtube }
         };
         
         internal static List<Image> GetIconsList()
@@ -120,8 +136,7 @@ namespace LealPassword.Definitions
             return list;
         }
 
-        internal static string GetImageKeyByValue(Image image)
-            => dictIdImages.FirstOrDefault(x => x.Value == image).Key;
+        internal static string GetImageKeyByValue(Image image) => dictIdImages.FirstOrDefault(x => x.Value == image).Key;
 
         internal static string LastUser 
         { 

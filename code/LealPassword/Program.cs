@@ -96,7 +96,31 @@ namespace LealPassword
             var yValue = centerPoint.Y - (control.Height / 2);
             control.Location = new Point(control.Location.X, yValue);
         }
- 
+
+        internal static void UpdateControlHeight(Control control, int offset)
+        {
+            var pos = control.Location;
+            control.Location = new Point(pos.X, pos.Y + offset);
+        }
+
+        internal static void UpdateControlHeightAbsolute(Control control, int y)
+        {
+            var pos = control.Location;
+            control.Location = new Point(pos.X, y);
+        }
+
+        internal static void UpdateControlWidth(Control control, int offset)
+        {
+            var pos = control.Location;
+            control.Location = new Point(pos.X + offset, pos.Y);
+        }
+
+        internal static void UpdateControlWidthAbsolute(Control control, int x)
+        {
+            var pos = control.Location;
+            control.Location = new Point(x, pos.Y);
+        }
+
         internal static void HideConsole() => ShowWindow(GetConsoleWindow(), Constants.SW_HIDE);
 
         internal static void ShowConsole() => ShowWindow(GetConsoleWindow(), Constants.SW_SHOW);
@@ -128,7 +152,7 @@ namespace LealPassword
             }
         }
 
-        internal static bool NullCheckString(this string s) => !string.IsNullOrEmpty(s) && !string.IsNullOrWhiteSpace(s);
+        internal static bool IsNullString(this string s) => string.IsNullOrEmpty(s) || string.IsNullOrWhiteSpace(s);
 
         internal static void Exit() => Application.Exit();
 
