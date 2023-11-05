@@ -154,19 +154,19 @@ namespace LealPassword.UI.EditComponentSub
                 HintText = "Security code",
                 Text = _card.SecurityNumber.ToString()
             };
-            var buttonCreate = new Button()
+            var buttonSaveAndExit = new Button()
             {
                 Height = 40,
                 Width = 500,
-                Text = "Create",
+                Text = "Save and Exit",
                 FlatStyle = FlatStyle.Flat,
                 ForeColor = ThemeController.White,
                 BackColor = ThemeController.BlueMain,
                 Font = new Font("Arial", 12, FontStyle.Regular),
             };
-            buttonCreate.Click += ButtonCreate_Click;
-            buttonCreate.FlatAppearance.MouseOverBackColor = ThemeController.SligBlue;
-            buttonCreate.FlatAppearance.MouseDownBackColor = ThemeController.LiteBlue;
+            buttonSaveAndExit.Click += ButtonSaveAndExit_Click;
+            buttonSaveAndExit.FlatAppearance.MouseOverBackColor = ThemeController.SligBlue;
+            buttonSaveAndExit.FlatAppearance.MouseDownBackColor = ThemeController.LiteBlue;
 
             #region Controls
             Controls.Add(_txtBoxName);
@@ -177,7 +177,7 @@ namespace LealPassword.UI.EditComponentSub
             Controls.Add(_comboBoxMonth);
             Controls.Add(_comboBoxYear);
             Controls.Add(_txtBoxCvv);
-            Controls.Add(buttonCreate);
+            Controls.Add(buttonSaveAndExit);
             #endregion
 
             foreach (var ctrls in Controls)
@@ -216,8 +216,8 @@ namespace LealPassword.UI.EditComponentSub
                 - (_comboBoxYear.Width / 2), _comboBoxYear.Location.Y + 15);
             Program.CentralizeControl(_txtBoxCvv, this);
             _txtBoxCvv.Location = new Point(_txtBoxCvv.Location.X, _txtBoxCvv.Location.Y + 70);
-            Program.CentralizeControl(buttonCreate, this);
-            buttonCreate.Location = new Point(buttonCreate.Location.X, buttonCreate.Location.Y + 125);
+            Program.CentralizeControl(buttonSaveAndExit, this);
+            buttonSaveAndExit.Location = new Point(buttonSaveAndExit.Location.X, buttonSaveAndExit.Location.Y + 125);
             #endregion
 
             #region Add Controls
@@ -239,7 +239,7 @@ namespace LealPassword.UI.EditComponentSub
             OnCardDeleted?.Invoke(_card);
         }
 
-        private void ButtonCreate_Click(object sender, EventArgs e)
+        private void ButtonSaveAndExit_Click(object sender, EventArgs e)
         {
             var cardName = _txtBoxName.Text;
             var ownName = _txtBoxOwnName.Text;
@@ -273,7 +273,7 @@ namespace LealPassword.UI.EditComponentSub
 
             _card.CardName = cardName;
             _card.OwnrName = ownName;
-            _card.Number = cardNum;
+            _card.Number = newCardNum;
             _card.DueDate = GetDateFromData(comboBoxMonth, comboBoxYear);
             _card.SecurityNumber = secNumber;
 

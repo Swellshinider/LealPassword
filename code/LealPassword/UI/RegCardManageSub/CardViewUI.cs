@@ -61,7 +61,7 @@ namespace LealPassword.UI.RegCardManageSub
                     TextAlign = ContentAlignment.MiddleCenter,
                     ForeColor = ThemeController.LiteGray,
                     Font = new Font("Arial", 32, FontStyle.Regular),
-                    Text = "You don't have any card registered.\nAdd a new one on the blue button in the top panel.",
+                    Text = "You don't have any registered cards yet.",
                 };
                 Controls.Add(image);
                 return;

@@ -1,4 +1,5 @@
 ﻿using LealPassword.Database.Model;
+using LealPassword.Themes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,29 +27,16 @@ namespace LealPassword.UI.GeneralSub
 
         private void GenerateObjects()
         {
-            var upperPanel = new Panel()
-            {
-                Height = Height / 2,
-                Dock = DockStyle.Top,
-            };
-            var lowerPanel = new Panel()
-            {
-                Height = Height / 2,
-                Dock = DockStyle.Top,
-                BackColor = Color.AliceBlue
-            };
-
-            #region Upper
-            #endregion
-
             #region Add Controls
-            Controls.Add(lowerPanel);
-            Controls.Add(upperPanel);
+
             #endregion
         }
 
         internal double AveragePasswordStrength()
         {
+            if (_account.Registers.Count <= 0)
+                return 0;
+
             var total = 0;
 
             foreach(var register in _account.Registers)
