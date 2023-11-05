@@ -63,6 +63,16 @@ namespace LealPassword.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap about_127px {
+            get {
+                object obj = ResourceManager.GetObject("about_127px", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap alta_temperatura {
             get {
                 object obj = ResourceManager.GetObject("alta_temperatura", resourceCulture);
@@ -286,6 +296,16 @@ namespace LealPassword.Properties {
         internal static System.Drawing.Bitmap controle {
             get {
                 object obj = ResourceManager.GetObject("controle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cube_black_127px {
+            get {
+                object obj = ResourceManager.GetObject("cube_black_127px", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

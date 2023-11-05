@@ -48,7 +48,7 @@ namespace LealPassword.Security
             if (HasSpecialChar(text))
                 counter++;
 
-            return counter;
+            return counter * 20;
         }
 
         public static string HashValue(string valueToHash)

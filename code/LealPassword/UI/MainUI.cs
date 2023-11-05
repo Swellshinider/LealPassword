@@ -276,7 +276,7 @@ namespace LealPassword.UI
             _buttonCripto.Click += ButtonCripto_Click;
             _sideControls.Add(_buttonCripto);
 
-            _buttonAbouty = new SidePanel("Sobre", PRController.Images.DataBaseBackup_127px);
+            _buttonAbouty = new SidePanel("About", PRController.Images.About127px);
             _buttonAbouty.Click += ButtonAbouty_Click;
             _sideControls.Add(_buttonAbouty);
             #endregion

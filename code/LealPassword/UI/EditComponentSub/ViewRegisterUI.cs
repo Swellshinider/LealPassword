@@ -332,7 +332,7 @@ namespace LealPassword.UI.EditComponentSub
         {
             Popup?.Dispose();
             Popup = new IconChooserPopup(this);
-            Program.UpdateControlHeight(Popup, 30);
+            Program.UpdateControlY(Popup, 30);
             Popup.OnIconChosen += IconsPopup_OnIconChosen;
             Popup.Show();
             HideValues(true);
