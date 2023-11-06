@@ -48,14 +48,8 @@ namespace LealPassword.UI.GeneralSub
             var categoryChart = new CategoryDistPanel();
             categoryChart.LoadObjects(new Font("Nunito Sans", 14, FontStyle.Regular), _account.Registers);
 
-            var averagePower = AveragePasswordStrength();
-            var passwordPanel = new PasswordStrPanel
-            {
-                ProgressBackColor = Color.GhostWhite,
-                ProgressColor = GetColorByStrength(averagePower),
-                Font = new Font("Nunito Sans", 14, FontStyle.Regular)
-            };
-            passwordPanel.SetValue(Program.RoundValue(averagePower));
+            var passwordPanel = new PasswordStrPanel();
+            passwordPanel.LoadObjects(new Font("Nunito Sans", 14, FontStyle.Regular), _account.Registers);
             #endregion
 
             #region Add Controls
@@ -63,61 +57,27 @@ namespace LealPassword.UI.GeneralSub
             Controls.Add(panelNoteRegister);
             Controls.Add(panelNoteCard);
 
-            if (_account.Registers.Count > 0)
-            {
-                Controls.Add(categoryChart);
-                Controls.Add(passwordPanel);
-            }
+            Controls.Add(categoryChart);
+            Controls.Add(passwordPanel);
             #endregion
 
             #region Adjust Position
-            var yOffSet = 25;
-            var xOffset = 25;
-            Program.UpdateControlYAbsolute(panelNoteTotal, yOffSet);
-            Program.UpdateControlXAbsolute(panelNoteTotal, xOffset);
+            var spacing = 25;
+            Program.UpdateControlYAbsolute(panelNoteTotal, spacing);
+            Program.UpdateControlXAbsolute(panelNoteTotal, spacing);
 
-            Program.UpdateControlYAbsolute(panelNoteRegister, yOffSet);
-            Program.UpdateControlXAbsolute(panelNoteRegister, panelNoteTotal.Location.X + panelNoteTotal.Width + xOffset);
+            Program.UpdateControlYAbsolute(panelNoteRegister, spacing);
+            Program.UpdateControlXAbsolute(panelNoteRegister, panelNoteTotal.Location.X + panelNoteTotal.Width + spacing);
 
-            Program.UpdateControlYAbsolute(panelNoteCard, yOffSet);
-            Program.UpdateControlXAbsolute(panelNoteCard, panelNoteRegister.Location.X + panelNoteRegister.Width + xOffset);
+            Program.UpdateControlYAbsolute(panelNoteCard, spacing);
+            Program.UpdateControlXAbsolute(panelNoteCard, panelNoteRegister.Location.X + panelNoteRegister.Width + spacing);
 
-            Program.UpdateControlYAbsolute(categoryChart, panelNoteTotal.Location.Y + panelNoteTotal.Height + yOffSet);
-            Program.UpdateControlXAbsolute(categoryChart, xOffset);
+            Program.UpdateControlYAbsolute(categoryChart, panelNoteTotal.Location.Y + panelNoteTotal.Height + spacing);
+            Program.UpdateControlXAbsolute(categoryChart, spacing);
 
-            Program.UpdateControlYAbsolute(passwordPanel, panelNoteCard.Location.Y + panelNoteCard.Height + yOffSet);
-            Program.UpdateControlXAbsolute(passwordPanel, categoryChart.Location.X + categoryChart.Width + xOffset);
+            Program.UpdateControlYAbsolute(passwordPanel, panelNoteCard.Location.Y + panelNoteCard.Height + spacing);
+            Program.UpdateControlXAbsolute(passwordPanel, categoryChart.Location.X + categoryChart.Width + spacing);
             #endregion
-        }
-
-        internal Color GetColorByStrength(double strength)
-        {
-            if (strength >= 95)
-                return Color.Blue;
-
-            if (strength >= 80)
-                return Color.Green;
-
-            if (strength >= 50)
-                return Color.Yellow;
-
-            if (strength >= 30)
-                return Color.Orange;
-
-            return Color.Red;
-        }
-
-        internal double AveragePasswordStrength()
-        {
-            if (_account.Registers.Count <= 0)
-                return 0;
-
-            var total = 0;
-
-            foreach(var register in _account.Registers)
-                total += Security.Security.GetPasswordStrength(register.Password);
-
-            return total / _account.Registers.Count;
         }
     }
 }

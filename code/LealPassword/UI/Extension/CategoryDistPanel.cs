@@ -51,7 +51,8 @@ namespace LealPassword.UI.Extension
             }
 
             graph.Series.Add(series);
-
+            series["PieLabelStyle"] = "Outside";
+            series["PieLineColor"] = "Black";
             graph.Invalidate();
             graph.Enabled = false;
         }

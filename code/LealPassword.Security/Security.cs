@@ -7,12 +7,11 @@ namespace LealPassword.Security
 {
     public static class Security
     {
-        private static readonly string DefaultKey = "srVgYPaP6TqWkfOLBU4n";
         private static readonly Random RANDOM = new Random();
 
         private static readonly string UpperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private static readonly string LowerAlphabet = "abcdefghijklmnopqrstuvwxyz";
-        private static readonly string NumberListing = "1234567890";
+        private static readonly string NumberListing = "0123456789";
         private static readonly string EspecialChars = "!@#%*?&";
 
         public static string GeneratePassword(int size = 12)
@@ -66,10 +65,6 @@ namespace LealPassword.Security
                 return hashedInputStringBuilder.ToString();
             }
         }
-
-        public static string Encrypt(this string text) => Encrypt(text, DefaultKey);
-
-        public static string Decrypt(this string text) => Decrypt(text, DefaultKey);
 
         public static string Encrypt(this string text, string key) => Encryption.EncryptString(key, text);
 

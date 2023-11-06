@@ -20,6 +20,7 @@ namespace LealPassword.Definitions
             internal static Image ScriptKey_127px => Properties.Resources.script_key_127px;
             internal static Image CardsBlack256px => Properties.Resources.cards_black_256px;
             internal static Image Config127px_Black => Properties.Resources.gear_black_127px;
+            internal static Image LoginLeftPanelBanner => Properties.Resources.left_panel_banner;
             internal static Image RegisterBlack256px => Properties.Resources.register_black_256px;
             internal static Image DataBaseBackup_127px => Properties.Resources.database_backup_127px;
             

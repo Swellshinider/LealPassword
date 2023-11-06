@@ -35,14 +35,14 @@ namespace LealPassword.UI
             Controls.Add(panelTopSide);
             panelLeftContainer = new Panel()
             {
-                Width = Width - (int)(Width * 0.5f),
                 Dock = DockStyle.Left,
+                Width = Width - (int)(Width * 0.5f),
                 BackColor = ThemeController.BlueMain,
+                BackgroundImageLayout = ImageLayout.Zoom,
+                BackgroundImage = PRController.Images.LoginLeftPanelBanner,
             };
             panelLeftContainer.MouseDown += ControlMouseDown;
             Controls.Add(panelLeftContainer);
-
-            // TODO: Add image left side
 
             panelRightContainer = new Panel()
             {
