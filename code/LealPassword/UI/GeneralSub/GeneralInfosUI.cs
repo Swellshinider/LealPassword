@@ -47,6 +47,15 @@ namespace LealPassword.UI.GeneralSub
             #region Chart
             var categoryChart = new CategoryDistPanel();
             categoryChart.LoadObjects(new Font("Nunito Sans", 14, FontStyle.Regular), _account.Registers);
+
+            var averagePower = AveragePasswordStrength();
+            var passwordPanel = new PasswordStrPanel
+            {
+                ProgressBackColor = Color.GhostWhite,
+                ProgressColor = GetColorByStrength(averagePower),
+                Font = new Font("Nunito Sans", 14, FontStyle.Regular)
+            };
+            passwordPanel.SetValue(Program.RoundValue(averagePower));
             #endregion
 
             #region Add Controls
@@ -55,7 +64,10 @@ namespace LealPassword.UI.GeneralSub
             Controls.Add(panelNoteCard);
 
             if (_account.Registers.Count > 0)
+            {
                 Controls.Add(categoryChart);
+                Controls.Add(passwordPanel);
+            }
             #endregion
 
             #region Adjust Position
@@ -72,6 +84,9 @@ namespace LealPassword.UI.GeneralSub
 
             Program.UpdateControlYAbsolute(categoryChart, panelNoteTotal.Location.Y + panelNoteTotal.Height + yOffSet);
             Program.UpdateControlXAbsolute(categoryChart, xOffset);
+
+            Program.UpdateControlYAbsolute(passwordPanel, panelNoteCard.Location.Y + panelNoteCard.Height + yOffSet);
+            Program.UpdateControlXAbsolute(passwordPanel, categoryChart.Location.X + categoryChart.Width + xOffset);
             #endregion
         }
 
