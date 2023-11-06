@@ -1,15 +1,7 @@
 ﻿using LealPassword.Database.Model;
 using LealPassword.Definitions;
-using LealPassword.Themes;
 using LealPassword.UI.Extension;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LealPassword.UI.GeneralSub
@@ -29,12 +21,13 @@ namespace LealPassword.UI.GeneralSub
 
         private void GenerateObjects()
         {
+            #region Total Cards
             var panelNoteTotal = new NoteCardPanel
             {
                 Width = 300,
                 Height = 80
             };
-            panelNoteTotal.LoadObjects("Total", (Color.YellowGreen, _account.Registers.Count + _account.Cards.Count), PRController.Images.CubeBlack127px);
+            panelNoteTotal.LoadObjects("Total", (Color.SlateGray, _account.Registers.Count + _account.Cards.Count), PRController.Images.CubeBlack127px);
 
             var panelNoteRegister = new NoteCardPanel
             {
@@ -49,11 +42,20 @@ namespace LealPassword.UI.GeneralSub
                 Height = 80
             };
             panelNoteCard.LoadObjects("Cards", (Color.LawnGreen, _account.Cards.Count), PRController.Images.CardsBlack256px);
+            #endregion
+
+            #region Chart
+            var categoryChart = new CategoryDistPanel();
+            categoryChart.LoadObjects(new Font("Nunito Sans", 14, FontStyle.Regular), _account.Registers);
+            #endregion
 
             #region Add Controls
             Controls.Add(panelNoteTotal);
             Controls.Add(panelNoteRegister);
             Controls.Add(panelNoteCard);
+
+            if (_account.Registers.Count > 0)
+                Controls.Add(categoryChart);
             #endregion
 
             #region Adjust Position
@@ -67,6 +69,9 @@ namespace LealPassword.UI.GeneralSub
 
             Program.UpdateControlYAbsolute(panelNoteCard, yOffSet);
             Program.UpdateControlXAbsolute(panelNoteCard, panelNoteRegister.Location.X + panelNoteRegister.Width + xOffset);
+
+            Program.UpdateControlYAbsolute(categoryChart, panelNoteTotal.Location.Y + panelNoteTotal.Height + yOffSet);
+            Program.UpdateControlXAbsolute(categoryChart, xOffset);
             #endregion
         }
 

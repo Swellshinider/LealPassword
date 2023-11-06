@@ -37,10 +37,20 @@ namespace LealPassword.UI.EditComponentSub
         private Label _labelIcon;
         private Label _buttonObserve;
         private Button _buttonSave;
+        private string _iconKey;
 
         internal ViewRegisterUI(List<Register> registers, Register register, Control parent)
         {
-            _original = register;
+            _original = new Register()
+            {
+                Id = register.Id,
+                Name = register.Name,
+                Description = register.Description,
+                Email = register.Email,
+                ImageKey = register.ImageKey,
+                Password = register.Password,
+                Tag = register.Tag
+            };
             _register = register;
             _registers = registers;
             Dock = DockStyle.Fill;
@@ -255,9 +265,7 @@ namespace LealPassword.UI.EditComponentSub
         {
             var regName = _txtBoxName.Text;
             var milName = _txtBoxMail.Text;
-            var tagName = _comboBoxTag.Visible
-                ? _comboBoxTag.Text
-                : _txtBoxCat.Text;
+            var tagName = _comboBoxTag.Visible ? _comboBoxTag.Text : _txtBoxCat.Text;
             var passwrd = _txtBoxPassword.Text;
             var descrpt = _txtBoxDescription.Text;
 
@@ -272,6 +280,7 @@ namespace LealPassword.UI.EditComponentSub
             _register.Name = regName;
             _register.Email = milName;
             _register.Tag = tagName;
+            _register.ImageKey = _iconKey;
             _register.Password = passwrd;
             _register.Description = descrpt;
 
@@ -342,14 +351,12 @@ namespace LealPassword.UI.EditComponentSub
         {
             _txtBoxCat.Visible = !_txtBoxCat.Visible;
             _comboBoxTag.Visible = !_comboBoxTag.Visible;
-            _buttonNewTag.Text = _buttonNewTag.Text == "New"
-                ? "Existing"
-                : "New";
+            _buttonNewTag.Text = _buttonNewTag.Text == "New" ? "Existing" : "New";
         }
 
         private void IconsPopup_OnIconChosen(string imageKey)
         {
-            _register.ImageKey = imageKey;
+            _iconKey = imageKey;
             _labelIcon.Image = PRController.dictIdImages[imageKey];
             _labelIcon.ImageAlign = ContentAlignment.MiddleCenter;
             Popup.Dispose();

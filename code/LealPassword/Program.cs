@@ -185,11 +185,9 @@ namespace LealPassword
             return targetImage;
         }
 
-        internal static Region GenerateRoundRegion(int width, int height)
-            => GenerateRoundRegion(width, height, Constants.ELIPSE_CURVE);
+        internal static Region GenerateRoundRegion(int width, int height) => GenerateRoundRegion(width, height, Constants.ELIPSE_CURVE);
 
-        internal static Region GenerateRoundRegion(int width, int height, int curve)
-            => Region.FromHrgn(CreateRoundRectRgn(0, 0, width, height, curve, curve));
+        internal static Region GenerateRoundRegion(int width, int height, int curve) => Region.FromHrgn(CreateRoundRectRgn(0, 0, width, height, curve, curve));
 
         private static void DiagnosticsList_DiagnosticGenerated(Diagnostic diagnostic)
         {
