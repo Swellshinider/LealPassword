@@ -97,25 +97,25 @@ namespace LealPassword
             control.Location = new Point(control.Location.X, yValue);
         }
 
-        internal static void UpdateControlHeight(Control control, int offset)
+        internal static void UpdateControlY(Control control, int offset)
         {
             var pos = control.Location;
             control.Location = new Point(pos.X, pos.Y + offset);
         }
 
-        internal static void UpdateControlHeightAbsolute(Control control, int y)
+        internal static void UpdateControlYAbsolute(Control control, int y)
         {
             var pos = control.Location;
             control.Location = new Point(pos.X, y);
         }
 
-        internal static void UpdateControlWidth(Control control, int offset)
+        internal static void UpdateControlX(Control control, int offset)
         {
             var pos = control.Location;
             control.Location = new Point(pos.X + offset, pos.Y);
         }
 
-        internal static void UpdateControlWidthAbsolute(Control control, int x)
+        internal static void UpdateControlXAbsolute(Control control, int x)
         {
             var pos = control.Location;
             control.Location = new Point(x, pos.Y);
@@ -154,6 +154,8 @@ namespace LealPassword
 
         internal static bool IsNullString(this string s) => string.IsNullOrEmpty(s) || string.IsNullOrWhiteSpace(s);
 
+        internal static int RoundValue(double value) => (int)Math.Round(value);
+
         internal static void Exit() => Application.Exit();
 
         internal static void Restart() => Application.Restart();
@@ -183,11 +185,9 @@ namespace LealPassword
             return targetImage;
         }
 
-        internal static Region GenerateRoundRegion(int width, int height)
-            => GenerateRoundRegion(width, height, Constants.ELIPSE_CURVE);
+        internal static Region GenerateRoundRegion(int width, int height) => GenerateRoundRegion(width, height, Constants.ELIPSE_CURVE);
 
-        internal static Region GenerateRoundRegion(int width, int height, int curve)
-            => Region.FromHrgn(CreateRoundRectRgn(0, 0, width, height, curve, curve));
+        internal static Region GenerateRoundRegion(int width, int height, int curve) => Region.FromHrgn(CreateRoundRectRgn(0, 0, width, height, curve, curve));
 
         private static void DiagnosticsList_DiagnosticGenerated(Diagnostic diagnostic)
         {

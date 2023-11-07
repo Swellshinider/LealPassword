@@ -17,10 +17,18 @@ namespace LealPassword.Themes
 
         #region White variations
         public static Color White => Color.White;
-        public static Color IceWhite => Color.FromArgb(237, 244, 245);
+        //public static Color IceWhite => Color.FromArgb(237, 244, 245);
+        public static Color IceWhite => Color.FromArgb(240, 240, 240);
         public static Color LiteGray => Color.FromArgb(182, 182, 184);
         public static Color SuperLiteGray => Color.FromArgb(249, 251, 251);
         public static Color SuperCleanWhite => Color.FromArgb(227, 234, 235);
+        #endregion
+
+        #region PasswordStrenght
+        public static Color ExcelentPassword => Color.FromArgb(56, 176, 120);
+        public static Color GoodPassword => Color.FromArgb(4, 198, 228);
+        public static Color FairPassword => Color.FromArgb(252, 160, 44);
+        public static Color PoorPassword => Color.FromArgb(249, 97, 90);
         #endregion
 
         #region Functionable colors

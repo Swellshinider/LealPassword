@@ -10,6 +10,9 @@ namespace LealPassword.UI
 {
     internal sealed class LoginCreateAccountUI : BaseUI
     {
+        private readonly Timer _timer;
+        private int _currentIndex = 0;
+
         private Panel panelLeftContainer;
         private Panel panelRightContainer;
 
@@ -19,6 +22,11 @@ namespace LealPassword.UI
             Text = "LealPassword";
             Width = Constants.BaseUISize.Width;
             Height = Constants.BaseUISize.Height;
+            _timer = new Timer() 
+            { 
+                Interval = 6000
+            };
+            _timer.Tick += Timer_Tick;
             GenerateObjects();
         }
 
@@ -35,14 +43,15 @@ namespace LealPassword.UI
             Controls.Add(panelTopSide);
             panelLeftContainer = new Panel()
             {
-                Width = Width - (int)(Width * 0.5f),
                 Dock = DockStyle.Left,
+                Width = Width - (int)(Width * 0.5f),
                 BackColor = ThemeController.BlueMain,
+                BackgroundImageLayout = ImageLayout.Zoom,
+                BackgroundImage = PRController.BannerImages[_currentIndex]
             };
             panelLeftContainer.MouseDown += ControlMouseDown;
             Controls.Add(panelLeftContainer);
-
-            // TODO: Add image left side
+            _timer.Start();
 
             panelRightContainer = new Panel()
             {
@@ -83,7 +92,6 @@ namespace LealPassword.UI
 
         private void LoginUI_OnLogginToAccount(Account account, string masterpass)
         {
-            _diagnostic.Debug("Attempt login");
             var mainUI = new MainUI(_diagnostic, account);
             _diagnostic.Debug("mainUI loaded!");
             Program.Switch(this, mainUI);
@@ -99,13 +107,18 @@ namespace LealPassword.UI
             panelRightContainer.Controls.Add(createAccountUI);
         }
 
-        private void CreateAccountUI_OnAccountCreated()
-            => InitializeLoginUI();
+        private void CreateAccountUI_OnAccountCreated() => InitializeLoginUI();
 
-        private void ControlMouseDown(object sender, MouseEventArgs e)
-            => Program.ControlMouseDown(Handle, e);
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            var sum = _currentIndex + 1;
+            _currentIndex = sum >= PRController.BannerImages.Length ? 0 : sum;
+            
+            panelLeftContainer.BackgroundImage = PRController.BannerImages[_currentIndex];
+        }
 
-        private void BtnClose_Click(object sender, EventArgs e)
-            => Program.Exit();
+        private void ControlMouseDown(object sender, MouseEventArgs e) => Program.ControlMouseDown(Handle, e);
+
+        private void BtnClose_Click(object sender, EventArgs e) => Program.Exit();
     }
 }

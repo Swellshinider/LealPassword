@@ -67,7 +67,7 @@ namespace LealPassword.Database.ResourceAccess
         {
             using (var command = _dataBase.CreateCommand())
             {
-                command.CommandText = $@"UPTADE {_tableName}
+                command.CommandText = $@"UPDATE {_tableName}
                                          SET NAME = '{register.Name}',
                                             TAG = '{register.Tag}',
                                             DESC = '{register.Description}',
