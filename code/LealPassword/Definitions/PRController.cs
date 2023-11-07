@@ -148,14 +148,20 @@ namespace LealPassword.Definitions
 
         internal static string LastUser 
         { 
-            get
-            {
-                return Properties.Settings.Default.LastUser;
-            }
-            
+            get => Properties.Settings.Default.LastUser;
             set
             {
                 Properties.Settings.Default.LastUser = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        internal static string LastPassword
+        {
+            get => Properties.Settings.Default.LastPassword;
+            set
+            {
+                Properties.Settings.Default.LastPassword = value;
                 Properties.Settings.Default.Save();
             }
         }

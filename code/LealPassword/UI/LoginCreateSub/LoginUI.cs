@@ -20,6 +20,8 @@ namespace LealPassword.UI.LoginCreateSub
         internal delegate void LogginToAccountUI(Account account, string masterpass);
         internal event LogginToAccountUI OnLogginToAccount;
 
+        internal CheckBox _checkBoxShowHidePassword;
+
         internal LoginUI(Control parent, DiagnosticList diagnostic)
         {
             InitializeComponent(); 
@@ -101,7 +103,7 @@ namespace LealPassword.UI.LoginCreateSub
             textBoxPass.KeyDown += TextBoxKeyDown;
             #endregion
 
-            var checkBoxShowHidePassword = new CheckBox()
+            _checkBoxShowHidePassword = new CheckBox()
             {
                 AutoSize = true,
                 Checked = true,
@@ -111,8 +113,8 @@ namespace LealPassword.UI.LoginCreateSub
                 ForeColor = ThemeController.LiteGray,
                 Font = new Font("Times new roman", 11, FontStyle.Italic),
             };
-            checkBoxShowHidePassword.Click += CheckBoxShowHidePassword_Click;
-            Controls.Add(checkBoxShowHidePassword);
+            _checkBoxShowHidePassword.Click += CheckBoxShowHidePassword_Click;
+            Controls.Add(_checkBoxShowHidePassword);
 
             var buttonLogin = new Button()
             {
@@ -150,8 +152,8 @@ namespace LealPassword.UI.LoginCreateSub
             SetDynamicHeight(lblNiceMessage, 160);
             SetDynamicHeight(textBoxUser, 250);
             SetDynamicHeight(textBoxPass, 325);
-            SetDynamicHeight(checkBoxShowHidePassword, 380);
-            checkBoxShowHidePassword.Location = new Point(checkBoxShowHidePassword.Location.X + (checkBoxShowHidePassword.Width / 2) - (textBoxPass.Width / 2), checkBoxShowHidePassword.Location.Y);
+            SetDynamicHeight(_checkBoxShowHidePassword, 380);
+            _checkBoxShowHidePassword.Location = new Point(_checkBoxShowHidePassword.Location.X + (_checkBoxShowHidePassword.Width / 2) - (textBoxPass.Width / 2), _checkBoxShowHidePassword.Location.Y);
             SetDynamicHeight(buttonLogin, 425);
             #endregion
 
@@ -163,11 +165,9 @@ namespace LealPassword.UI.LoginCreateSub
         {
             account = null;
 
-            if (string.IsNullOrWhiteSpace(user) || string.IsNullOrEmpty(user) || 
-                string.IsNullOrWhiteSpace(pass) || string.IsNullOrEmpty(pass))
+            if (user.IsNullString() || pass.IsNullString())
             {
-                MessageBox.Show("Username or password are invalid",
-                    "Invalid data", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Username or password are invalid", "Invalid data", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
 
@@ -231,14 +231,9 @@ namespace LealPassword.UI.LoginCreateSub
             OnLogginToAccount?.Invoke(account, pass);
         }
 
-        private void LblDoesNotHaveAcc_Click(object sender, EventArgs e)
-            => OnCreatingAccount?.Invoke();
+        private void LblDoesNotHaveAcc_Click(object sender, EventArgs e) => OnCreatingAccount?.Invoke();
 
-        private void CheckBoxShowHidePassword_Click(object sender, EventArgs e)
-        {
-            var box = (CheckBox)sender;
-            textBoxPass.isPassword = !box.Checked;
-        }
+        private void CheckBoxShowHidePassword_Click(object sender, EventArgs e) => textBoxPass.isPassword = !_checkBoxShowHidePassword.Checked;
         #endregion
     }
 }

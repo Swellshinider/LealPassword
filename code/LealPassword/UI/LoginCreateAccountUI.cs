@@ -113,7 +113,6 @@ namespace LealPassword.UI
         {
             var sum = _currentIndex + 1;
             _currentIndex = sum >= PRController.BannerImages.Length ? 0 : sum;
-            
             panelLeftContainer.BackgroundImage = PRController.BannerImages[_currentIndex];
         }
 

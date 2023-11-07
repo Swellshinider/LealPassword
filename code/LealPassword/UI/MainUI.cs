@@ -266,19 +266,19 @@ namespace LealPassword.UI
                 ForeColor = ThemeController.SuperLiteGray,
                 Font = new Font("Arial", 11, FontStyle.Regular),
             };
-            _sideControls.Add(labelTagExtra);
+            //_sideControls.Add(labelTagExtra);
 
             _buttonBackup = new SidePanel("Backup", PRController.Images.DataBaseBackup_127px);
             _buttonBackup.Click += ButtonBackup_Click;
-            _sideControls.Add(_buttonBackup);
+            //_sideControls.Add(_buttonBackup);
 
             _buttonCrypto = new SidePanel("Cryptography", PRController.Images.ScriptKey_127px);
             _buttonCrypto.Click += ButtonCrypto_Click;
-            _sideControls.Add(_buttonCrypto);
+            //_sideControls.Add(_buttonCrypto);
 
             _buttonAbout = new SidePanel("About", PRController.Images.About127px);
             _buttonAbout.Click += ButtonAbout_Click;
-            _sideControls.Add(_buttonAbout);
+            //_sideControls.Add(_buttonAbout);
             #endregion
 
             #region Search box
