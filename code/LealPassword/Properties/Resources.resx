@@ -313,6 +313,9 @@
   <data name="left_panel_banner" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\left-panel-banner.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="left_panel_banner_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\left-panel-banner-2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="line" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\line.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

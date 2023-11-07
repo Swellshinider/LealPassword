@@ -30,8 +30,8 @@ namespace LealPassword.UI
         private SidePanel _buttonRegister;
 
         private SidePanel _buttonBackup;
-        private SidePanel _buttonCripto;
-        private SidePanel _buttonAbouty;
+        private SidePanel _buttonCrypto;
+        private SidePanel _buttonAbout;
 
         private BunifuMaterialTextbox _searchBox;
 
@@ -272,13 +272,13 @@ namespace LealPassword.UI
             _buttonBackup.Click += ButtonBackup_Click;
             _sideControls.Add(_buttonBackup);
 
-            _buttonCripto = new SidePanel("Criptografia", PRController.Images.ScriptKey_127px);
-            _buttonCripto.Click += ButtonCripto_Click;
-            _sideControls.Add(_buttonCripto);
+            _buttonCrypto = new SidePanel("Cryptography", PRController.Images.ScriptKey_127px);
+            _buttonCrypto.Click += ButtonCrypto_Click;
+            _sideControls.Add(_buttonCrypto);
 
-            _buttonAbouty = new SidePanel("About", PRController.Images.About127px);
-            _buttonAbouty.Click += ButtonAbouty_Click;
-            _sideControls.Add(_buttonAbouty);
+            _buttonAbout = new SidePanel("About", PRController.Images.About127px);
+            _buttonAbout.Click += ButtonAbout_Click;
+            _sideControls.Add(_buttonAbout);
             #endregion
 
             #region Search box
@@ -360,36 +360,36 @@ namespace LealPassword.UI
             _activeControl = cardUI;
         }
 
-        private void ButtonConfig_Click(object sender, EventArgs e)
-        {
-            _diagnostic.Debug("Config button click");
-            ButtonHighLight((SidePanel)sender);
-            _searchBox.Visible = false;
-            // TODO: add configuration loaded
-        }
-
         private void ButtonBackup_Click(object sender, EventArgs e)
         {
             _diagnostic.Debug("Backup button click");
-            ButtonHighLight((SidePanel)sender);
             _searchBox.Visible = false;
+            ButtonHighLight((SidePanel)sender);
             // TODO: add backup loaded
         }
 
-        private void ButtonCripto_Click(object sender, EventArgs e)
+        private void ButtonCrypto_Click(object sender, EventArgs e)
         {
             _diagnostic.Debug("Cripto button click");
-            ButtonHighLight((SidePanel)sender);
             _searchBox.Visible = false;
-            // TODO: add backup loaded
+            ButtonHighLight((SidePanel)sender);
+            // TODO: add cripto loaded
         }
 
-        private void ButtonAbouty_Click(object sender, EventArgs e)
+        private void ButtonAbout_Click(object sender, EventArgs e)
         {
             _diagnostic.Debug("About button click");
-            ButtonHighLight((SidePanel)sender);
             _searchBox.Visible = false;
-            // TODO: add backup loaded
+            ButtonHighLight((SidePanel)sender);
+            // TODO: add about loaded
+        }
+
+        private void ButtonConfig_Click(object sender, EventArgs e)
+        {
+            _diagnostic.Debug("Config button click");
+            _searchBox.Visible = false;
+            ButtonHighLight((SidePanel)sender);
+            // TODO: add configuration loaded
         }
         #endregion
 
@@ -549,8 +549,8 @@ namespace LealPassword.UI
             _buttonCards.Normalcolor = Color.Transparent;
             _buttonConfig.Normalcolor = Color.Transparent;
             _buttonBackup.Normalcolor = Color.Transparent;
-            _buttonCripto.Normalcolor = Color.Transparent;
-            _buttonAbouty.Normalcolor = Color.Transparent;
+            _buttonCrypto.Normalcolor = Color.Transparent;
+            _buttonAbout.Normalcolor = Color.Transparent;
 
             if (current != null)
                 current.Normalcolor = current.Activecolor;
