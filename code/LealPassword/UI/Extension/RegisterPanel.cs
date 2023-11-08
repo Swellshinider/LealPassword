@@ -18,17 +18,24 @@ namespace LealPassword.UI.Extension
 
         private readonly Register _register;
         private readonly Panel _leftPanel;
-        private readonly Panel _rightPanel;
         private readonly Label _lblName;
         private readonly Label _lblPassword;
+        private readonly Panel _panelCopy;
+        private readonly Button _buttonCopy;
         private readonly Panel _panelObserve;
         private readonly Label _buttonObserve;
 
+        private readonly Timer _timerCopy;
         private readonly ToolTip _tooltipControl;
 
         internal RegisterPanel(Register register)
         {
             _register = register;
+            _timerCopy = new Timer()
+            {
+                Interval = 2000
+            };
+            _timerCopy.Tick += TimerCopy_Tick;
             _tooltipControl = new ToolTip();
 
             Height = 100;
@@ -50,11 +57,6 @@ namespace LealPassword.UI.Extension
             {
                 Width = 125,
                 Dock = DockStyle.Left
-            };
-            _rightPanel = new Panel()
-            {
-                Width = 250,
-                Dock = DockStyle.Right,
             };
             _lblName = new Label()
             {
@@ -88,6 +90,28 @@ namespace LealPassword.UI.Extension
             lblIcon.Click += RegisterPanel_Click;
             _leftPanel.Controls.Add(lblIcon);
 
+            _panelCopy = new Panel()
+            {
+                Width = 150,
+                Visible = false,
+                Dock = DockStyle.Right,
+            };
+            _buttonCopy = new Button()
+            {
+                Height = 50,
+                Width = 120,
+                Cursor = Cursors.Hand,
+                Text = "Copy Password",
+                FlatStyle = FlatStyle.Flat,
+                BackColor = ThemeController.BlueMain,
+                ForeColor = ThemeController.IceWhite,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Verdana", 12, FontStyle.Regular),
+            };
+            _buttonCopy.Click += ButtonCopy_Click;
+            _panelCopy.Controls.Add(_buttonCopy);
+            Program.CentralizeControl(_buttonCopy, _panelCopy);
+
             _panelObserve = new Panel()
             {
                 Width = 96,
@@ -112,33 +136,48 @@ namespace LealPassword.UI.Extension
 
             _tooltipControl.SetToolTip(_buttonObserve, "Register details");
 
-            _rightPanel.Controls.Add(_panelObserve);
             _panelObserve.Controls.Add(_buttonObserve);
             Program.CentralizeControl(_buttonObserve, _panelObserve);
 
             Controls.Add(_lblPassword);
             Controls.Add(_lblName);
             Controls.Add(_leftPanel);
-            Controls.Add(_rightPanel);
+            Controls.Add(_panelCopy);
+            Controls.Add(_panelObserve);
 
             Resize += CardPanel_Resize;
             Click += RegisterPanel_Click;
             _lblName.Click += RegisterPanel_Click;
             _leftPanel.Click += RegisterPanel_Click;
-            _rightPanel.Click += RegisterPanel_Click;
             _lblPassword.Click += RegisterPanel_Click;
             HideOptions();
         }
 
         internal void HideOptions(bool hide = true)
         {
-            _rightPanel.Visible = !hide;
+            _panelObserve.Visible = !hide;
+            _panelCopy.Visible = !hide;
             BorderStyle = hide ? BorderStyle.None : BorderStyle.Fixed3D;
         }
 
         private void RegisterPanel_Click(object sender, EventArgs e) => OnClickMe?.Invoke(this);
 
         private void ButtonObserve_Click(object sender, EventArgs e) => OnSeeMe?.Invoke(_register);
+
+        private void ButtonCopy_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(_register.Password);
+            _buttonCopy.Text = "Copied!";
+            _buttonCopy.BackColor = ThemeController.ButtonSelectableColor;
+            _timerCopy.Start();
+        }
+
+        private void TimerCopy_Tick(object sender, EventArgs e)
+        {
+            _timerCopy.Stop();
+            _buttonCopy.Text = "Copy Password";
+            _buttonCopy.BackColor = ThemeController.BlueMain;
+        }
 
         private void ButtonObserve_MouseEnter(object sender, EventArgs e) => _buttonObserve.BackgroundImage = PRController.Images.Eye_50px;
 

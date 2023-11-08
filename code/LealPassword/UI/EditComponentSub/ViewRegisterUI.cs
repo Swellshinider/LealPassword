@@ -51,6 +51,7 @@ namespace LealPassword.UI.EditComponentSub
                 Password = register.Password,
                 Tag = register.Tag
             };
+            _iconKey = register.ImageKey;
             _register = register;
             _registers = registers;
             Dock = DockStyle.Fill;
