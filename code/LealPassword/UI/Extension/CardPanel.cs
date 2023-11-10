@@ -125,16 +125,6 @@ namespace LealPassword.UI.Extension
             BorderStyle = hide ? BorderStyle.None : BorderStyle.Fixed3D;
         }
 
-        private static string FormatValue(string number, DateTime dueDate)
-        {
-            var lastFor = number.Substring(12, 4);
-            var month = dueDate.Month.ToString();
-            var fixedm = month.Length == 1 ? $"0{month}" : month;
-            var date = $"{fixedm}/{dueDate.Year - 2000}";
-
-            return $"End: {lastFor}                        Date: {date}";
-        }
-
         private void CardPanel_Click(object sender, EventArgs e) => OnClickMe?.Invoke(this);
 
         private void ButtonObserve_Click(object sender, EventArgs e) => OnSeeMe?.Invoke(_card);
@@ -144,5 +134,15 @@ namespace LealPassword.UI.Extension
         private void ButtonObserve_MouseLeave(object sender, EventArgs e) => _buttonObserve.BackgroundImage = PRController.Images.ClosedEye_50px;
 
         private void CardPanel_Resize(object sender, EventArgs e) => Program.CentralizeControl(_buttonObserve, _panelObserve);
+
+        private static string FormatValue(string number, DateTime dueDate)
+        {
+            var lastFor = number.Substring(12, 4);
+            var month = dueDate.Month.ToString();
+            var fixedm = month.Length == 1 ? $"0{month}" : month;
+            var date = $"{fixedm}/{dueDate.Year - 2000}";
+
+            return $"End: {lastFor}                        Date: {date}";
+        }
     }
 }

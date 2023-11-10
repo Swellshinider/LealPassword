@@ -148,14 +148,60 @@ namespace LealPassword.Definitions
 
         internal static string LastUser 
         { 
-            get
-            {
-                return Properties.Settings.Default.LastUser;
-            }
-            
+            get => Properties.Settings.Default.LastUser;
             set
             {
                 Properties.Settings.Default.LastUser = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        internal static string LastPassword
+        {
+            get => Properties.Settings.Default.LastPassword;
+            set
+            {
+                Properties.Settings.Default.LastPassword = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        internal static bool AutoCompleteUser
+        {
+            get => Properties.Settings.Default.AutoCompleteUser;
+            set
+            {
+                Properties.Settings.Default.AutoCompleteUser = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        internal static bool AutoCompletePassword
+        {
+            get => Properties.Settings.Default.AutoCompletePassword;
+            set
+            {
+                Properties.Settings.Default.AutoCompletePassword = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        internal static bool AutoLogin
+        {
+            get => Properties.Settings.Default.AutoLogin;
+            set
+            {
+                Properties.Settings.Default.AutoLogin = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        internal static bool CloseToSystemTray
+        {
+            get => Properties.Settings.Default.CloseToSystemTray;
+            set
+            {
+                Properties.Settings.Default.CloseToSystemTray = value;
                 Properties.Settings.Default.Save();
             }
         }

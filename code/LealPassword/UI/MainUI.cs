@@ -37,6 +37,7 @@ namespace LealPassword.UI
 
         internal MainUI(DiagnosticList diagnostic, Account account)
         {
+            InitializeComponent();
             Text = "LealPassword";
             _container = new Panel() 
             {
@@ -266,19 +267,19 @@ namespace LealPassword.UI
                 ForeColor = ThemeController.SuperLiteGray,
                 Font = new Font("Arial", 11, FontStyle.Regular),
             };
-            _sideControls.Add(labelTagExtra);
+            //_sideControls.Add(labelTagExtra);
 
             _buttonBackup = new SidePanel("Backup", PRController.Images.DataBaseBackup_127px);
             _buttonBackup.Click += ButtonBackup_Click;
-            _sideControls.Add(_buttonBackup);
+            //_sideControls.Add(_buttonBackup);
 
             _buttonCrypto = new SidePanel("Cryptography", PRController.Images.ScriptKey_127px);
             _buttonCrypto.Click += ButtonCrypto_Click;
-            _sideControls.Add(_buttonCrypto);
+            //_sideControls.Add(_buttonCrypto);
 
             _buttonAbout = new SidePanel("About", PRController.Images.About127px);
             _buttonAbout.Click += ButtonAbout_Click;
-            _sideControls.Add(_buttonAbout);
+            //_sideControls.Add(_buttonAbout);
             #endregion
 
             #region Search box
@@ -304,7 +305,25 @@ namespace LealPassword.UI
             Program.CentralizeControl(_searchBox, panelTop);
             #endregion
 
-            foreach(var btns in _sideControls)
+            #region Notify Icon
+            _notifyIcon.Text = Text;
+            _notifyIcon.Icon = Icon;
+            _notifyIcon.Visible = true;
+            _notifyIcon.BalloonTipIcon = ToolTipIcon.Info;
+            _notifyIcon.BalloonTipTitle = Text;
+            _notifyIcon.BalloonTipText = "Heyy, I'll keep it open in the system tray!!";
+
+            var contextMenu = new ContextMenu();
+            var openMenu = new MenuItem("Open", Notify_Open);
+            var closeMenu = new MenuItem("Close", Notify_Close);
+
+            contextMenu.MenuItems.Add(openMenu);
+            contextMenu.MenuItems.Add(closeMenu);
+
+            _notifyIcon.ContextMenu = contextMenu;
+            #endregion
+
+            foreach (var btns in _sideControls)
             {
                 panelLeft.Controls.Add(btns);
                 btns.BringToFront();
@@ -389,7 +408,7 @@ namespace LealPassword.UI
             _diagnostic.Debug("Config button click");
             _searchBox.Visible = false;
             ButtonHighLight((SidePanel)sender);
-            // TODO: add configuration loaded
+            _activeControl = new ConfigurationUI(_account, _container);
         }
         #endregion
 
@@ -556,7 +575,17 @@ namespace LealPassword.UI
                 current.Normalcolor = current.Activecolor;
         }
 
-        private void BtnClose_Click(object sender, EventArgs e) => Program.Exit();
+        private void BtnClose_Click(object sender, EventArgs e)
+        {
+            if (!PRController.CloseToSystemTray)
+            {
+                Program.Exit();
+                return;
+            }
+            _notifyIcon.Visible = true;
+            _notifyIcon.ShowBalloonTip(1000);
+            Hide();
+        }
 
         private void BtnMinimize_Click(object sender, EventArgs e) => WindowState = FormWindowState.Minimized;
 
@@ -567,6 +596,16 @@ namespace LealPassword.UI
         private void ViewCard_Disposed(object sender, EventArgs e) => ButtonCards_Click(_buttonCards, null);
 
         private void ViewRegister_Disposed(object sender, EventArgs e) => ButtonRegisters_Click(_buttonRegister, null);
+        #endregion
+
+        #region Notify methods
+        private void Notify_Open(object sender, EventArgs e)
+        {
+            Show();
+            _notifyIcon.Visible = false;
+        }
+
+        private void Notify_Close(object sender, EventArgs e) => Program.Exit();
         #endregion
     }
 }

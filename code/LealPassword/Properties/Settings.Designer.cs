@@ -46,5 +46,53 @@ namespace LealPassword.Properties {
                 this["LastPassword"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoLogin {
+            get {
+                return ((bool)(this["AutoLogin"]));
+            }
+            set {
+                this["AutoLogin"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoCompleteUser {
+            get {
+                return ((bool)(this["AutoCompleteUser"]));
+            }
+            set {
+                this["AutoCompleteUser"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool AutoCompletePassword {
+            get {
+                return ((bool)(this["AutoCompletePassword"]));
+            }
+            set {
+                this["AutoCompletePassword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CloseToSystemTray {
+            get {
+                return ((bool)(this["CloseToSystemTray"]));
+            }
+            set {
+                this["CloseToSystemTray"] = value;
+            }
+        }
     }
 }

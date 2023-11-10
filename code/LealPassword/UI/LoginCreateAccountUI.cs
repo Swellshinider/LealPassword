@@ -10,7 +10,8 @@ namespace LealPassword.UI
 {
     internal sealed class LoginCreateAccountUI : BaseUI
     {
-        private readonly Timer _timer;
+        private readonly Timer _bannerTimer;
+        private readonly Timer _loginTimer;
         private int _currentIndex = 0;
 
         private Panel panelLeftContainer;
@@ -22,11 +23,16 @@ namespace LealPassword.UI
             Text = "LealPassword";
             Width = Constants.BaseUISize.Width;
             Height = Constants.BaseUISize.Height;
-            _timer = new Timer() 
+            _bannerTimer = new Timer() 
             { 
                 Interval = 6000
             };
-            _timer.Tick += Timer_Tick;
+            _bannerTimer.Tick += BannerTimer_Tick;
+            _loginTimer = new Timer()
+            {
+                Interval = 1500,
+            };
+            _loginTimer.Tick += LoginTimer_Tick;
             GenerateObjects();
         }
 
@@ -51,7 +57,7 @@ namespace LealPassword.UI
             };
             panelLeftContainer.MouseDown += ControlMouseDown;
             Controls.Add(panelLeftContainer);
-            _timer.Start();
+            _bannerTimer.Start();
 
             panelRightContainer = new Panel()
             {
@@ -88,6 +94,13 @@ namespace LealPassword.UI
             loginUI.OnCreatingAccount += LoginUI_OnCreatingAccount;
             loginUI.MouseDown += ControlMouseDown;
             _diagnostic.Debug("Login UI loaded");
+
+            if (PRController.AutoLogin)
+            {
+                loginUI.Enabled = false;
+                panelRightContainer.Enabled = false;
+                _loginTimer.Start();
+            }
         }
 
         private void LoginUI_OnLogginToAccount(Account account, string masterpass)
@@ -109,12 +122,22 @@ namespace LealPassword.UI
 
         private void CreateAccountUI_OnAccountCreated() => InitializeLoginUI();
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private void BannerTimer_Tick(object sender, EventArgs e)
         {
             var sum = _currentIndex + 1;
             _currentIndex = sum >= PRController.BannerImages.Length ? 0 : sum;
-            
             panelLeftContainer.BackgroundImage = PRController.BannerImages[_currentIndex];
+        }
+
+        private void LoginTimer_Tick(object sender, EventArgs e)
+        {
+            if (panelRightContainer.Controls.Count <= 0)
+                return;
+
+            if (panelRightContainer.Controls[0] is LoginUI loginUI)
+                loginUI.ButtonLogin_Click(null, null);
+
+            _loginTimer.Stop();
         }
 
         private void ControlMouseDown(object sender, MouseEventArgs e) => Program.ControlMouseDown(Handle, e);

@@ -2,6 +2,7 @@
 using LealPassword.Diagnostics;
 using LealPassword.Exceptions;
 using LealPassword.UI;
+using LealPassword.UI.Extension;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -39,6 +40,7 @@ namespace LealPassword
             Application.SetCompatibleTextRenderingDefault(false);
             _diagnostics.Debug("App configuration started");
             Application.Run(new LoginCreateAccountUI(_diagnostics));
+            Application.ApplicationExit += Application_ApplicationExit;
         }
 
         private static void ArgvLoad(string[] args)
@@ -121,6 +123,12 @@ namespace LealPassword
             control.Location = new Point(x, pos.Y);
         }
 
+        internal static void UpdateControlYOffSetNext(Control control, Control controlReference, int offsetbetween)
+        {
+            var newXPos = controlReference.Location.Y + controlReference.Height + offsetbetween;
+            UpdateControlYAbsolute(control, newXPos);
+        }
+
         internal static void HideConsole() => ShowWindow(GetConsoleWindow(), Constants.SW_HIDE);
 
         internal static void ShowConsole() => ShowWindow(GetConsoleWindow(), Constants.SW_SHOW);
@@ -194,6 +202,15 @@ namespace LealPassword
             Console.ForegroundColor = _diagnostics.GetColor(diagnostic.Type);
             Console.WriteLine(diagnostic);
             Console.ResetColor();
+        }
+
+        private static void Application_ApplicationExit(object sender, EventArgs e)
+        {
+            if (!PRController.AutoLogin)
+            {
+                PRController.LastUser = null;
+                PRController.LastPassword = null;
+            }
         }
     }
 }

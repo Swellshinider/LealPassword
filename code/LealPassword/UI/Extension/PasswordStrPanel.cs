@@ -8,18 +8,9 @@ namespace LealPassword.UI.Extension
 {
     internal sealed partial class PasswordStrPanel : UserControl
     {
-        private readonly List<(string text, Color color)> _legendList;
-
         internal PasswordStrPanel()
         {
             InitializeComponent();
-            _legendList = new List<(string text, Color color)>
-            {
-                ("Poor", ThemeController.PoorPassword),
-                ("Fair", ThemeController.FairPassword),
-                ("Good", ThemeController.GoodPassword),
-                ("Superb", ThemeController.ExcelentPassword)
-            };
             Resize += PasswordStrPanel_Resize;
         }
 
@@ -30,13 +21,24 @@ namespace LealPassword.UI.Extension
             var progressValue = Program.RoundValue(averagePower);
 
             labelTitle.Font = font;
-            circularProgressBarr.ForeColor = colorStrenght;
-            circularProgressBarr.ProgressColor = colorStrenght;
-            circularProgressBarr.ProgressBackColor = Color.GhostWhite;
-            circularProgressBarr.Value = progressValue;
+            gaugeGraph.Value = progressValue;
+            gaugeGraph.ForeColor = colorStrenght;
+            gaugeGraph.ProgressColor1 = colorStrenght;
+            gaugeGraph.ProgressColor2 = colorStrenght;
+            gaugeGraph.ProgressBgColor = Color.GhostWhite;
 
-            if (progressValue == 0)
-                circularProgressBarr.LabelVisible = false;
+            var labelValue = new Label()
+            {
+                Height = 50,
+                Width = 100,
+                AutoSize = false,
+                BackColor = Color.White,
+                Text = $"{progressValue}",
+                ForeColor = colorStrenght,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font(gaugeGraph.Font.FontFamily, gaugeGraph.Font.Height + 5, FontStyle.Regular),
+            };
+            Controls.Add(labelValue);
 
             #region Definition os legend
             panelColor1.BackColor = ThemeController.PoorPassword;
@@ -52,9 +54,15 @@ namespace LealPassword.UI.Extension
             Program.VerticalCentralize(labelFair, panelBottom);
             Program.VerticalCentralize(labelGood, panelBottom);
             Program.VerticalCentralize(labelSuperb, panelBottom);
-            #endregion
 
-            PasswordStrPanel_Resize(null, null);
+            Program.CentralizeControl(gaugeGraph, this);
+            Program.CentralizeControl(labelValue, this);
+
+            Program.UpdateControlY(labelValue, 50);
+            labelValue.BringToFront();
+
+            Region = Program.GenerateRoundRegion(Width, Height);
+            #endregion
         }
 
         internal Color GetColorByStrength(double strength)
@@ -86,7 +94,7 @@ namespace LealPassword.UI.Extension
 
         private void PasswordStrPanel_Resize(object sender, System.EventArgs e)
         {
-            Program.CentralizeControl(circularProgressBarr, this);
+            Program.CentralizeControl(gaugeGraph, this);
             Region = Program.GenerateRoundRegion(Width, Height);
         }
     }
