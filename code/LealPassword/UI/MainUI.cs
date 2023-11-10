@@ -389,7 +389,7 @@ namespace LealPassword.UI
             _diagnostic.Debug("Config button click");
             _searchBox.Visible = false;
             ButtonHighLight((SidePanel)sender);
-            // TODO: add configuration loaded
+            _activeControl = new ConfigurationUI(_account, _container);
         }
         #endregion
 

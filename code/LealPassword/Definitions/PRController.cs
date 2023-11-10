@@ -166,6 +166,26 @@ namespace LealPassword.Definitions
             }
         }
 
+        internal static bool AutoCompleteUser
+        {
+            get => Properties.Settings.Default.AutoCompleteUser;
+            set
+            {
+                Properties.Settings.Default.AutoCompleteUser = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        internal static bool AutoCompletePassword
+        {
+            get => Properties.Settings.Default.AutoCompletePassword;
+            set
+            {
+                Properties.Settings.Default.AutoCompletePassword = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
         internal static bool AutoLogin
         {
             get => Properties.Settings.Default.AutoLogin;

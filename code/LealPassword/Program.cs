@@ -2,6 +2,7 @@
 using LealPassword.Diagnostics;
 using LealPassword.Exceptions;
 using LealPassword.UI;
+using LealPassword.UI.Extension;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -122,6 +123,12 @@ namespace LealPassword
             control.Location = new Point(x, pos.Y);
         }
 
+        internal static void UpdateControlYOffSetNext(Control control, Control controlReference, int offsetbetween)
+        {
+            var newXPos = controlReference.Location.Y + controlReference.Height + offsetbetween;
+            UpdateControlYAbsolute(control, newXPos);
+        }
+
         internal static void HideConsole() => ShowWindow(GetConsoleWindow(), Constants.SW_HIDE);
 
         internal static void ShowConsole() => ShowWindow(GetConsoleWindow(), Constants.SW_SHOW);
@@ -201,8 +208,8 @@ namespace LealPassword
         {
             if (!PRController.AutoLogin)
             {
-                PRController.LastUser = "";
-                PRController.LastPassword = "";
+                PRController.LastUser = null;
+                PRController.LastPassword = null;
             }
         }
     }

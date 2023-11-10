@@ -29,8 +29,6 @@ namespace LealPassword.UI.LoginCreateSub
             _diagnostic = diagnostic;
             Dock = DockStyle.Fill;
             BackColor = ThemeController.SuperLiteGray;
-            textBoxUser.Text = PRController.AutoLogin ? PRController.LastUser : "";
-            textBoxPass.Text = PRController.AutoLogin ? PRController.LastPassword : "";
             GenerateObjects();
         }
 
@@ -73,6 +71,7 @@ namespace LealPassword.UI.LoginCreateSub
             #endregion
 
             #region TextBoxUser
+            textBoxUser.Text = PRController.LastUser;
             textBoxUser.Height = 50;
             textBoxUser.HintText = "Username";
             textBoxUser.Width = (int)(Width * 0.65f);
@@ -88,7 +87,7 @@ namespace LealPassword.UI.LoginCreateSub
             #endregion
 
             #region TextBoxPass
-            textBoxPass.Text = "";
+            textBoxPass.Text = PRController.LastPassword;
             textBoxPass.Height = 50;
             textBoxPass.HintText = "Password";
             textBoxPass.Width = (int)(Width * 0.65f);
@@ -159,9 +158,6 @@ namespace LealPassword.UI.LoginCreateSub
             #endregion
 
             _diagnostic.Debug("LoginUI objects generated");
-
-            if (PRController.AutoLogin)
-                ButtonLogin_Click(null, null);
         }
 
         #region Private methods
@@ -224,14 +220,15 @@ namespace LealPassword.UI.LoginCreateSub
         #endregion
 
         #region Buttons
-        private void ButtonLogin_Click(object sender, EventArgs e)
+        internal void ButtonLogin_Click(object sender, EventArgs e)
         {
             var user = textBoxUser.Text;
             var pass = textBoxPass.Text;
 
             if (!IsLoginValid(user, pass, out var account)) return;
 
-            PRController.LastUser = PRController.AutoLogin ? user : "";
+            PRController.LastUser = PRController.AutoCompleteUser ? user : "";
+            PRController.LastPassword = PRController.AutoCompletePassword ? pass : "";
             OnLogginToAccount?.Invoke(account, pass);
         }
 
