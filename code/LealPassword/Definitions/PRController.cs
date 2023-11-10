@@ -195,5 +195,15 @@ namespace LealPassword.Definitions
                 Properties.Settings.Default.Save();
             }
         }
+
+        internal static bool CloseToSystemTray
+        {
+            get => Properties.Settings.Default.CloseToSystemTray;
+            set
+            {
+                Properties.Settings.Default.CloseToSystemTray = value;
+                Properties.Settings.Default.Save();
+            }
+        }
     }
 }

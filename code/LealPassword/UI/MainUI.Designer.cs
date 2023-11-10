@@ -28,7 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this._notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.SuspendLayout();
+            // 
+            // notifyIcon1
+            // 
+            this._notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this._notifyIcon.Text = "notifyIcon1";
+            this._notifyIcon.Visible = true;
             // 
             // MainUI
             // 
@@ -43,5 +51,7 @@
         }
 
         #endregion
+
+        private System.Windows.Forms.NotifyIcon _notifyIcon;
     }
 }

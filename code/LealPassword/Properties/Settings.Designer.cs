@@ -82,5 +82,17 @@ namespace LealPassword.Properties {
                 this["AutoCompletePassword"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool CloseToSystemTray {
+            get {
+                return ((bool)(this["CloseToSystemTray"]));
+            }
+            set {
+                this["CloseToSystemTray"] = value;
+            }
+        }
     }
 }
