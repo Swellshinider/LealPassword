@@ -39,6 +39,7 @@ namespace LealPassword
             Application.SetCompatibleTextRenderingDefault(false);
             _diagnostics.Debug("App configuration started");
             Application.Run(new LoginCreateAccountUI(_diagnostics));
+            Application.ApplicationExit += Application_ApplicationExit;
         }
 
         private static void ArgvLoad(string[] args)
@@ -194,6 +195,15 @@ namespace LealPassword
             Console.ForegroundColor = _diagnostics.GetColor(diagnostic.Type);
             Console.WriteLine(diagnostic);
             Console.ResetColor();
+        }
+
+        private static void Application_ApplicationExit(object sender, EventArgs e)
+        {
+            if (!PRController.AutoLogin)
+            {
+                PRController.LastUser = "";
+                PRController.LastPassword = "";
+            }
         }
     }
 }

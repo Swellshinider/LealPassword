@@ -165,5 +165,15 @@ namespace LealPassword.Definitions
                 Properties.Settings.Default.Save();
             }
         }
+
+        internal static bool AutoLogin
+        {
+            get => Properties.Settings.Default.AutoLogin;
+            set
+            {
+                Properties.Settings.Default.AutoLogin = value;
+                Properties.Settings.Default.Save();
+            }
+        }
     }
 }

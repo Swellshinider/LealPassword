@@ -29,7 +29,8 @@ namespace LealPassword.UI.LoginCreateSub
             _diagnostic = diagnostic;
             Dock = DockStyle.Fill;
             BackColor = ThemeController.SuperLiteGray;
-            textBoxUser.Text = PRController.LastUser;
+            textBoxUser.Text = PRController.AutoLogin ? PRController.LastUser : "";
+            textBoxPass.Text = PRController.AutoLogin ? PRController.LastPassword : "";
             GenerateObjects();
         }
 
@@ -158,6 +159,9 @@ namespace LealPassword.UI.LoginCreateSub
             #endregion
 
             _diagnostic.Debug("LoginUI objects generated");
+
+            if (PRController.AutoLogin)
+                ButtonLogin_Click(null, null);
         }
 
         #region Private methods
@@ -227,7 +231,7 @@ namespace LealPassword.UI.LoginCreateSub
 
             if (!IsLoginValid(user, pass, out var account)) return;
 
-            PRController.LastUser = user;
+            PRController.LastUser = PRController.AutoLogin ? user : "";
             OnLogginToAccount?.Invoke(account, pass);
         }
 
