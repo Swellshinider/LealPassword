@@ -4,7 +4,7 @@
     <img alt="License: GNU" src="https://img.shields.io/badge/license-GNU-gre.svg" target="_blank" />
   </a>
     <a href="https://twitter.com/Swellshinider">
-    <img alt="Twitter: Swellshinider" src="https://img.shields.io/twitter/follow/Duzi1nho.svg?style=social" target="_blank" />
+    <img alt="Twitter: Swellshinider" src="https://img.shields.io/twitter/follow/Swellshinider.svg?style=social" target="_blank" />
   </a>
 </p>
 
