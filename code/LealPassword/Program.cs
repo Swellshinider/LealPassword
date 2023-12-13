@@ -14,17 +14,16 @@ namespace LealPassword
 {
     internal static class Program
     {
-        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
-        private static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect,
-            int nBottomRect, int nWidthEllipse, int nHeightEllipse);
+        [DllImport("user32.dll")]
+        private static extern bool ReleaseCapture();
         [DllImport("kernel32.dll")]
         private static extern IntPtr GetConsoleWindow();
         [DllImport("user32.dll")]
         private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
         [DllImport("user32.dll")]
         private static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-        [DllImport("user32.dll")]
-        private static extern bool ReleaseCapture();
+        [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
+        private static extern IntPtr CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
 
         private static readonly DiagnosticList _diagnostics = DiagnosticList.Instance;
 
