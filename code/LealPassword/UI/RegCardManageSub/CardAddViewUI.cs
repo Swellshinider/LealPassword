@@ -130,8 +130,8 @@ namespace LealPassword.UI.RegCardManageSub
                 if (ctrls is BunifuMaterialTextbox txtbox)
                 {
                     txtbox.Text = "";
-                    txtbox.Height = 40;
-                    txtbox.Width = 500;
+                    txtbox.Height = 30;
+                    txtbox.Width = 335;
                     txtbox.ForeColor = ThemeController.LiteGray;
                     txtbox.BackColor = ThemeController.IceWhite;
                     txtbox.HintForeColor = ThemeController.LiteGray;

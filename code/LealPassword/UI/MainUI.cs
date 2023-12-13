@@ -286,11 +286,11 @@ namespace LealPassword.UI
             _searchBox = new BunifuMaterialTextbox()
             {
                 Text = "",
-                Height = 50,
+                Height = 38,
                 Visible = false,
                 HintText = "Search",
                 BorderStyle = BorderStyle.None,
-                Width = (int)(panelTop.Width * 0.5f),
+                Width = (int)(panelTop.Width * 0.45f),
                 ForeColor = ThemeController.LiteGray,
                 BackColor = ThemeController.IceWhite,
                 HintForeColor = ThemeController.LiteGray,
